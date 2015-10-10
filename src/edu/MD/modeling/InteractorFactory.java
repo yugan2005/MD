@@ -2,8 +2,12 @@ package edu.MD.modeling;
 
 public class InteractorFactory {
 	
-	public static Interactor getInteractor(ParticleSystem particleSystem){
-		return null
+	public static IInteractor getInteractor(IParticleSystem particleSystem){
+		return getConcreteInteractor((PairwiseSystem) particleSystem);
+	}
+
+	private static IInteractor getConcreteInteractor(PairwiseSystem particleSystem) {
+		return null;
 	}
 
 }
