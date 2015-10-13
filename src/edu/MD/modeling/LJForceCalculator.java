@@ -12,7 +12,7 @@ public class LJForceCalculator implements IPairwiseForceCalculator {
 
 	@Override
 	public double[] calculate(IParticle particle, IParticle interactingParticle) {
-		
+		double distance = PairwiseDistance.calculatePBCDistance(particle, interactingParticle);
 		return null;
 	}
 
