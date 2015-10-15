@@ -1,19 +1,20 @@
 package edu.MD.modeling;
 
-public class LJForceCalculator implements IPairwiseForceCalculator {
-	private static final LJForceCalculator ljForceCalculator = new LJForceCalculator();
+import edu.MD.utility.Vector;
+
+public class LJForceCalculator implements IForceCalculator {
+
+	public static final IForceCalculator INSTANCE = new LJForceCalculator();
 	
-	private LJForceCalculator() {
-	}
-	
-	public static LJForceCalculator getInstance(){
-		return ljForceCalculator;
-	}
+	private LJForceCalculator(){}
 
 	@Override
-	public double[] calculate(IParticle particle, IParticle interactingParticle) {
-		double distance = PairwiseDistance.calculatePBCDistance(particle, interactingParticle);
+	public Vector calculate(IParticle p1, IParticle p2) {
+		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	
+	
 
 }
