@@ -10,10 +10,10 @@ public interface ISystem {
 
 	public IDistanceFinder getDistanceFinder();
 	
-	public void setPotentialMap();
-	
 	public Map<String, Double> getPotentialMap();
 
 	public MDVector getSystemBoundary();
+	
+	public void initializeSystem();
 
 }

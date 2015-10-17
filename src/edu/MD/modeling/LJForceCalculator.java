@@ -8,16 +8,7 @@ public class LJForceCalculator implements IPairWiseForceCalculator {
 
 	private LJForceCalculator() {
 	}
-
-	/**
-	 * @param p1:
-	 *            Particle 1
-	 * @param p2:
-	 *            Particle 2
-	 * @param system:
-	 *            System that both particles come from
-	 * @return Force vector of particle 1, exerted by particle 2
-	 */
+	
 	public MDVector calculate(Particle p1, Particle p2, ISystem system) {
 		// potential parameters
 		String keyPrefixString = p1.getType() + "_" + p1.getName() + "_" + p2.getType() + "_" + p2.getName() + "_";

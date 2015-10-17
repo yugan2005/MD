@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import edu.MD.utility.MDVector;
+import edu.MD.utility.Vector3DCartesian;
 
 public class LJForceCalculatorTest {
 	Particle p1, p2;
@@ -15,8 +16,8 @@ public class LJForceCalculatorTest {
 	
 	@Before
 	public void init(){
-		p1 = new Argon();
-		p2 = new Argon();
+		p1 = new Argon(new Vector3DCartesian(new double[]{0,0,0}));
+		p2 = new Argon(new Vector3DCartesian(new double[]{0,0,0}));
 		system = new ArgonPairwiseBaseSystem();
 		forceCalculator = LJForceCalculator.INSTANCE;
 	}
