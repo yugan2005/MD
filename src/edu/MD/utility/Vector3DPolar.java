@@ -1,6 +1,6 @@
 package edu.MD.utility;
 
-public class Vector3DPolar implements Vector {
+public class Vector3DPolar implements MDVector {
 
 	@Override
 	public int getDimension() {
@@ -15,19 +15,19 @@ public class Vector3DPolar implements Vector {
 	}
 
 	@Override
-	public double getCartesianDistance(Vector vector) {
+	public double getCartesianDistance(MDVector vector) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public Vector addition(Vector vector) {
+	public MDVector addition(MDVector vector) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Vector substraction(Vector vector) {
+	public MDVector substraction(MDVector vector) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -36,6 +36,18 @@ public class Vector3DPolar implements Vector {
 	public boolean equals(Object obj) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public double norm() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public MDVector multiply(double c) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -35,10 +35,10 @@ public class Vector3DCartesianTest {
 	@Test
 	public void addVectorWithCorrectDeclaredClass() {
 
-		Vector vectorWithCorrectDeclaredClass = new Vector3DCartesian(2, 2, 2);
-		Vector actualResult = vector3DCartesian.addition(vectorWithCorrectDeclaredClass);
+		MDVector vectorWithCorrectDeclaredClass = new Vector3DCartesian(2, 2, 2);
+		MDVector actualResult = vector3DCartesian.addition(vectorWithCorrectDeclaredClass);
 
-		Vector expectedResult = new Vector3DCartesian(3, 3, 3);
+		MDVector expectedResult = new Vector3DCartesian(3, 3, 3);
 
 		assertThat(actualResult, equalTo(expectedResult));
 	}
@@ -59,10 +59,10 @@ public class Vector3DCartesianTest {
 	@Test
 	public void subtractVectorWithCorrectDeclaredClass() {
 
-		Vector vectorWithCorrectDeclaredClass = new Vector3DCartesian(2, 2, 2);
-		Vector actualResult = vector3DCartesian.substraction(vectorWithCorrectDeclaredClass);
+		MDVector vectorWithCorrectDeclaredClass = new Vector3DCartesian(2, 2, 2);
+		MDVector actualResult = vector3DCartesian.substraction(vectorWithCorrectDeclaredClass);
 
-		Vector expectedResult = new Vector3DCartesian(-1, -1, -1);
+		MDVector expectedResult = new Vector3DCartesian(-1, -1, -1);
 
 		assertThat(actualResult, equalTo(expectedResult));
 	}
@@ -71,7 +71,7 @@ public class Vector3DCartesianTest {
 	@Test
 	public void twoEqualVectorsHaveTheSameHashCode() {
 
-		Vector vector = new Vector3DCartesian(1, 1, 1);
+		MDVector vector = new Vector3DCartesian(1, 1, 1);
 
 		assertThat(vector.hashCode(), equalTo(vector3DCartesian.hashCode()));
 	}

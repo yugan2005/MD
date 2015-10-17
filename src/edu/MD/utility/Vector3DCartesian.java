@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Vector3DCartesian implements Vector {
+public class Vector3DCartesian implements MDVector {
 	private double[] cartesianCoordinates = new double[3];
 	private static final List<Class<?>> supportedClass = new ArrayList<>(Arrays.asList(Vector3DCartesian.class));
 
@@ -28,7 +28,7 @@ public class Vector3DCartesian implements Vector {
 	}
 
 	@Override
-	public Vector addition(Vector vector) {
+	public MDVector addition(MDVector vector) {
 		checkDimension(vector);
 		checkClass(vector);
 		if (vector.getClass() == Vector3DCartesian.class) {
@@ -38,7 +38,7 @@ public class Vector3DCartesian implements Vector {
 	}
 
 	@Override
-	public double getCartesianDistance(Vector vector) {
+	public double getCartesianDistance(MDVector vector) {
 		checkDimension(vector);
 		checkClass(vector);
 		if (vector.getClass() == Vector3DCartesian.class) {
@@ -48,7 +48,7 @@ public class Vector3DCartesian implements Vector {
 	}
 
 	@Override
-	public Vector substraction(Vector vector) {
+	public MDVector substraction(MDVector vector) {
 		checkDimension(vector);
 		checkClass(vector);
 		if (vector.getClass() == Vector3DCartesian.class) {
@@ -70,10 +70,10 @@ public class Vector3DCartesian implements Vector {
 			return false;
 		if (obj == this)
 			return true;
-		if (!(obj instanceof Vector))
+		if (!(obj instanceof MDVector))
 			return false;
 
-		Vector vector = (Vector) obj;
+		MDVector vector = (MDVector) obj;
 
 		if (getDimension() != vector.getDimension())
 			return false;
@@ -98,7 +98,7 @@ public class Vector3DCartesian implements Vector {
 		return new Vector3DCartesian(x, y, z);
 	}
 
-	private Vector subtractVector3DCartesian(Vector3DCartesian vector) {
+	private MDVector subtractVector3DCartesian(Vector3DCartesian vector) {
 		double x = cartesianCoordinates[0] - vector.getCartesianComponent()[0];
 		double y = cartesianCoordinates[1] - vector.getCartesianComponent()[1];
 		double z = cartesianCoordinates[2] - vector.getCartesianComponent()[2];
@@ -127,16 +127,31 @@ public class Vector3DCartesian implements Vector {
 
 	}
 
-	private void checkDimension(Vector vector) {
+	private void checkDimension(MDVector vector) {
 		if (vector.getDimension() != this.getDimension())
 			throw new IllegalArgumentException(
 					"The two vectors have different dimensions, cannot have vector operation");
 	}
 
-	private void checkClass(Vector vector) {
+	private void checkClass(MDVector vector) {
 		if (!supportedClass.contains(vector.getClass()))
-			throw new IllegalArgumentException(
-					vector.getClass().getName()+" is not supported for vector operation.");
+			throw new IllegalArgumentException(vector.getClass().getName() + " is not supported for vector operation.");
+	}
+
+	@Override
+	public double norm() {
+		double norm = 0;
+		for (int i = 0; i < 3; i++)
+			norm += cartesianCoordinates[i] * cartesianCoordinates[i];
+		return Math.sqrt(norm);
+	}
+
+	@Override
+	public MDVector multiply(double c) {
+		double x = cartesianCoordinates[0] * c;
+		double y = cartesianCoordinates[1] * c;
+		double z = cartesianCoordinates[2] * c;
+		return new Vector3DCartesian(x, y, z);
 	}
 
 }
