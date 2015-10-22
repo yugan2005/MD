@@ -1,21 +1,25 @@
 package edu.MD.utilityBD;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.math.MathContext;
+
+import org.apfloat.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class Vector3DCartesian implements MDVector {
-	private BigDecimal[] cartesianCoordinates = new BigDecimal[3];
+	private Apfloat[] cartesianCoordinates = new Apfloat[3];
 	private static final List<Class<?>> supportedClass = new ArrayList<>(Arrays.asList(Vector3DCartesian.class));
 
-	public Vector3DCartesian(BigDecimal x, BigDecimal y, BigDecimal z) {
+	public Vector3DCartesian(Apfloat x, Apfloat y, Apfloat z) {
 		cartesianCoordinates[0] = x;
 		cartesianCoordinates[1] = y;
 		cartesianCoordinates[2] = z;
 	}
 
-	public Vector3DCartesian(BigDecimal[] corrdinates) {
+	public Vector3DCartesian(Apfloat[] corrdinates) {
 		if (corrdinates.length != 3)
 			throw new IllegalArgumentException("The corrdinates is of wrong dimensions");
 		cartesianCoordinates[0] = corrdinates[0];
@@ -24,7 +28,7 @@ public class Vector3DCartesian implements MDVector {
 	}
 
 	@Override
-	public BigDecimal[] getCartesianComponent() {
+	public Apfloat[] getCartesianComponent() {
 		return cartesianCoordinates;
 	}
 
@@ -39,13 +43,13 @@ public class Vector3DCartesian implements MDVector {
 	}
 
 	@Override
-	public BigDecimal getCartesianDistance(MDVector vector) {
+	public Apfloat getCartesianDistance(MDVector vector) {
 		checkDimension(vector);
 		checkClass(vector);
 		if (vector.getClass() == Vector3DCartesian.class) {
 			return getDistanceOfTwo3DCartesian((Vector3DCartesian) vector);
 		}
-		return new BigDecimal(0);
+		return new Apfloat(new BigDecimal(0, MathContext.DECIMAL128));
 	}
 
 	@Override
@@ -106,7 +110,7 @@ public class Vector3DCartesian implements MDVector {
 		return new Vector3DCartesian(x, y, z);
 	}
 
-	private BigDecimal getDistanceOfTwo3DCartesian(Vector3DCartesian vector) {
+	private Apfloat getDistanceOfTwo3DCartesian(Vector3DCartesian vector) {
 		BigDecimal result = new BigDecimal(0);
 		BigDecimal[] coord1 = getCart esianComponent();
 		BigDecimal[] coord2 = vector.getCartesianComponent();

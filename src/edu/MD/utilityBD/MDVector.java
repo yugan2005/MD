@@ -1,11 +1,11 @@
 package edu.MD.utilityBD;
 
-import java.math.BigDecimal;
+import org.apfloat.Apfloat;
 
 public interface MDVector {
 	public int getDimension();
-	public BigDecimal[] getCartesianComponent();
-	public BigDecimal getCartesianDistance(MDVector vector);
+	public Apfloat[] getCartesianComponent();
+	public Apfloat getCartesianDistance(MDVector vector);
 	public MDVector addition(MDVector vector);
 	public MDVector substraction(MDVector vector);
 	
@@ -13,7 +13,7 @@ public interface MDVector {
 	public boolean equals(Object obj);
 	@Override
 	public int hashCode();
-	public BigDecimal norm();
+	public Apfloat norm();
 	public MDVector multiply(double c);
 
 }
