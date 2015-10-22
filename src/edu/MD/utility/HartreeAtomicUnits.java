@@ -1,8 +1,5 @@
 package edu.MD.utility;
 
-import static edu.MD.utility.HartreeAtomicUnits.AVOGADRO;
-import static edu.MD.utility.HartreeAtomicUnits.MOLAR_GAS_CONSTANT;
-
 /**
  * @author YG
  * This unit system is used in the MD simulation to reduce machine errors
