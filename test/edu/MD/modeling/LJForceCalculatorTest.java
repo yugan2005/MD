@@ -88,10 +88,9 @@ public class LJForceCalculatorTest {
 		MDVector p1_p2 = p1.substraction(p2);
 
 		MDVector forceOnP1 = forceCalculator.calculate(p1_p2);
-//		assertThat(forceOnP1.getCartesianComponent()[0], closeTo(0.0, Constants.MACHINE_DOUBLE_ERROR));
-//		assertThat(forceOnP1.getCartesianComponent()[1], closeTo(0.0, Constants.MACHINE_DOUBLE_ERROR));
-//		assertThat(forceOnP1.getCartesianComponent()[2], closeTo(0.0, Constants.MACHINE_DOUBLE_ERROR));
-		assertTrue(Constants.doubleEqual(0.0, forceOnP1.getCartesianComponent()[0]));
+		assertThat(forceOnP1.getCartesianComponent()[0], closeTo(0.0, Constants.MACHINE_DOUBLE_ERROR));
+		assertThat(forceOnP1.getCartesianComponent()[1], closeTo(0.0, Constants.MACHINE_DOUBLE_ERROR));
+		assertThat(forceOnP1.getCartesianComponent()[2], closeTo(0.0, Constants.MACHINE_DOUBLE_ERROR));
 
 	}
 	
