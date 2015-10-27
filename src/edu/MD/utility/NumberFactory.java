@@ -17,7 +17,9 @@ import java.util.List;
  *
  */
 public abstract class NumberFactory {
-	private static final List<String> NUMBER_TYPE = new ArrayList<String>(Arrays.asList("JScienceRealFacotry", "JAVABigDecimalFactory"));
+	private static final List<String> NUMBER_TYPE = new ArrayList<String>(Arrays.asList(
+			"JScienceRealFacotry", "JavaBigDecimalFactory", "JavaDefaultNumberFactory"
+			));
 	private static NumberFactory numFactory;
 	protected static int precision;
 
@@ -58,16 +60,18 @@ public abstract class NumberFactory {
 		case "JScienceRealFacotry":
 			numFactory = JScienceRealFactory.INSTANCE;
 			break;
-		case "JAVABigDecimalFactory":
-			numFactory = JAVABigDecimalFactory.INSTANCE;
+		case "JavaBigDecimalFactory":
+			numFactory = JavaBigDecimalFactory.INSTANCE;
 			break;
+		case "JavaDefaultNumberFactory":
+			numFactory = JavaDefaultNumberFactory.INSTANCE;
 		}
 	}
 
 	public static String getFactorySetting(){
 		if (numFactory==null) return "The number factory has not been initialized yet";
 		String currentSetting = "Number factory Type is: "+numFactory.getClass().getName()+"/n";
-		currentSetting += "precision is: " + precision+"/n";
+		if (!(numFactory instanceof JavaDefaultNumberFactory)) currentSetting += "precision is: " + precision+"/n";
 		return currentSetting;
 	}
 	
