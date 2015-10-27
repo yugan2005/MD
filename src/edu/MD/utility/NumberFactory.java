@@ -1,6 +1,8 @@
 package edu.MD.utility;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * This is a example of threadsafe singleton factory class that I looked for.
@@ -15,44 +17,60 @@ import java.util.HashMap;
  *
  */
 public abstract class NumberFactory {
-	private static HashMap<String, NumberFactory> registry = new HashMap<>();
-	protected static int PRECISION = -1;
+	private static final List<String> NUMBER_TYPE = new ArrayList<String>(Arrays.asList("JScienceRealFacotry", "JAVABigDecimalFactory"));
+	private static NumberFactory numFactory;
+	protected static int precision;
 
 	protected NumberFactory() {
 	}
 
-	public static synchronized NumberFactory getInstance(String numType) {
-		if (numType == null)
-			throw new IllegalArgumentException("Need specify the number type name to get numFactory");
-		if (PRECISION == -1)
-			throw new IllegalArgumentException(
-					"The global precision parameter has not been set yet. setPrecision() first");
-		NumberFactory numFactory = registry.get(numType);
+	/**
+	 * No argument version to get the singleton instance
+	 * 
+	 * @return the singleton factory
+	 */
+	public static synchronized NumberFactory getInstance() {
 		if (numFactory != null)
-			return numFactory; // Return the singleton of correct Type
+			return numFactory;
+		else
+			throw new UnsupportedOperationException(
+					"The number facotry has not been initialized yet, use setFactorySetting(String numType, int precision) method first!");
+	}
 
-		try {
-			// using Reflection
-			numFactory = (NumberFactory) Class.forName(numType).newInstance();
-		} catch (ClassNotFoundException cnfe) {
-			throw new IllegalArgumentException("The type of number specified by numType has not been defined yet");
-		} catch (InstantiationException ie) {
-			throw new IllegalArgumentException("Can't instantiate the class specified by numType");
-		} catch (IllegalAccessException iae) {
-			throw new IllegalArgumentException("Can't access the class specified by numType");
+	/**
+	 * Initialize the NumberFactory singleton</n>
+	 * 
+	 * @param numType
+	 *            String - Type of the numberfactory
+	 * @param setPrecision
+	 *            int - Number of precision digits. As a reference, double has
+	 *            precision of 16 digits
+	 */
+	public static synchronized void setFactorySetting(String numType, int setPrecision) {
+		if (numFactory != null)
+			throw new UnsupportedOperationException(
+					"The number facotry has been set and cannot be set again, use getInstance() to get the singleton instance");
+		precision = setPrecision;
+		if (!NUMBER_TYPE.contains(numType))
+			throw new IllegalArgumentException(
+					"The type of number specified by numType has not been defined or added to the registry yet");
+		switch (numType) {
+		case "JScienceRealFacotry":
+			numFactory = JScienceRealFactory.INSTANCE;
+			break;
+		case "JAVABigDecimalFactory":
+			numFactory = JAVABigDecimalFactory.INSTANCE;
+			break;
 		}
-
-		registry.put(numType, numFactory);
-		return numFactory;
 	}
 
-	public static void setPrecision(int precision) {
-		if (PRECISION != -1 && PRECISION != precision)
-			throw new IllegalArgumentException("The precision has already been set as: " + PRECISION
-					+ " , which is not consistent with the precision requested by this call");
-		PRECISION = precision;
+	public static String getFactorySetting(){
+		if (numFactory==null) return "The number factory has not been initialized yet";
+		String currentSetting = "Number factory Type is: "+numFactory.getClass().getName()+"/n";
+		currentSetting += "precision is: " + precision+"/n";
+		return currentSetting;
 	}
-
+	
 	public abstract MDNumber valueOf(double in);
 
 	public abstract MDNumber valueOf(int in);

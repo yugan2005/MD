@@ -1,0 +1,96 @@
+\begin{thebibliography}{14}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+\expandafter\ifx\csname bibnamefont\endcsname\relax
+  \def\bibnamefont#1{#1}\fi
+\expandafter\ifx\csname bibfnamefont\endcsname\relax
+  \def\bibfnamefont#1{#1}\fi
+\expandafter\ifx\csname citenamefont\endcsname\relax
+  \def\citenamefont#1{#1}\fi
+\expandafter\ifx\csname url\endcsname\relax
+  \def\url#1{\texttt{#1}}\fi
+\expandafter\ifx\csname urlprefix\endcsname\relax\def\urlprefix{URL }\fi
+\providecommand{\bibinfo}[2]{#2}
+\providecommand{\eprint}[2][]{\url{#2}}
+
+\bibitem[{\citenamefont{Abramowitz and Stegun}(1972)}]{AS}
+\bibinfo{editor}{\bibnamefont{Abramowitz}, \bibfnamefont{M.}}, and
+  \bibinfo{editor}{\bibfnamefont{I.~A.} \bibnamefont{Stegun}} (eds.),
+  \bibinfo{year}{1972}, \emph{\bibinfo{title}{Handbook of Mathematical
+  Functions}} (\bibinfo{publisher}{Dover Publications}, \bibinfo{address}{New
+  York}), \bibinfo{edition}{9th} edition, ISBN \bibinfo{isbn}{0-486-61272-4}.
+
+\bibitem[{\citenamefont{Bar-Shalom and Klapisch}(1988)}]{BarCPC50}
+\bibinfo{author}{\bibnamefont{Bar-Shalom}, \bibfnamefont{A.}}, and
+  \bibinfo{author}{\bibfnamefont{M.}~\bibnamefont{Klapisch}},
+  \bibinfo{year}{1988}, \bibinfo{journal}{Comp. Phys. Commun.}
+  \textbf{\bibinfo{volume}{50}}(\bibinfo{number}{3}), \bibinfo{pages}{375}.
+
+\bibitem[{\citenamefont{Broadhurst}(1998)}]{BroadhurstArxiv98}
+\bibinfo{author}{\bibnamefont{Broadhurst}, \bibfnamefont{D.~J.}},
+  \bibinfo{year}{1998}, \bibinfo{journal}{arXiv:math/9803067 [math.CA]} .
+
+\bibitem[{\citenamefont{Cohen} \emph{et~al.}(1992)\citenamefont{Cohen, Lewin,
+  and Zagier}}]{CohenExpMath1}
+\bibinfo{author}{\bibnamefont{Cohen}, \bibfnamefont{H.}},
+  \bibinfo{author}{\bibfnamefont{L.}~\bibnamefont{Lewin}}, and
+  \bibinfo{author}{\bibfnamefont{D.}~\bibnamefont{Zagier}},
+  \bibinfo{year}{1992}, \bibinfo{journal}{Exp. Math}
+  \textbf{\bibinfo{volume}{1}}(\bibinfo{number}{1}), \bibinfo{pages}{25}.
+
+\bibitem[{\citenamefont{Dilcher}(2005)}]{DilcherAM48}
+\bibinfo{author}{\bibnamefont{Dilcher}, \bibfnamefont{K.}},
+  \bibinfo{year}{2005}, \bibinfo{journal}{Aequat. Math.}
+  \textbf{\bibinfo{volume}{48}}(\bibinfo{number}{1}), \bibinfo{pages}{55}.
+
+\bibitem[{\citenamefont{Fousse} \emph{et~al.}(2007)\citenamefont{Fousse,
+  Hanrot, Lef\`evre, P\'elissier, and Zimmermann}}]{FousseTOMS33}
+\bibinfo{author}{\bibnamefont{Fousse}, \bibfnamefont{L.}},
+  \bibinfo{author}{\bibfnamefont{G.}~\bibnamefont{Hanrot}},
+  \bibinfo{author}{\bibfnamefont{V.}~\bibnamefont{Lef\`evre}},
+  \bibinfo{author}{\bibfnamefont{P.}~\bibnamefont{P\'elissier}}, and
+  \bibinfo{author}{\bibfnamefont{P.}~\bibnamefont{Zimmermann}},
+  \bibinfo{year}{2007}, \bibinfo{journal}{ACM Trans.\ Math.\ Softw.}
+  \textbf{\bibinfo{volume}{33}}(\bibinfo{number}{2}), \bibinfo{pages}{\# 13}.
+
+\bibitem[{\citenamefont{Gordon and Flasterstein}(1960)}]{GordonJACM7}
+\bibinfo{author}{\bibnamefont{Gordon}, \bibfnamefont{N.~L.}}, and
+  \bibinfo{author}{\bibfnamefont{A.~H.} \bibnamefont{Flasterstein}},
+  \bibinfo{year}{1960}, \bibinfo{journal}{J.\ ACM}
+  \textbf{\bibinfo{volume}{7}}(\bibinfo{number}{4}), \bibinfo{pages}{387}.
+
+\bibitem[{\citenamefont{Gould}(1972)}]{GouldAMM79}
+\bibinfo{author}{\bibnamefont{Gould}, \bibfnamefont{H.~W.}},
+  \bibinfo{year}{1972}, \bibinfo{journal}{Amer.\ Math.\ Monthly}
+  \textbf{\bibinfo{volume}{79}}(\bibinfo{number}{1}), \bibinfo{pages}{44}.
+
+\bibitem[{\citenamefont{Mathar}(2011)}]{MatharArxiv1102a}
+\bibinfo{author}{\bibnamefont{Mathar}, \bibfnamefont{R.~J.}},
+  \bibinfo{year}{2011}, \bibinfo{journal}{arXiv:1102.5125 [math-ph]} .
+
+\bibitem[{\citenamefont{McCarthy}(1986)}]{McCarthyMathComp46}
+\bibinfo{author}{\bibnamefont{McCarthy}, \bibfnamefont{D.~P.}},
+  \bibinfo{year}{1986}, \bibinfo{journal}{Math.\ Comp.}
+  \textbf{\bibinfo{volume}{46}}(\bibinfo{number}{174}), \bibinfo{pages}{603}.
+
+\bibitem[{\citenamefont{Sloane}(2003)}]{EIS}
+\bibinfo{author}{\bibnamefont{Sloane}, \bibfnamefont{N.~J.~A.}},
+  \bibinfo{year}{2003}, \bibinfo{journal}{Notices Am.\ Math.\ Soc.}
+  \textbf{\bibinfo{volume}{50}}(\bibinfo{number}{8}), \bibinfo{pages}{912},
+  \bibinfo{note}{http://oeis.org/}, \urlprefix\url{http://oeis.org/}.
+
+\bibitem[{\citenamefont{Smith}(1991)}]{SmithTOMS17}
+\bibinfo{author}{\bibnamefont{Smith}, \bibfnamefont{D.~M.}},
+  \bibinfo{year}{1991}, \bibinfo{journal}{ACM Trans. Math. Softw.}
+  \textbf{\bibinfo{volume}{17}}(\bibinfo{number}{2}), \bibinfo{pages}{273}.
+
+\bibitem[{\citenamefont{Spira}(1971)}]{SpiraMathComp25}
+\bibinfo{author}{\bibnamefont{Spira}, \bibfnamefont{R.}}, \bibinfo{year}{1971},
+  \bibinfo{journal}{Math. Comp.}
+  \textbf{\bibinfo{volume}{25}}(\bibinfo{number}{114}), \bibinfo{pages}{317}.
+
+\bibitem[{\citenamefont{{Wrench Jr.}}(1968)}]{WrenchMCom22}
+\bibinfo{author}{\bibnamefont{{Wrench Jr.}}, \bibfnamefont{J.~W.}},
+  \bibinfo{year}{1968}, \bibinfo{journal}{Math.\ Comput.}
+  \textbf{\bibinfo{volume}{22}}(\bibinfo{number}{103}), \bibinfo{pages}{617}.
+
+\end{thebibliography}

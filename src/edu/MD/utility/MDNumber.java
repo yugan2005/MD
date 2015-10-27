@@ -2,9 +2,9 @@ package edu.MD.utility;
 
 public interface MDNumber {
 
-	public MDNumber abs(MDNumber in);
+	public MDNumber abs();
 
-	public MDNumber sqrt(MDNumber in);
+	public MDNumber sqrt();
 
 	public MDNumber add(MDNumber in);
 
@@ -17,4 +17,9 @@ public interface MDNumber {
 	public MDNumber pow(MDNumber in);
 
 	public MDNumber pow(int in);
+	
+	public int getPrecision();
+	
+	@Override
+	public String toString();
 }

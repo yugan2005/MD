@@ -5,11 +5,13 @@ import org.jscience.mathematics.number.*;
 public class JScienceReal implements MDNumber {
 	private Real num;
 
-	public JScienceReal(double in) {
+	public JScienceReal(double in, int precision) {
+		Real.setExactPrecision(precision);
 		num = Real.valueOf(in);
 	}
 
-	public JScienceReal(int in) {
+	public JScienceReal(int in, int precision) {
+		Real.setExactPrecision(precision);
 		num = Real.valueOf(in);
 	}
 
@@ -18,15 +20,13 @@ public class JScienceReal implements MDNumber {
 	}
 
 	@Override
-	public JScienceReal abs(MDNumber in) {
-		checkinput(in);
-		return new JScienceReal(((JScienceReal) in).num.abs());
+	public JScienceReal abs() {
+		return new JScienceReal(num.abs());
 	}
 
 	@Override
-	public JScienceReal sqrt(MDNumber in) {
-		checkinput(in);
-		return new JScienceReal(((JScienceReal) in).num.sqrt());
+	public JScienceReal sqrt() {
+		return new JScienceReal(num.sqrt());
 	}
 
 	@Override
@@ -90,16 +90,13 @@ public class JScienceReal implements MDNumber {
 		return new JScienceReal(result);
 	}
 
-	public static JScienceReal getJScienceReal(double in) {
-		return new JScienceReal(in);
-	}
-
-	public static JScienceReal getJScienceReal(int in) {
-		return new JScienceReal(in);
-	}
-
 	private void checkinput(MDNumber in) {
 		if (!(in instanceof JScienceReal))
 			throw new IllegalArgumentException("The number type is not compatible!");
+	}
+
+	@Override
+	public int getPrecision() {
+		return num.getPrecision();
 	}
 }

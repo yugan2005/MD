@@ -1,21 +1,20 @@
 package edu.MD.utility;
 
-import org.jscience.mathematics.number.Real;
-
-public class JScienceRealFactory extends NumberFactory {
+public final class JScienceRealFactory extends NumberFactory {
+	public static final JScienceRealFactory INSTANCE=new JScienceRealFactory();
 	
-	static {
-		Real.setExactPrecision(PRECISION);
+	
+	private JScienceRealFactory() {
 	}
 
 	@Override
 	public MDNumber valueOf(double in) {
-		return new JScienceReal(in);
+		return new JScienceReal(in, precision);
 	}
 
 	@Override
 	public MDNumber valueOf(int in) {
-		return new JScienceReal(in);
+		return new JScienceReal(in, precision);
 	}
-
+	
 }
