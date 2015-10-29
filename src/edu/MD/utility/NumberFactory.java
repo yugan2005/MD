@@ -17,9 +17,8 @@ import java.util.List;
  *
  */
 public abstract class NumberFactory {
-	private static final List<String> NUMBER_TYPE = new ArrayList<String>(Arrays.asList(
-			"JScienceRealFacotry", "JavaBigDecimalFactory", "JavaDefaultNumberFactory"
-			));
+	private static final List<String> NUMBER_TYPE = new ArrayList<String>(
+			Arrays.asList("JScienceRealFacotry", "JavaBigDecimalFactory", "JavaDefaultNumberFactory"));
 	private static NumberFactory numFactory;
 	protected static int precision;
 
@@ -64,17 +63,30 @@ public abstract class NumberFactory {
 			numFactory = JavaBigDecimalFactory.INSTANCE;
 			break;
 		case "JavaDefaultNumberFactory":
-			numFactory = JavaDefaultNumberFactory.INSTANCE;
+			throw new IllegalArgumentException("JavaDefaultNumberFactory should be set without precision");
 		}
 	}
 
-	public static String getFactorySetting(){
-		if (numFactory==null) return "The number factory has not been initialized yet";
-		String currentSetting = "Number factory Type is: "+numFactory.getClass().getName()+"/n";
-		if (!(numFactory instanceof JavaDefaultNumberFactory)) currentSetting += "precision is: " + precision+"/n";
+	public static synchronized void setFactorySetting(String numType) {
+		if (numFactory != null)
+			throw new UnsupportedOperationException(
+					"The number facotry has been set and cannot be set again, use getInstance() to get the singleton instance");
+		if (!(numType.equals("JavaDefaultNumberFactory")))
+			throw new IllegalArgumentException(
+					"The type of number specified by numType need specify the precision too. Only JavaDefaultNumberFactory can be set without precision.");
+
+		numFactory = JavaDefaultNumberFactory.INSTANCE;
+	}
+
+	public static String getFactorySetting() {
+		if (numFactory == null)
+			return "The number factory has not been initialized yet";
+		String currentSetting = "Number factory Type is: " + numFactory.getClass().getName() + "/n";
+		if (!(numFactory instanceof JavaDefaultNumberFactory))
+			currentSetting += "precision is: " + precision + "/n";
 		return currentSetting;
 	}
-	
+
 	public abstract MDNumber valueOf(double in);
 
 	public abstract MDNumber valueOf(int in);

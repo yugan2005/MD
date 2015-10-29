@@ -3,39 +3,43 @@ package edu.MD.utility;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
+import org.jscience.mathematics.number.Real;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 public class JScienceRealFactoryTest {
-	NumberFactory JScienceRealFactory;
-	
+	NumberFactory jScienceRealFactory;
+
 	@Rule
 	public final ExpectedException exception = ExpectedException.none();
-	
+
+	@BeforeClass
+	public static void initGlobalFactory() {
+		NumberFactory.setFactorySetting("JScienceRealFacotry", 32);
+	}
+
 	@Before
-	public void init(){
-		NumberFactory.setFactorySetting("JScienceRealFacotry", 8); 
-		JScienceRealFactory = NumberFactory.getInstance();
+	public void init() {
+		jScienceRealFactory = NumberFactory.getInstance();
 	}
-	
+
+	/**
+	 * Test case from: <a href=
+	 * "http://jscience.org/api/org/jscience/mathematics/number/package-summary.html">
+	 * Jscience API </a>
+	 */
 	@Test
-	public void getJScienceRealNumberWithCorrectPrecision(){
-		MDNumber x = JScienceRealFactory.valueOf(Math.PI);
-		assertThat(x.getPrecision(), equalTo(32));
-		
+	public void jRealFactoryCalculationTest() {
+		MDNumber x = jScienceRealFactory.valueOf(10864);
+		MDNumber y = jScienceRealFactory.valueOf(18817);
+		MDNumber z = jScienceRealFactory.valueOf(9).times(x.pow(4)).minus(y.pow(4))
+				.add(jScienceRealFactory.valueOf(2).times(y.pow(2)));
+		MDNumber expected = jScienceRealFactory.valueOf(1);
+		double calculatedDouble = z.toDouble();
+		double expectedDouble = expected.toDouble();
+		assertThat(calculatedDouble, equalTo(expectedDouble));
 	}
-
-//	@Test
-//	public void getJScienceRealNumberOfPrecision32() {
-//		MDNumber x = JScienceRealFactory.valueOf(10864);
-//		MDNumber y = JScienceRealFactory.valueOf(18817);;
-//		MDNumber z = JScienceRealFactory.valueOf(9).times(x.pow(4).minus(y.pow(4)))) Math.pow(x, 4.0)- Math.pow(y, 4.0) + 2 * Math.pow(y, 2.0);
-//        System.out.println("Result : " + z);
-//
-//		MDNumber JSReal2 = JScienceRealFactory.valueOf(2.0);
-//		assertThat(JSReal2.getPrecision(), equalTo(32));
-//	}
-
 }

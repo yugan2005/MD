@@ -5,16 +5,17 @@ public final class JScienceRealFactory extends NumberFactory {
 	
 	
 	private JScienceRealFactory() {
+		JScienceReal.setPrecision(precision);
 	}
 
 	@Override
 	public MDNumber valueOf(double in) {
-		return new JScienceReal(in, precision);
+		return new JScienceReal(in);
 	}
 
 	@Override
 	public MDNumber valueOf(int in) {
-		return new JScienceReal(in, precision);
+		return new JScienceReal(in);
 	}
 	
 }

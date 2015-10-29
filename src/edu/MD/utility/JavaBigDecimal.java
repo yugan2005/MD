@@ -83,4 +83,20 @@ public class JavaBigDecimal implements MDNumber {
 	public String toString(){
 		return num.toString();
 	}
+
+	@Override
+	public boolean equals(MDNumber that) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public double toDouble() {
+		return num.doubleValue();
+	}
+
+	@Override
+	public int toInt() {
+		return num.intValue();
+	}
 }

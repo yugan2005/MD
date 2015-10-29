@@ -22,4 +22,10 @@ public interface MDNumber {
 	
 	@Override
 	public String toString();
+	
+	public boolean equals(MDNumber that);
+	
+	public double toDouble();
+	
+	public int toInt();
 }

@@ -120,5 +120,29 @@ public class JavaDefaultNumber implements MDNumber {
 		if (!(in instanceof JavaDefaultNumber))
 			throw new IllegalArgumentException("The number type is not compatible!");
 	}
+	
+	@Override
+	public String toString(){
+		if (isDouble) return ""+numDouble;
+		return ""+numInt;
+	}
+
+	@Override
+	public boolean equals(MDNumber that) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public double toDouble() {
+		if (isDouble) return numDouble;
+		return (double) numInt;
+	}
+
+	@Override
+	public int toInt() {
+		if (isDouble) return (int) numDouble;
+		return numInt;
+	}
 
 }

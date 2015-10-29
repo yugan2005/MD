@@ -2,13 +2,18 @@ package edu.MD.utility;
 
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 public class NumberFactoryTest {
 	
-	@Before
-	public void init(){
+	@Rule
+	public final ExpectedException exception = ExpectedException.none();
+	
+	@BeforeClass
+	public static void init(){
 		NumberFactory.setFactorySetting("JScienceRealFacotry", 32); 
 	}
 
@@ -17,6 +22,12 @@ public class NumberFactoryTest {
 		NumberFactory jRealFactory1 = NumberFactory.getInstance();
 		NumberFactory jRealFactory2 = NumberFactory.getInstance();
 		assertTrue(jRealFactory1==jRealFactory2);
+	}
+	
+	@Test
+	public void setFactoryTwiceThrowException(){
+		exception.expect(UnsupportedOperationException.class);
+		NumberFactory.setFactorySetting("JavaDefaultNumberFactory", 32); 
 	}
 
 }
