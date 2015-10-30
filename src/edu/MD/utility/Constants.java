@@ -3,7 +3,7 @@ package edu.MD.utility;
 public class Constants {
 	
 	// Following are General Constant
-	public static final double MACHINE_DOUBLE_ERROR = 1e-28; // reference: Argon's atom mass: 6.6335209 × 10^-26 kg
+	public static final double MACHINE_DOUBLE_ERROR = 1e-30; // reference: Argon's atom mass: 6.6335209 × 10^-26 kg
 	
 	// Following are Physical Constant in SI units
 	public static final double KB = 1.38064852e-23; // Boltzmann Constant from NIST, in SI J�K-1 unit. In AU unit system it should be 1. 

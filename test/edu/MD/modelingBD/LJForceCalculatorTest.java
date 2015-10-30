@@ -22,7 +22,7 @@ public class LJForceCalculatorTest {
 
 	@BeforeClass
 	public static void globalInit() {
-		NumberFactory.setFactorySetting("JScienceRealFactory", 64);
+		NumberFactory.setFactorySetting("JavaBigDecimalFactory", 32);
 	}
 
 	@Before
