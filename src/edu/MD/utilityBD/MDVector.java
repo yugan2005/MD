@@ -1,19 +1,19 @@
 package edu.MD.utilityBD;
 
-import org.apfloat.Apfloat;
+import edu.MD.utility.MDNumber;
 
 public interface MDVector {
 	public int getDimension();
-	public Apfloat[] getCartesianComponent();
-	public Apfloat getCartesianDistance(MDVector vector);
-	public MDVector addition(MDVector vector);
-	public MDVector substraction(MDVector vector);
+	public MDNumber[] getCartesianComponent();
+	public MDNumber getCartesianDistance(MDVector vector);
+	public MDVector add(MDVector vector);
+	public MDVector minus(MDVector vector);
 	
 	@Override
 	public boolean equals(Object obj);
 	@Override
 	public int hashCode();
-	public Apfloat norm();
-	public MDVector multiply(double c);
+	public MDNumber norm();
+	public MDVector times(MDNumber c);
 
 }

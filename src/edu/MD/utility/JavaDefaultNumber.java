@@ -4,6 +4,9 @@ public class JavaDefaultNumber implements MDNumber {
 	private double numDouble;
 	private int numInt;
 	private boolean isDouble = false;
+	public static final JavaDefaultNumber ONE = new JavaDefaultNumber(1);
+	public static final JavaDefaultNumber ZERO = new JavaDefaultNumber(0);
+	
 
 	public JavaDefaultNumber(double in) {
 		isDouble = true;
@@ -128,9 +131,18 @@ public class JavaDefaultNumber implements MDNumber {
 	}
 
 	@Override
-	public boolean equals(MDNumber that) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean equals(Object that) {
+		if (that == null) return false;
+		if (this==that) return true;
+		if (!(that instanceof JavaDefaultNumber)) return false;
+		JavaDefaultNumber input = (JavaDefaultNumber) that;
+		if (this.isDouble) {
+			if (input.isDouble) return Math.abs(numDouble-input.numDouble)<Constants.MACHINE_DOUBLE_ERROR;
+			else return Math.abs(numDouble-input.numInt)<Constants.MACHINE_DOUBLE_ERROR;
+		}
+		
+		if (input.isDouble) return Math.abs(numInt-input.numDouble)<Constants.MACHINE_DOUBLE_ERROR;
+		return numInt == input.numInt;
 	}
 
 	@Override
@@ -143,6 +155,16 @@ public class JavaDefaultNumber implements MDNumber {
 	public int toInt() {
 		if (isDouble) return (int) numDouble;
 		return numInt;
+	}
+
+	@Override
+	public MDNumber zero() {
+		return ZERO;
+	}
+
+	@Override
+	public MDNumber one() {
+		return ONE;
 	}
 
 }

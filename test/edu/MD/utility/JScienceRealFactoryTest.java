@@ -32,14 +32,12 @@ public class JScienceRealFactoryTest {
 	 * Jscience API </a>
 	 */
 	@Test
-	public void jRealFactoryCalculationTest() {
+	public void jScienceRealFactoryCalculationTest() {
 		MDNumber x = jScienceRealFactory.valueOf(10864);
 		MDNumber y = jScienceRealFactory.valueOf(18817);
 		MDNumber z = jScienceRealFactory.valueOf(9).times(x.pow(4)).minus(y.pow(4))
 				.add(jScienceRealFactory.valueOf(2).times(y.pow(2)));
 		MDNumber expected = jScienceRealFactory.valueOf(1);
-		double calculatedDouble = z.toDouble();
-		double expectedDouble = expected.toDouble();
-		assertThat(calculatedDouble, equalTo(expectedDouble));
+		assertThat(z, equalTo(expected));
 	}
 }

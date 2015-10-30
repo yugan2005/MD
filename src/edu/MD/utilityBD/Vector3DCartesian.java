@@ -1,25 +1,22 @@
 package edu.MD.utilityBD;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.math.MathContext;
+import edu.MD.utility.MDNumber;
 
-import org.apfloat.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class Vector3DCartesian implements MDVector {
-	private Apfloat[] cartesianCoordinates = new Apfloat[3];
+	private MDNumber[] cartesianCoordinates = new MDNumber[3];
 	private static final List<Class<?>> supportedClass = new ArrayList<>(Arrays.asList(Vector3DCartesian.class));
 
-	public Vector3DCartesian(Apfloat x, Apfloat y, Apfloat z) {
+	public Vector3DCartesian(MDNumber x, MDNumber y, MDNumber z) {
 		cartesianCoordinates[0] = x;
 		cartesianCoordinates[1] = y;
 		cartesianCoordinates[2] = z;
 	}
 
-	public Vector3DCartesian(Apfloat[] corrdinates) {
+	public Vector3DCartesian(MDNumber[] corrdinates) {
 		if (corrdinates.length != 3)
 			throw new IllegalArgumentException("The corrdinates is of wrong dimensions");
 		cartesianCoordinates[0] = corrdinates[0];
@@ -28,12 +25,12 @@ public class Vector3DCartesian implements MDVector {
 	}
 
 	@Override
-	public Apfloat[] getCartesianComponent() {
+	public MDNumber[] getCartesianComponent() {
 		return cartesianCoordinates;
 	}
 
 	@Override
-	public MDVector addition(MDVector vector) {
+	public MDVector add(MDVector vector) {
 		checkDimension(vector);
 		checkClass(vector);
 		if (vector.getClass() == Vector3DCartesian.class) {
@@ -43,23 +40,22 @@ public class Vector3DCartesian implements MDVector {
 	}
 
 	@Override
-	public Apfloat getCartesianDistance(MDVector vector) {
+	public MDNumber getCartesianDistance(MDVector vector) {
 		checkDimension(vector);
 		checkClass(vector);
 		if (vector.getClass() == Vector3DCartesian.class) {
 			return getDistanceOfTwo3DCartesian((Vector3DCartesian) vector);
 		}
-		return new Apfloat(new BigDecimal(0, MathContext.DECIMAL128));
+		return null;
 	}
 
 	@Override
-	public MDVector substraction(MDVector vector) {
+	public MDVector minus(MDVector vector) {
 		checkDimension(vector);
 		checkClass(vector);
 		if (vector.getClass() == Vector3DCartesian.class) {
 			return subtractVector3DCartesian((Vector3DCartesian) vector);
 		}
-
 		return null;
 	}
 
@@ -97,35 +93,34 @@ public class Vector3DCartesian implements MDVector {
 	}
 
 	private Vector3DCartesian addVector3DCartesian(Vector3DCartesian vector) {
-		BigDecimal x = cartesianCoordinates[0].add(vector.getCartesianComponent()[0]);
-		BigDecimal y = cartesianCoordinates[1].add(vector.getCartesianComponent()[1]);
-		BigDecimal z = cartesianCoordinates[2].add(vector.getCartesianComponent()[2]);
+		MDNumber x = cartesianCoordinates[0].add(vector.getCartesianComponent()[0]);
+		MDNumber y = cartesianCoordinates[1].add(vector.getCartesianComponent()[1]);
+		MDNumber z = cartesianCoordinates[2].add(vector.getCartesianComponent()[2]);
 		return new Vector3DCartesian(x, y, z);
 	}
 
 	private MDVector subtractVector3DCartesian(Vector3DCartesian vector) {
-		BigDecimal x = cartesianCoordinates[0].subtract(vector.getCartesianComponent()[0]);
-		BigDecimal y = cartesianCoordinates[1].subtract(vector.getCartesianComponent()[1]);
-		BigDecimal z = cartesianCoordinates[2].subtract(vector.getCartesianComponent()[2]);
+		MDNumber x = cartesianCoordinates[0].minus(vector.getCartesianComponent()[0]);
+		MDNumber y = cartesianCoordinates[1].minus(vector.getCartesianComponent()[1]);
+		MDNumber z = cartesianCoordinates[2].minus(vector.getCartesianComponent()[2]);
 		return new Vector3DCartesian(x, y, z);
 	}
 
-	private Apfloat getDistanceOfTwo3DCartesian(Vector3DCartesian vector) {
-		BigDecimal result = new BigDecimal(0);
-		BigDecimal[] coord1 = getCart esianComponent();
-		BigDecimal[] coord2 = vector.getCartesianComponent();
+	private MDNumber getDistanceOfTwo3DCartesian(Vector3DCartesian vector) {
+		MDNumber result = cartesianCoordinates[0].zero();
+		MDNumber[] coord1 = vector.getCartesianComponent();
+		MDNumber[] coord2 = vector.getCartesianComponent();
 		for (int i = 0; i < coord1.length; i++) {
-			result = result.add(coord1[i].subtract(coord2[i])).multiply(coord1[i].subtract(coord2[i]));
+			result = result.add(coord1[i].minus(coord2[i])).times(coord1[i].minus(coord2[i]));
 		}
-		result = result.p;
 		return result;
 	}
 
 	private boolean equals(Vector3DCartesian vector) {
-		BigDecimal[] coord1 = getCartesianComponent();
-		BigDecimal[] coord2 = vector.getCartesianComponent();
+		MDNumber[] coord1 = getCartesianComponent();
+		MDNumber[] coord2 = vector.getCartesianComponent();
 		for (int i = 0; i < coord1.length; i++) {
-			if (Math.abs(coord1[i] - coord2[i]) > Constants.MACHINE_DOUBLE_ERROR)
+			if (!coord1[i].equals(coord2[i]))
 				return false;
 		}
 		return true;
@@ -144,18 +139,18 @@ public class Vector3DCartesian implements MDVector {
 	}
 
 	@Override
-	public BigDecimal norm() {
-		BigDecimal norm = 0;
+	public MDNumber norm() {
+		MDNumber norm = cartesianCoordinates[0].zero();
 		for (int i = 0; i < 3; i++)
-			norm += cartesianCoordinates[i] * cartesianCoordinates[i];
-		return Math.sqrt(norm);
+			norm = norm.add(cartesianCoordinates[i].times(cartesianCoordinates[i]));
+		return norm.sqrt();
 	}
 
 	@Override
-	public MDVector multiply(BigDecimal c) {
-		BigDecimal x = cartesianCoordinates[0] * c;
-		BigDecimal y = cartesianCoordinates[1] * c;
-		BigDecimal z = cartesianCoordinates[2] * c;
+	public MDVector times(MDNumber c) {
+		MDNumber x = cartesianCoordinates[0].times(c);
+		MDNumber y = cartesianCoordinates[1].times(c);
+		MDNumber z = cartesianCoordinates[2].times(c);
 		return new Vector3DCartesian(x, y, z);
 	}
 

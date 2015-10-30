@@ -4,6 +4,9 @@ import org.jscience.mathematics.number.*;
 
 public class JScienceReal implements MDNumber {
 	private Real num;
+	public static final JScienceReal ONE = new JScienceReal(Real.ONE);
+	public static final JScienceReal ZERO = new JScienceReal(Real.ZERO);
+	
 
 	public JScienceReal(double in) {
 		num = Real.valueOf(in);
@@ -109,9 +112,13 @@ public class JScienceReal implements MDNumber {
 	}
 
 	@Override
-	public boolean equals(MDNumber that) {
-		checkinput(that);
-		return this.num.approximates(((JScienceReal) that).num);
+	public boolean equals(Object that) {
+		if (that==null) return false;
+		if (this==that) return true;
+		if (!(that instanceof JScienceReal)) return false;
+		JScienceReal input = (JScienceReal) that;
+		
+		return this.num.equals(input.num);
 	}
 	
 	public static void main(String[] args){
@@ -135,5 +142,15 @@ public class JScienceReal implements MDNumber {
 	@Override
 	public int toInt() {
 		return num.intValue();
+	}
+
+	@Override
+	public MDNumber zero() {
+		return ZERO;
+	}
+
+	@Override
+	public MDNumber one() {
+		return ONE;
 	}
 }

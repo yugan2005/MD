@@ -7,11 +7,14 @@ import org.nevec.rjm.BigDecimalMath;
 public class JavaBigDecimal implements MDNumber {
 	private static MathContext mc;
 	private BigDecimal num;
+	public static final JavaBigDecimal ONE = new JavaBigDecimal(BigDecimal.ONE);
+	public static final JavaBigDecimal ZERO = new JavaBigDecimal(BigDecimal.ZERO);
 	
+
 	public static void setMathContext(MathContext mathContext) {
 		mc = mathContext;
 	}
-	
+
 	public JavaBigDecimal(double in) {
 		num = new BigDecimal(in, mc);
 	}
@@ -78,16 +81,20 @@ public class JavaBigDecimal implements MDNumber {
 	public int getPrecision() {
 		return num.precision();
 	}
-	
+
 	@Override
-	public String toString(){
+	public String toString() {
 		return num.toString();
 	}
 
 	@Override
-	public boolean equals(MDNumber that) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean equals(Object that) {
+		if (that == null) return false;
+		if (this==that) return true;
+		if (!(that instanceof JavaBigDecimal)) return false;
+		JavaBigDecimal input = (JavaBigDecimal) that;
+		
+		return this.num.equals(input.num);
 	}
 
 	@Override
@@ -98,5 +105,15 @@ public class JavaBigDecimal implements MDNumber {
 	@Override
 	public int toInt() {
 		return num.intValue();
+	}
+
+	@Override
+	public MDNumber zero() {
+		return ZERO;
+	}
+
+	@Override
+	public MDNumber one() {
+		return ONE;
 	}
 }

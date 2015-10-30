@@ -18,12 +18,17 @@ public interface MDNumber {
 
 	public MDNumber pow(int in);
 	
+	public MDNumber zero();
+	
+	public MDNumber one();
+	
 	public int getPrecision();
 	
 	@Override
 	public String toString();
 	
-	public boolean equals(MDNumber that);
+	@Override
+	public boolean equals(Object that);
 	
 	public double toDouble();
 	

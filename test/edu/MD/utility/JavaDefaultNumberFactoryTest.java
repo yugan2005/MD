@@ -34,9 +34,7 @@ public class JavaDefaultNumberFactoryTest {
 		MDNumber z = javaDefaultNumberFactory.valueOf(9).times(x.pow(4)).minus(y.pow(4))
 				.add(javaDefaultNumberFactory.valueOf(2).times(y.pow(2)));
 		MDNumber expected = javaDefaultNumberFactory.valueOf(2); // correct value should be 1
-		double calculatedDouble = z.toDouble();
-		double expectedDouble = expected.toDouble();
-		assertThat(calculatedDouble, equalTo(expectedDouble));
+		assertThat(z, equalTo(expected));
 	}
 
 }
