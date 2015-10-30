@@ -16,10 +16,5 @@ public final class JavaBigDecimalFactory extends NumberFactory {
 	public MDNumber valueOf(double in) {
 		return new JavaBigDecimal(in);
 	}
-
-	@Override
-	public MDNumber valueOf(int in) {
-		return new JavaBigDecimal(in);
-	}
 	
 }

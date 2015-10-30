@@ -1,23 +1,25 @@
-package edu.MD.utility;
+package edu.MD.utilityBD;
+
+import edu.MD.number.MDNumber;
 
 public class Vector3DPolar implements MDVector {
 
 	@Override
 	public int getDimension() {
 		// TODO Auto-generated method stub
-		return 3;
+		return 0;
 	}
 
 	@Override
-	public double[] getCartesianComponent() {
+	public MDNumber[] getCartesianComponent() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public double getCartesianDistance(MDVector vector) {
+	public MDNumber getCartesianDistance(MDVector vector) {
 		// TODO Auto-generated method stub
-		return 0;
+		return null;
 	}
 
 	@Override
@@ -33,21 +35,16 @@ public class Vector3DPolar implements MDVector {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public double norm() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public MDVector times(double c) {
+	public MDNumber norm() {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public MDVector times(MDNumber c) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

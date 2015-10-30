@@ -35,19 +35,19 @@ public class LJForceCalculatorTest {
 	public void p1ForceOnP2IsOppositeOfP2ForceOnP1() {
 		MDVector p1 = new Vector3DCartesian(0, 0, 0);
 		MDVector p2 = new Vector3DCartesian(2 * sigma, 0, 0);
-		MDVector p1_p2 = p1.substraction(p2);
-		MDVector p2_p1 = p2.substraction(p1);
+		MDVector p1_p2 = p1.minus(p2);
+		MDVector p2_p1 = p2.minus(p1);
 
 		MDVector forceOnP1 = forceCalculator.calculate(p1_p2);
 		MDVector forceOnP2 = forceCalculator.calculate(p2_p1);
-		assertThat(forceOnP1.multiply(-1), equalTo(forceOnP2));
+		assertThat(forceOnP1.times(-1), equalTo(forceOnP2));
 	}
 
 	@Test
 	public void closeParticlesHaveRepelForce() {
 		MDVector p1 = new Vector3DCartesian(0, 0, 0);
 		MDVector p2 = new Vector3DCartesian(0.1 * sigma, 0, 0);
-		MDVector p1_p2 = p1.substraction(p2);
+		MDVector p1_p2 = p1.minus(p2);
 
 		MDVector forceOnP1 = forceCalculator.calculate(p1_p2);
 		assertThat(forceOnP1.getCartesianComponent()[0], lessThan(0.0));
@@ -59,7 +59,7 @@ public class LJForceCalculatorTest {
 	public void farParticlesHaveAttractForce() {
 		MDVector p1 = new Vector3DCartesian(0, 0, 0);
 		MDVector p2 = new Vector3DCartesian(2 * sigma, 0, 0);
-		MDVector p1_p2 = p1.substraction(p2);
+		MDVector p1_p2 = p1.minus(p2);
 
 		MDVector forceOnP1 = forceCalculator.calculate(p1_p2);
 		assertThat(forceOnP1.getCartesianComponent()[0], greaterThan(0.0));
@@ -72,26 +72,12 @@ public class LJForceCalculatorTest {
 		setSmallCutoffRadius(); // set the cutoff radius small
 		MDVector p1 = new Vector3DCartesian(0, 0, 0);
 		MDVector p2 = new Vector3DCartesian(cutoffRadius, 0, 0);
-		MDVector p1_p2 = p1.substraction(p2);
+		MDVector p1_p2 = p1.minus(p2);
 
 		MDVector forceOnP1 = forceCalculator.calculate(p1_p2);
 		assertThat(forceOnP1.getCartesianComponent()[0], closeTo(0.0, Constants.MACHINE_DOUBLE_ERROR));
 		assertThat(forceOnP1.getCartesianComponent()[1], closeTo(0.0, Constants.MACHINE_DOUBLE_ERROR));
 		assertThat(forceOnP1.getCartesianComponent()[2], closeTo(0.0, Constants.MACHINE_DOUBLE_ERROR));
-	}
-	
-	@Test
-	public void overCutoffParticlesHaveZeroForce(){
-		setSmallCutoffRadius(); // set the cutoff radius small
-		MDVector p1 = new Vector3DCartesian(0, 0, 0);
-		MDVector p2 = new Vector3DCartesian(2*cutoffRadius, 0, 0);
-		MDVector p1_p2 = p1.substraction(p2);
-
-		MDVector forceOnP1 = forceCalculator.calculate(p1_p2);
-		assertThat(forceOnP1.getCartesianComponent()[0], closeTo(0.0, Constants.MACHINE_DOUBLE_ERROR));
-		assertThat(forceOnP1.getCartesianComponent()[1], closeTo(0.0, Constants.MACHINE_DOUBLE_ERROR));
-		assertThat(forceOnP1.getCartesianComponent()[2], closeTo(0.0, Constants.MACHINE_DOUBLE_ERROR));
-
 	}
 	
 	private void setSmallCutoffRadius(){

@@ -11,10 +11,5 @@ public final class JavaDefaultNumberFactory extends NumberFactory {
 	public MDNumber valueOf(double in) {
 		return new JavaDefaultNumber(in);
 	}
-
-	@Override
-	public MDNumber valueOf(int in) {
-		return new JavaDefaultNumber(in);
-	}
 	
 }

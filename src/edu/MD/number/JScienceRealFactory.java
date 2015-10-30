@@ -13,9 +13,4 @@ public final class JScienceRealFactory extends NumberFactory {
 		return new JScienceReal(in);
 	}
 
-	@Override
-	public MDNumber valueOf(int in) {
-		return new JScienceReal(in);
-	}
-	
 }

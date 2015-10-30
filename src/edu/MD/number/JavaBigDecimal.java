@@ -19,10 +19,6 @@ public class JavaBigDecimal implements MDNumber {
 		num = new BigDecimal(in, mc);
 	}
 
-	public JavaBigDecimal(int in) {
-		num = new BigDecimal(in, mc);
-	}
-
 	public JavaBigDecimal(BigDecimal in) {
 		num = in;
 	}
@@ -88,6 +84,10 @@ public class JavaBigDecimal implements MDNumber {
 	}
 
 	@Override
+	public int hashCode(){
+		return num.hashCode();
+	}
+	@Override
 	public boolean equals(Object that) {
 		if (that == null) return false;
 		if (this==that) return true;
@@ -100,11 +100,6 @@ public class JavaBigDecimal implements MDNumber {
 	@Override
 	public double toDouble() {
 		return num.doubleValue();
-	}
-
-	@Override
-	public int toInt() {
-		return num.intValue();
 	}
 
 	@Override

@@ -18,7 +18,7 @@ import java.util.List;
  */
 public abstract class NumberFactory {
 	private static final List<String> NUMBER_TYPE = new ArrayList<String>(
-			Arrays.asList("JScienceRealFacotry", "JavaBigDecimalFactory", "JavaDefaultNumberFactory"));
+			Arrays.asList("JScienceRealFactory", "JavaBigDecimalFactory", "JavaDefaultNumberFactory"));
 	private static NumberFactory numFactory;
 	protected static int precision;
 
@@ -56,7 +56,7 @@ public abstract class NumberFactory {
 			throw new IllegalArgumentException(
 					"The type of number specified by numType has not been defined or added to the registry yet");
 		switch (numType) {
-		case "JScienceRealFacotry":
+		case "JScienceRealFactory":
 			numFactory = JScienceRealFactory.INSTANCE;
 			break;
 		case "JavaBigDecimalFactory":
@@ -88,6 +88,4 @@ public abstract class NumberFactory {
 	}
 
 	public abstract MDNumber valueOf(double in);
-
-	public abstract MDNumber valueOf(int in);
 }

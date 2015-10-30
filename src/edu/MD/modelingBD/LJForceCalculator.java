@@ -1,9 +1,7 @@
 package edu.MD.modelingBD;
 
-import java.math.BigDecimal;
 
-import edu.MD.number.JScienceReal;
-import edu.MD.number.MDNumber;
+import edu.MD.number.*;
 import edu.MD.utilityBD.MDVector;
 
 public class LJForceCalculator {
@@ -27,9 +25,10 @@ public class LJForceCalculator {
 	 *         exerted by p2
 	 */
 	public MDVector calculate(MDVector p1_p2) {
+		NumberFactory numFactory = NumberFactory.getInstance(); 
 		MDNumber norm = p1_p2.norm();
-		MDNumber coefficient = (JScienceReal.getJScienceReal(48)).times(epsilon).times(sigma12).divide(norm.pow(14)).minus((new BigDecimal(24).multiply(epsilon).multiply(sigma6).divide(norm.pow(8)))).add(cutoffPotential.divide(norm));
-		return p1_p2.multiply(coefficient);
+		MDNumber coefficient = numFactory.valueOf(48.0).times(epsilon).times(sigma12).divide(norm.pow(14)).minus(numFactory.valueOf(24.0).times(epsilon).times(sigma6).divide(norm.pow(8))).add(cutoffPotential.divide(norm));
+		return p1_p2.times(coefficient);
 	}
 
 	/**
@@ -41,7 +40,7 @@ public class LJForceCalculator {
 	 * @param cutoffPotential calculated using cutoff radius
 	 * @return LJForceCalculator
 	 */
-	public static LJForceCalculator getInstance(double sigma6, double sigma12, double epsilon, double cutoffPotential) {
+	public static LJForceCalculator getInstance(MDNumber sigma6, MDNumber sigma12, MDNumber epsilon, MDNumber cutoffPotential) {
 		return new LJForceCalculator(sigma6, sigma12, epsilon, cutoffPotential);
 	}
 

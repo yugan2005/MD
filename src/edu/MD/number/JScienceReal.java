@@ -2,6 +2,8 @@ package edu.MD.number;
 
 import org.jscience.mathematics.number.*;
 
+import edu.MD.utility.Constants;
+
 public class JScienceReal implements MDNumber {
 	private Real num;
 	public static final JScienceReal ONE = new JScienceReal(Real.ONE);
@@ -9,10 +11,6 @@ public class JScienceReal implements MDNumber {
 	
 
 	public JScienceReal(double in) {
-		num = Real.valueOf(in);
-	}
-
-	public JScienceReal(int in) {
 		num = Real.valueOf(in);
 	}
 
@@ -110,6 +108,11 @@ public class JScienceReal implements MDNumber {
 	public String toString(){
 		return num.toString();
 	}
+	
+	@Override
+	public int hashCode(){
+		return num.hashCode();
+	}
 
 	@Override
 	public boolean equals(Object that) {
@@ -121,27 +124,9 @@ public class JScienceReal implements MDNumber {
 		return this.num.equals(input.num);
 	}
 	
-	public static void main(String[] args){
-		NumberFactory.setFactorySetting("JScienceRealFacotry", 32);
-		NumberFactory jScienceRealFactory = NumberFactory.getInstance();
-
-
-		MDNumber x = jScienceRealFactory.valueOf(10864);
-		MDNumber y = jScienceRealFactory.valueOf(18817);
-		MDNumber z = jScienceRealFactory.valueOf(9).times(x.pow(4)).minus(y.pow(4))
-				.add(jScienceRealFactory.valueOf(2).times(y.pow(2)));
-		MDNumber expected = jScienceRealFactory.valueOf(1);
-		System.out.println(z.equals(expected));
-	}
-
 	@Override
 	public double toDouble() {
 		return num.doubleValue();
-	}
-
-	@Override
-	public int toInt() {
-		return num.intValue();
 	}
 
 	@Override
@@ -153,4 +138,5 @@ public class JScienceReal implements MDNumber {
 	public MDNumber one() {
 		return ONE;
 	}
+
 }

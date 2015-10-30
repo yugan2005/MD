@@ -1,5 +1,7 @@
 package edu.MD.number;
 
+import edu.MD.utility.Constants;
+
 public interface MDNumber {
 
 	public MDNumber abs();
@@ -30,7 +32,12 @@ public interface MDNumber {
 	@Override
 	public boolean equals(Object that);
 	
+	@Override
+	public int hashCode();
+	
 	public double toDouble();
 	
-	public int toInt();
+	public default boolean approximateEqual(MDNumber that) {
+		return Math.abs(this.toDouble()-that.toDouble())<Constants.MACHINE_DOUBLE_ERROR;
+	}
 }

@@ -27,7 +27,7 @@ public class LJForceCalculator {
 		double coefficient = 48 * epsilon * sigma12 / Math.pow(norm, 14) - 24 * epsilon * sigma6 / Math.pow(norm, 8)
 				+ cutoffPotential / norm;
 
-		return p1_p2.multiply(coefficient);
+		return p1_p2.times(coefficient);
 	}
 
 	/**

@@ -28,7 +28,7 @@ public class Vector3DCartesian implements MDVector {
 	}
 
 	@Override
-	public MDVector addition(MDVector vector) {
+	public MDVector add(MDVector vector) {
 		checkDimension(vector);
 		checkClass(vector);
 		if (vector.getClass() == Vector3DCartesian.class) {
@@ -48,7 +48,7 @@ public class Vector3DCartesian implements MDVector {
 	}
 
 	@Override
-	public MDVector substraction(MDVector vector) {
+	public MDVector minus(MDVector vector) {
 		checkDimension(vector);
 		checkClass(vector);
 		if (vector.getClass() == Vector3DCartesian.class) {
@@ -147,7 +147,7 @@ public class Vector3DCartesian implements MDVector {
 	}
 
 	@Override
-	public MDVector multiply(double c) {
+	public MDVector times(double c) {
 		double x = cartesianCoordinates[0] * c;
 		double y = cartesianCoordinates[1] * c;
 		double z = cartesianCoordinates[2] * c;

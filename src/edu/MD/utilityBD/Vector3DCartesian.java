@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import edu.MD.number.MDNumber;
+import edu.MD.number.NumberFactory;
 
 public class Vector3DCartesian implements MDVector {
 	private MDNumber[] cartesianCoordinates = new MDNumber[3];
@@ -14,6 +15,10 @@ public class Vector3DCartesian implements MDVector {
 		cartesianCoordinates[0] = x;
 		cartesianCoordinates[1] = y;
 		cartesianCoordinates[2] = z;
+	}
+	
+	public Vector3DCartesian(double x, double y, double z){
+		this(NumberFactory.getInstance().valueOf(x), NumberFactory.getInstance().valueOf(y), NumberFactory.getInstance().valueOf(z));
 	}
 
 	public Vector3DCartesian(MDNumber[] corrdinates) {
@@ -120,7 +125,7 @@ public class Vector3DCartesian implements MDVector {
 		MDNumber[] coord1 = getCartesianComponent();
 		MDNumber[] coord2 = vector.getCartesianComponent();
 		for (int i = 0; i < coord1.length; i++) {
-			if (!coord1[i].equals(coord2[i]))
+			if (!coord1[i].approximateEqual(coord2[i]))
 				return false;
 		}
 		return true;
