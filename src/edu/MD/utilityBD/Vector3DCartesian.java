@@ -1,10 +1,10 @@
 package edu.MD.utilityBD;
 
-import edu.MD.utility.MDNumber;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import edu.MD.number.MDNumber;
 
 public class Vector3DCartesian implements MDVector {
 	private MDNumber[] cartesianCoordinates = new MDNumber[3];

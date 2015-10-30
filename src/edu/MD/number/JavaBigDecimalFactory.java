@@ -1,4 +1,4 @@
-package edu.MD.utility;
+package edu.MD.number;
 
 import java.math.MathContext;
 import java.math.RoundingMode;

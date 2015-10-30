@@ -1,4 +1,4 @@
-package edu.MD.utility;
+package edu.MD.number;
 
 import static org.junit.Assert.assertTrue;
 
@@ -6,6 +6,8 @@ import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+
+import edu.MD.number.NumberFactory;
 
 public class NumberFactoryTest {
 	

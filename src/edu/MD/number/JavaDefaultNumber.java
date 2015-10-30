@@ -1,4 +1,6 @@
-package edu.MD.utility;
+package edu.MD.number;
+
+import edu.MD.utility.Constants;
 
 public class JavaDefaultNumber implements MDNumber {
 	private double numDouble;

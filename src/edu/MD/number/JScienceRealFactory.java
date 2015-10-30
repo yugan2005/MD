@@ -1,4 +1,4 @@
-package edu.MD.utility;
+package edu.MD.number;
 
 public final class JScienceRealFactory extends NumberFactory {
 	public static final JScienceRealFactory INSTANCE=new JScienceRealFactory();

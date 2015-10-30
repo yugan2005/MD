@@ -2,8 +2,8 @@ package edu.MD.modelingBD;
 
 import java.math.BigDecimal;
 
-import edu.MD.utility.JScienceReal;
-import edu.MD.utility.MDNumber;
+import edu.MD.number.JScienceReal;
+import edu.MD.number.MDNumber;
 import edu.MD.utilityBD.MDVector;
 
 public class LJForceCalculator {
