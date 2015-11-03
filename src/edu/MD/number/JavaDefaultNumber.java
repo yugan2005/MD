@@ -4,7 +4,6 @@ public class JavaDefaultNumber implements MDNumber {
 	private double num;
 	public static final JavaDefaultNumber ONE = new JavaDefaultNumber(1);
 	public static final JavaDefaultNumber ZERO = new JavaDefaultNumber(0);
-	
 
 	public JavaDefaultNumber(double in) {
 		num = in;
@@ -73,22 +72,25 @@ public class JavaDefaultNumber implements MDNumber {
 		if (!(in instanceof JavaDefaultNumber))
 			throw new IllegalArgumentException("The number type is not compatible!");
 	}
-	
+
 	@Override
-	public String toString(){
-		return ""+num;
+	public String toString() {
+		return "" + num;
 	}
 
 	@Override
-	public int hashCode(){
+	public int hashCode() {
 		return ((Double) num).hashCode();
 	}
-	
+
 	@Override
 	public boolean equals(Object that) {
-		if (that == null) return false;
-		if (this==that) return true;
-		if (!(that instanceof JavaDefaultNumber)) return false;
+		if (that == null)
+			return false;
+		if (this == that)
+			return true;
+		if (!(that instanceof JavaDefaultNumber))
+			return false;
 		JavaDefaultNumber input = (JavaDefaultNumber) that;
 		return ((Double) num).equals(input.num);
 	}
@@ -98,7 +100,6 @@ public class JavaDefaultNumber implements MDNumber {
 		return num;
 	}
 
-
 	@Override
 	public MDNumber zero() {
 		return ZERO;
@@ -107,6 +108,26 @@ public class JavaDefaultNumber implements MDNumber {
 	@Override
 	public MDNumber one() {
 		return ONE;
+	}
+
+	@Override
+	public MDNumber add(double in) {
+		return new JavaDefaultNumber(num + in);
+	}
+
+	@Override
+	public MDNumber minus(double in) {
+		return new JavaDefaultNumber(num - in);
+	}
+
+	@Override
+	public MDNumber times(double in) {
+		return new JavaDefaultNumber(num * in);
+	}
+
+	@Override
+	public MDNumber divide(double in) {
+		return new JavaDefaultNumber(num / in);
 	}
 
 }

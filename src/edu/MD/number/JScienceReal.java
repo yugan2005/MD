@@ -8,7 +8,6 @@ public class JScienceReal implements MDNumber {
 	private Real num;
 	public static final JScienceReal ONE = new JScienceReal(Real.ONE);
 	public static final JScienceReal ZERO = new JScienceReal(Real.ZERO);
-	
 
 	public JScienceReal(double in) {
 		num = Real.valueOf(in);
@@ -90,7 +89,8 @@ public class JScienceReal implements MDNumber {
 	}
 
 	private void checkinput(MDNumber in) {
-		if (in == null) throw new IllegalArgumentException("The input cannot be null");
+		if (in == null)
+			throw new IllegalArgumentException("The input cannot be null");
 		if (!(in instanceof JScienceReal))
 			throw new IllegalArgumentException("The number type is not compatible!");
 	}
@@ -103,27 +103,30 @@ public class JScienceReal implements MDNumber {
 	public static void setPrecision(int precision) {
 		Real.setExactPrecision(precision);
 	}
-	
+
 	@Override
-	public String toString(){
+	public String toString() {
 		return num.toString();
 	}
-	
+
 	@Override
-	public int hashCode(){
+	public int hashCode() {
 		return num.hashCode();
 	}
 
 	@Override
 	public boolean equals(Object that) {
-		if (that==null) return false;
-		if (this==that) return true;
-		if (!(that instanceof JScienceReal)) return false;
+		if (that == null)
+			return false;
+		if (this == that)
+			return true;
+		if (!(that instanceof JScienceReal))
+			return false;
 		JScienceReal input = (JScienceReal) that;
-		
+
 		return this.num.equals(input.num);
 	}
-	
+
 	@Override
 	public double toDouble() {
 		return num.doubleValue();
@@ -137,6 +140,26 @@ public class JScienceReal implements MDNumber {
 	@Override
 	public MDNumber one() {
 		return ONE;
+	}
+
+	@Override
+	public MDNumber add(double in) {
+		return new JScienceReal(num.plus(Real.valueOf(in)));
+	}
+
+	@Override
+	public MDNumber minus(double in) {
+		return new JScienceReal(num.minus(Real.valueOf(in)));
+	}
+
+	@Override
+	public MDNumber times(double in) {
+		return new JScienceReal(num.times(Real.valueOf(in)));
+	}
+
+	@Override
+	public MDNumber divide(double in) {
+		return new JScienceReal(num.divide(Real.valueOf(in)));
 	}
 
 }

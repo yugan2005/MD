@@ -9,7 +9,6 @@ public class JavaBigDecimal implements MDNumber {
 	private BigDecimal num;
 	public static final JavaBigDecimal ONE = new JavaBigDecimal(BigDecimal.ONE);
 	public static final JavaBigDecimal ZERO = new JavaBigDecimal(BigDecimal.ZERO);
-	
 
 	public static void setMathContext(MathContext mathContext) {
 		mc = mathContext;
@@ -84,16 +83,20 @@ public class JavaBigDecimal implements MDNumber {
 	}
 
 	@Override
-	public int hashCode(){
+	public int hashCode() {
 		return num.hashCode();
 	}
+
 	@Override
 	public boolean equals(Object that) {
-		if (that == null) return false;
-		if (this==that) return true;
-		if (!(that instanceof JavaBigDecimal)) return false;
+		if (that == null)
+			return false;
+		if (this == that)
+			return true;
+		if (!(that instanceof JavaBigDecimal))
+			return false;
 		JavaBigDecimal input = (JavaBigDecimal) that;
-		
+
 		return this.num.equals(input.num);
 	}
 
@@ -110,5 +113,25 @@ public class JavaBigDecimal implements MDNumber {
 	@Override
 	public MDNumber one() {
 		return ONE;
+	}
+
+	@Override
+	public MDNumber add(double in) {
+		return new JavaBigDecimal(num.add(new BigDecimal(in, mc), mc));
+	}
+
+	@Override
+	public MDNumber minus(double in) {
+		return new JavaBigDecimal(num.subtract(new BigDecimal(in, mc), mc));
+	}
+
+	@Override
+	public MDNumber times(double in) {
+		return new JavaBigDecimal(num.multiply(new BigDecimal(in, mc), mc));
+	}
+
+	@Override
+	public MDNumber divide(double in) {
+		return new JavaBigDecimal(num.divide(new BigDecimal(in, mc), mc));
 	}
 }
