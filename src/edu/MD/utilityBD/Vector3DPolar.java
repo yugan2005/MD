@@ -46,5 +46,35 @@ public class Vector3DPolar implements MDVector {
 		return null;
 	}
 
+	@Override
+	public MDVector add(MDNumber c) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public MDVector elementwiseTimes(MDVector vector) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public MDVector elementwiseDivide(MDVector vector) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public MDVector floor() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public MDVector add(double c) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

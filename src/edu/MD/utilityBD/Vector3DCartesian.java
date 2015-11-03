@@ -8,17 +8,18 @@ import edu.MD.number.MDNumber;
 import edu.MD.number.NumberFactory;
 
 public class Vector3DCartesian implements MDVector {
+	private static final List<String> SUPPORTED_VECTOR_TYPE = new ArrayList<String>(Arrays.asList("Vector3DCartesian"));
+	private final static NumberFactory numberFactory = NumberFactory.getInstance();
 	private MDNumber[] cartesianCoordinates = new MDNumber[3];
-	private static final List<Class<?>> supportedClass = new ArrayList<>(Arrays.asList(Vector3DCartesian.class));
 
 	public Vector3DCartesian(MDNumber x, MDNumber y, MDNumber z) {
 		cartesianCoordinates[0] = x;
 		cartesianCoordinates[1] = y;
 		cartesianCoordinates[2] = z;
 	}
-	
-	public Vector3DCartesian(double x, double y, double z){
-		this(NumberFactory.getInstance().valueOf(x), NumberFactory.getInstance().valueOf(y), NumberFactory.getInstance().valueOf(z));
+
+	public Vector3DCartesian(double x, double y, double z) {
+		this(numberFactory.valueOf(x), numberFactory.valueOf(y), numberFactory.valueOf(z));
 	}
 
 	public Vector3DCartesian(MDNumber[] corrdinates) {
@@ -38,8 +39,14 @@ public class Vector3DCartesian implements MDVector {
 	public MDVector add(MDVector vector) {
 		checkDimension(vector);
 		checkClass(vector);
-		if (vector.getClass() == Vector3DCartesian.class) {
-			return addVector3DCartesian((Vector3DCartesian) vector);
+		Vector3DCartesian that = castToVector3DCartesian(vector);
+		return addVector3DCartesian(that);
+	}
+
+	private Vector3DCartesian castToVector3DCartesian(MDVector vector) {
+		switch (vector.getClass().getSimpleName()) {
+			case "Vector3DCartesian":
+				return (Vector3DCartesian) vector;
 		}
 		return null;
 	}
@@ -48,20 +55,16 @@ public class Vector3DCartesian implements MDVector {
 	public MDNumber getCartesianDistance(MDVector vector) {
 		checkDimension(vector);
 		checkClass(vector);
-		if (vector.getClass() == Vector3DCartesian.class) {
-			return getDistanceOfTwo3DCartesian((Vector3DCartesian) vector);
-		}
-		return null;
+		Vector3DCartesian that = castToVector3DCartesian(vector);
+		return this.minus(that).norm();
 	}
 
 	@Override
 	public MDVector minus(MDVector vector) {
 		checkDimension(vector);
 		checkClass(vector);
-		if (vector.getClass() == Vector3DCartesian.class) {
-			return subtractVector3DCartesian((Vector3DCartesian) vector);
-		}
-		return null;
+		Vector3DCartesian that = castToVector3DCartesian(vector);
+		return subtractVector3DCartesian(that);
 	}
 
 	@Override
@@ -83,13 +86,11 @@ public class Vector3DCartesian implements MDVector {
 
 		if (getDimension() != vector.getDimension())
 			return false;
-		if (!supportedClass.contains(vector.getClass()))
+		if (!SUPPORTED_VECTOR_TYPE.contains(vector.getClass().getSimpleName()))
 			return false;
-		if (vector.getClass() == Vector3DCartesian.class) {
-			return equals((Vector3DCartesian) vector);
-		}
-
-		return false;
+		
+		Vector3DCartesian that = castToVector3DCartesian(vector);
+		return equals(that);
 	}
 
 	@Override
@@ -111,16 +112,6 @@ public class Vector3DCartesian implements MDVector {
 		return new Vector3DCartesian(x, y, z);
 	}
 
-	private MDNumber getDistanceOfTwo3DCartesian(Vector3DCartesian vector) {
-		MDNumber result = cartesianCoordinates[0].zero();
-		MDNumber[] coord1 = vector.getCartesianComponent();
-		MDNumber[] coord2 = vector.getCartesianComponent();
-		for (int i = 0; i < coord1.length; i++) {
-			result = result.add(coord1[i].minus(coord2[i])).times(coord1[i].minus(coord2[i]));
-		}
-		return result;
-	}
-
 	private boolean equals(Vector3DCartesian vector) {
 		MDNumber[] coord1 = getCartesianComponent();
 		MDNumber[] coord2 = vector.getCartesianComponent();
@@ -139,13 +130,14 @@ public class Vector3DCartesian implements MDVector {
 	}
 
 	private void checkClass(MDVector vector) {
-		if (!supportedClass.contains(vector.getClass()))
-			throw new IllegalArgumentException(vector.getClass().getName() + " is not supported for vector operation.");
+		if (!SUPPORTED_VECTOR_TYPE.contains(vector.getClass().getSimpleName()))
+			throw new IllegalArgumentException(
+					vector.getClass().getSimpleName() + " is not supported for vector operation.");
 	}
 
 	@Override
 	public MDNumber norm() {
-		MDNumber norm = cartesianCoordinates[0].zero();
+		MDNumber norm = numberFactory.valueOf(0);
 		for (int i = 0; i < 3; i++)
 			norm = norm.add(cartesianCoordinates[i].times(cartesianCoordinates[i]));
 		return norm.sqrt();
@@ -156,6 +148,52 @@ public class Vector3DCartesian implements MDVector {
 		MDNumber x = cartesianCoordinates[0].times(c);
 		MDNumber y = cartesianCoordinates[1].times(c);
 		MDNumber z = cartesianCoordinates[2].times(c);
+		return new Vector3DCartesian(x, y, z);
+	}
+
+	@Override
+	public MDVector add(MDNumber c) {
+		MDNumber x = cartesianCoordinates[0].add(c);
+		MDNumber y = cartesianCoordinates[1].add(c);
+		MDNumber z = cartesianCoordinates[2].add(c);
+		return new Vector3DCartesian(x, y, z);
+	}
+	
+	@Override
+	public MDVector add(double c) {
+		MDNumber x = cartesianCoordinates[0].add(c);
+		MDNumber y = cartesianCoordinates[1].add(c);
+		MDNumber z = cartesianCoordinates[2].add(c);
+		return new Vector3DCartesian(x, y, z);
+	}
+
+	@Override
+	public MDVector elementwiseTimes(MDVector vector) {
+		checkDimension(vector);
+		checkClass(vector);
+		Vector3DCartesian that = castToVector3DCartesian(vector);
+		MDNumber x = cartesianCoordinates[0].times(that.getCartesianComponent()[0]);
+		MDNumber y = cartesianCoordinates[1].times(that.getCartesianComponent()[1]);
+		MDNumber z = cartesianCoordinates[2].times(that.getCartesianComponent()[2]);
+		return new Vector3DCartesian(x, y, z);
+	}
+
+	@Override
+	public MDVector elementwiseDivide(MDVector vector) {
+		checkDimension(vector);
+		checkClass(vector);
+		Vector3DCartesian that = castToVector3DCartesian(vector);
+		MDNumber x = cartesianCoordinates[0].divide(that.getCartesianComponent()[0]);
+		MDNumber y = cartesianCoordinates[1].divide(that.getCartesianComponent()[1]);
+		MDNumber z = cartesianCoordinates[2].divide(that.getCartesianComponent()[2]);
+		return new Vector3DCartesian(x, y, z);
+	}
+
+	@Override
+	public MDVector floor() {
+		MDNumber x = numberFactory.valueOf(Math.floor(cartesianCoordinates[0].toDouble()));
+		MDNumber y = numberFactory.valueOf(Math.floor(cartesianCoordinates[1].toDouble()));
+		MDNumber z = numberFactory.valueOf(Math.floor(cartesianCoordinates[2].toDouble()));
 		return new Vector3DCartesian(x, y, z);
 	}
 

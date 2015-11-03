@@ -7,6 +7,8 @@ public interface MDVector {
 	public MDNumber[] getCartesianComponent();
 	public MDNumber getCartesianDistance(MDVector vector);
 	public MDVector add(MDVector vector);
+	public MDVector add(MDNumber c);
+	public MDVector add(double c);
 	public MDVector minus(MDVector vector);
 	
 	@Override
@@ -15,5 +17,8 @@ public interface MDVector {
 	public int hashCode();
 	public MDNumber norm();
 	public MDVector times(MDNumber c);
+	public MDVector elementwiseTimes(MDVector vector);
+	public MDVector elementwiseDivide(MDVector vector);
+	public MDVector floor();
 
 }
