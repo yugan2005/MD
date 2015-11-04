@@ -19,7 +19,7 @@ import java.util.List;
 public abstract class NumberFactory {
 	private static final List<String> NUMBER_TYPE = new ArrayList<String>(
 			Arrays.asList("JScienceRealFactory", "JavaBigDecimalFactory", "JavaDefaultNumberFactory"));
-	private static NumberFactory numFactory;
+	private static NumberFactory numberFactory;
 	protected static int precision;
 
 	protected NumberFactory() {
@@ -31,8 +31,8 @@ public abstract class NumberFactory {
 	 * @return the singleton factory
 	 */
 	public static synchronized NumberFactory getInstance() {
-		if (numFactory != null)
-			return numFactory;
+		if (numberFactory != null)
+			return numberFactory;
 		else
 			throw new UnsupportedOperationException(
 					"The number facotry has not been initialized yet, use setFactorySetting(String numType, int precision) method first!");
@@ -48,7 +48,7 @@ public abstract class NumberFactory {
 	 *            precision of 16 digits
 	 */
 	public static synchronized void setFactorySetting(String numType, int setPrecision) {
-		if (numFactory != null)
+		if (numberFactory != null)
 			throw new UnsupportedOperationException(
 					"The number facotry has been set and cannot be set again, use getInstance() to get the singleton instance");
 		precision = setPrecision;
@@ -57,10 +57,10 @@ public abstract class NumberFactory {
 					"The type of number specified by numType has not been defined or added to the registry yet");
 		switch (numType) {
 		case "JScienceRealFactory":
-			numFactory = JScienceRealFactory.INSTANCE;
+			numberFactory = JScienceRealFactory.INSTANCE;
 			break;
 		case "JavaBigDecimalFactory":
-			numFactory = JavaBigDecimalFactory.INSTANCE;
+			numberFactory = JavaBigDecimalFactory.INSTANCE;
 			break;
 		case "JavaDefaultNumberFactory":
 			throw new IllegalArgumentException("JavaDefaultNumberFactory should be set without precision");
@@ -68,21 +68,21 @@ public abstract class NumberFactory {
 	}
 
 	public static synchronized void setFactorySetting(String numType) {
-		if (numFactory != null)
+		if (numberFactory != null)
 			throw new UnsupportedOperationException(
 					"The number facotry has been set and cannot be set again, use getInstance() to get the singleton instance");
 		if (!(numType.equals("JavaDefaultNumberFactory")))
 			throw new IllegalArgumentException(
 					"The type of number specified by numType need specify the precision too. Only JavaDefaultNumberFactory can be set without precision.");
 
-		numFactory = JavaDefaultNumberFactory.INSTANCE;
+		numberFactory = JavaDefaultNumberFactory.INSTANCE;
 	}
 
 	public static String getFactorySetting() {
-		if (numFactory == null)
+		if (numberFactory == null)
 			return "The number factory has not been initialized yet";
-		String currentSetting = "Number factory Type is: " + numFactory.getClass().getName() + "/n";
-		if (!(numFactory instanceof JavaDefaultNumberFactory))
+		String currentSetting = "Number factory Type is: " + numberFactory.getClass().getName() + "/n";
+		if (!(numberFactory instanceof JavaDefaultNumberFactory))
 			currentSetting += "precision is: " + precision + "/n";
 		return currentSetting;
 	}

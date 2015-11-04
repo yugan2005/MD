@@ -19,16 +19,21 @@ public class LJForceCalculatorTest {
 	private LJForceCalculator forceCalculator;
 	private MDNumber sigma;
 	private double cutoff;
-	private NumberFactory numFactory;
-
+	private static NumberFactory numFactory;
+	
 	@BeforeClass
-	public static void globalInit() {
-		NumberFactory.setFactorySetting("JavaBigDecimalFactory", 32);
+	public void globalInit(){
+		try {
+			numFactory = NumberFactory.getInstance();
+		}
+		catch (UnsupportedOperationException ex){
+			NumberFactory.setFactorySetting("JavaBigDecimalFactory", 32);
+			numFactory = NumberFactory.getInstance();
+		}
 	}
 
 	@Before
 	public void init() {
-		numFactory = NumberFactory.getInstance();
 		cutoff = 5;
 		forceCalculator = LJForceCalculator.getInstance("ARGON-ARGON-"+String.valueOf(cutoff));
 		sigma = PotentialConstants.getSigma("ARGON");
