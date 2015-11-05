@@ -22,24 +22,6 @@ public class LJForceCalculator {
 	}
 
 	/**
-	 * The distance vector should be the output of the distanceFinder.</n>
-	 * 
-	 * If in PBC system, the minimum image convention should already be
-	 * applied</n>
-	 * 
-	 * @param p1_p2
-	 *            Distance vector from p2 to p1, i.e. vector p1_p2. </n>
-	 * @return Force vector of particle p1, i.e. the force acting on p1 and is
-	 *         exerted by p2
-	 */
-	public MDVector calculate(MDVector p1_p2) {
-		MDNumber norm = p1_p2.norm();
-		MDNumber coefficient = epsilon.times(48).times(sigma12).divide(norm.pow(14))
-				.minus(epsilon.times(24).times(sigma6).divide(norm.pow(8))).add(cutoffPotential.divide(norm));
-		return p1_p2.times(coefficient);
-	}
-
-	/**
 	 * Factory method, get a configured LJForceCalculator
 	 * 
 	 * @param "type":
@@ -73,6 +55,25 @@ public class LJForceCalculator {
 			instances.put(type, new LJForceCalculator(sigma6, sigma12, epsilon, cutoffPotential));
 		}
 		return instances.get(type);
+	}
+	
+
+	/**
+	 * The distance vector should be the output of the distanceFinder.</n>
+	 * 
+	 * If in PBC system, the minimum image convention should already be
+	 * applied</n>
+	 * 
+	 * @param p1_p2
+	 *            Distance vector from p2 to p1, i.e. vector p1_p2. </n>
+	 * @return Force vector of particle p1, i.e. the force acting on p1 and is
+	 *         exerted by p2
+	 */
+	public MDVector calculate(MDVector p1_p2) {
+		MDNumber norm = p1_p2.norm();
+		MDNumber coefficient = epsilon.times(48).times(sigma12).divide(norm.pow(14))
+				.minus(epsilon.times(24).times(sigma6).divide(norm.pow(8))).add(cutoffPotential.divide(norm));
+		return p1_p2.times(coefficient);
 	}
 
 }

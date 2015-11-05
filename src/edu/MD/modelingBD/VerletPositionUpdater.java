@@ -8,26 +8,26 @@ import edu.MD.number.NumberFactory;
 import edu.MD.utilityBD.MDVector;
 import edu.MD.utilityBD.Constants;
 
-public class VelocityUpdater {
+public class VerletPositionUpdater {
 	private static NumberFactory numberFactory = NumberFactory.getInstance();
-	private static Map<String, VelocityUpdater> instances = new HashMap<>();
+	private static Map<String, VerletPositionUpdater> instances = new HashMap<>();
 
 	private MDNumber mass, dt;
 
-	private VelocityUpdater(MDNumber mass, MDNumber dt) {
+	private VerletPositionUpdater(MDNumber mass, MDNumber dt) {
 		this.mass = mass;
 		this.dt = dt;
 	}
 
 	/**
-	 * Factory method, get a configured VelocityUpdater
+	 * Factory method, get a configured VerletPositionUpdater
 	 * 
 	 * @param type
 	 *            In form of 'ARGON_1e-15'. The last 1e-15 means the delta time
 	 *            is 1e-15 second.
-	 * @return VelocityUpdater instance (from the HashMap)
+	 * @return VerletPositionUpdater instance (from the HashMap)
 	 */
-	public static VelocityUpdater getInstance(String type) {
+	public static VerletPositionUpdater getInstance(String type) {
 		if (instances.get(type) == null) {
 			String name = type.split("_")[0];
 			MDNumber dt = numberFactory.valueOf(Double.parseDouble(type.split("_")[1]));
@@ -37,19 +37,26 @@ public class VelocityUpdater {
 			} catch (IllegalArgumentException ex) {
 				throw new IllegalArgumentException("The particle name is not correct, should be like 'ARGON_1e-15");
 			}
-			instances.put(type, new VelocityUpdater(mass, dt));
+			instances.put(type, new VerletPositionUpdater(mass, dt));
 		}
 		return instances.get(type);
 	}
 	
 	/**
-	 * This method uses the full timestep dt instead of dt/2 like in velocity Verlet algorithm
+	 * Refer to my PhD Thesis paper flow chart Fig3.11 P89 of 139
+	 * @param oldPosition
 	 * @param oldVelocity
 	 * @param forceVector
-	 * @return newVelocity
+	 * @return newPosition
 	 */
-	public MDVector calculate(MDVector oldVelocity, MDVector forceVector){
-		return oldVelocity.add(forceVector.divide(mass).times(dt));
+	public MDVector calculate(MDVector oldPosition, MDVector oldVelocity, MDVector forceVector, MDVector systemBoundary){
+		MDVector newPosition = oldPosition.add(oldVelocity.times(dt)).add(forceVector.times(dt.pow(2)).divide(mass.times(2)));
+		newPosition = applyPBC(newPosition, systemBoundary);
+		return newPosition;
+	}
+	
+	private MDVector applyPBC(MDVector positionBeforePBC, MDVector systemBoundary){
+		
 	}
 
 }

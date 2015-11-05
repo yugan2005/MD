@@ -15,7 +15,7 @@ public class PBCPairwiseDistanceFinder implements IDistanceFinder {
 	 * @see edu.MD.modelingBD.IDistanceFinder#findDistance
 	 */
 	@Override
-	public MDVector findDistance(MDVector p1Position, MDVector p2Position, MDVector systemBoundary) {
+	public MDVector calculate(MDVector p1Position, MDVector p2Position, MDVector systemBoundary) {
 
 		MDVector distanceVector = p1Position.minus(p2Position);
 		// corner case, when the distance is right at the middle of the System
