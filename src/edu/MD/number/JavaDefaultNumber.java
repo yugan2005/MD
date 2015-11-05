@@ -1,7 +1,5 @@
 package edu.MD.number;
 
-import edu.MD.utilityBD.Constants;
-
 public class JavaDefaultNumber implements MDNumber {
 	private double num;
 	public static final JavaDefaultNumber ONE = new JavaDefaultNumber(1);

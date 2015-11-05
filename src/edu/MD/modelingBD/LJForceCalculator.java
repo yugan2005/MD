@@ -28,7 +28,7 @@ public class LJForceCalculator {
 	 * applied</n>
 	 * 
 	 * @param p1_p2
-	 *            Distance vector from p2 to p1, i.e. vector p1-p2. </n>
+	 *            Distance vector from p2 to p1, i.e. vector p1_p2. </n>
 	 * @return Force vector of particle p1, i.e. the force acting on p1 and is
 	 *         exerted by p2
 	 */
@@ -43,16 +43,16 @@ public class LJForceCalculator {
 	 * Factory method, get a configured LJForceCalculator
 	 * 
 	 * @param "type":
-	 *            String: in form of 'ARGON-ARGON-5.0'. The last 5.0 means the
+	 *            String: in form of 'ARGON_ARGON_5.0'. The last 5.0 means the
 	 *            cutoff radius is 5 times its averaged sigma potential
 	 *            parameter.
 	 * @return LJForceCalculator instance (from the HashMap)
 	 */
 	public static LJForceCalculator getInstance(String type) {
 		if (instances.get(type) == null) {
-			String p1Name = type.split("-")[0];
-			String p2Name = type.split("-")[1];
-			double cutoff = Double.parseDouble(type.split("-")[2]);
+			String p1Name = type.split("_")[0];
+			String p2Name = type.split("_")[1];
+			double cutoff = Double.parseDouble(type.split("_")[2]);
 			MDNumber p1Sigma, p2Sigma, p1Epsilon, p2Epsilon;
 			try {
 				p1Sigma = PotentialConstants.getSigma(p1Name);
@@ -60,7 +60,7 @@ public class LJForceCalculator {
 				p1Epsilon = PotentialConstants.getEpsilon(p1Name);
 				p2Epsilon = PotentialConstants.getEpsilon(p2Name);
 			} catch (IllegalArgumentException ex) {
-				throw new IllegalArgumentException("The type name is not correct, should be like 'ARGON-ARGON-5.0");
+				throw new IllegalArgumentException("The type name is not correct, should be like 'ARGON_ARGON_5.0");
 			}
 
 			MDNumber sigma = p1Sigma.add(p2Sigma).divide(2);

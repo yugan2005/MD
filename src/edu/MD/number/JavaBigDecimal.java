@@ -4,8 +4,6 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import org.nevec.rjm.BigDecimalMath;
 
-import edu.MD.utilityBD.Constants;
-
 public class JavaBigDecimal implements MDNumber {
 	private static MathContext mc;
 	private BigDecimal num;
