@@ -45,8 +45,8 @@ public class Vector3DCartesian implements MDVector {
 
 	private Vector3DCartesian castToVector3DCartesian(MDVector vector) {
 		switch (vector.getClass().getSimpleName()) {
-			case "Vector3DCartesian":
-				return (Vector3DCartesian) vector;
+		case "Vector3DCartesian":
+			return (Vector3DCartesian) vector;
 		}
 		return null;
 	}
@@ -88,7 +88,7 @@ public class Vector3DCartesian implements MDVector {
 			return false;
 		if (!SUPPORTED_VECTOR_TYPE.contains(vector.getClass().getSimpleName()))
 			return false;
-		
+
 		Vector3DCartesian that = castToVector3DCartesian(vector);
 		return equals(that);
 	}
@@ -158,7 +158,7 @@ public class Vector3DCartesian implements MDVector {
 		MDNumber z = cartesianCoordinates[2].add(c);
 		return new Vector3DCartesian(x, y, z);
 	}
-	
+
 	@Override
 	public MDVector add(double c) {
 		MDNumber x = cartesianCoordinates[0].add(c);
@@ -195,6 +195,49 @@ public class Vector3DCartesian implements MDVector {
 		MDNumber y = numberFactory.valueOf(Math.floor(cartesianCoordinates[1].toDouble()));
 		MDNumber z = numberFactory.valueOf(Math.floor(cartesianCoordinates[2].toDouble()));
 		return new Vector3DCartesian(x, y, z);
+	}
+
+	@Override
+	public MDVector minus(double c) {
+		MDNumber x = cartesianCoordinates[0].minus(c);
+		MDNumber y = cartesianCoordinates[1].minus(c);
+		MDNumber z = cartesianCoordinates[2].minus(c);
+		return new Vector3DCartesian(x, y, z);
+	}
+
+	@Override
+	public MDVector times(double c) {
+		MDNumber x = cartesianCoordinates[0].times(c);
+		MDNumber y = cartesianCoordinates[1].times(c);
+		MDNumber z = cartesianCoordinates[2].times(c);
+		return new Vector3DCartesian(x, y, z);
+	}
+
+	@Override
+	public MDVector divide(MDNumber c) {
+		MDNumber x = cartesianCoordinates[0].divide(c);
+		MDNumber y = cartesianCoordinates[1].divide(c);
+		MDNumber z = cartesianCoordinates[2].divide(c);
+		return new Vector3DCartesian(x, y, z);
+	}
+
+	@Override
+	public MDVector divide(double c) {
+		MDNumber x = cartesianCoordinates[0].divide(c);
+		MDNumber y = cartesianCoordinates[1].divide(c);
+		MDNumber z = cartesianCoordinates[2].divide(c);
+		return new Vector3DCartesian(x, y, z);
+	}
+
+	@Override
+	public boolean approximateEqual(MDVector vector) {
+		checkDimension(vector);
+		checkClass(vector);
+		Vector3DCartesian that = castToVector3DCartesian(vector);
+		for (int i=0; i<that.getDimension(); i++){
+			if (!this.cartesianCoordinates[i].approximateEqual(that.cartesianCoordinates[i])) return false;
+		}
+		return true;
 	}
 
 }

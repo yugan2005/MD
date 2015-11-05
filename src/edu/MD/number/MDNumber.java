@@ -1,6 +1,6 @@
 package edu.MD.number;
 
-import edu.MD.utility.Constants;
+import edu.MD.utilityBD.Constants;
 
 public interface MDNumber {
 
@@ -45,7 +45,24 @@ public interface MDNumber {
 
 	public double toDouble();
 
-	public default boolean approximateEqual(MDNumber that) {
-		return Math.abs(this.toDouble() - that.toDouble()) < Constants.MACHINE_DOUBLE_ERROR;
+	/**
+	 * Use Constants.RELATIVE_DOUBLE_ERROR to decide whether they are equal
+	 */
+	public default boolean approximateEqual(double in) {
+		if (in == 0)
+			return Math.abs(this.toDouble()) < Constants.MACHINE_DOUBLE_ERROR;
+		return Math.abs(this.divide(in).minus(1).toDouble()) < Constants.RELATIVE_DOUBLE_ERROR;
 	}
+
+	/**
+	 * Use Constants.RELATIVE_DOUBLE_ERROR to decide whether they are equal
+	 */
+	public default boolean approximateEqual(MDNumber in) {
+		if (in.toDouble() == 0)
+			return Math.abs(this.toDouble()) < Constants.MACHINE_DOUBLE_ERROR;
+		return Math.abs(this.divide(in).minus(1).toDouble()) < Constants.RELATIVE_DOUBLE_ERROR;
+
+	}
+
+	public MDNumber floor();
 }

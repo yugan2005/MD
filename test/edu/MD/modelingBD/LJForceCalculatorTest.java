@@ -10,7 +10,6 @@ import org.junit.Test;
 
 import edu.MD.number.MDNumber;
 import edu.MD.number.NumberFactory;
-import edu.MD.utilityBD.Constants;
 import edu.MD.utilityBD.PotentialConstants;
 import edu.MD.utilityBD.MDVector;
 import edu.MD.utilityBD.Vector3DCartesian;
@@ -22,7 +21,7 @@ public class LJForceCalculatorTest {
 	private static NumberFactory numFactory;
 	
 	@BeforeClass
-	public void globalInit(){
+	public static void globalInit(){
 		try {
 			numFactory = NumberFactory.getInstance();
 		}
@@ -48,7 +47,7 @@ public class LJForceCalculatorTest {
 
 		MDVector forceOnP1 = forceCalculator.calculate(p1_p2);
 		MDVector forceOnP2 = forceCalculator.calculate(p2_p1);
-		assertThat(forceOnP1.times(numFactory.valueOf(-1)), equalTo(forceOnP2));
+		assertThat(forceOnP1.times(-1), equalTo(forceOnP2));
 	}
 
 	@Test
@@ -59,20 +58,20 @@ public class LJForceCalculatorTest {
 
 		MDVector forceOnP1 = forceCalculator.calculate(p1_p2);
 		assertThat(forceOnP1.getCartesianComponent()[0].toDouble(), lessThan(0.0));
-		assertThat(forceOnP1.getCartesianComponent()[1].toDouble(), closeTo(0.0, Constants.MACHINE_DOUBLE_ERROR));
-		assertThat(forceOnP1.getCartesianComponent()[2].toDouble(), closeTo(0.0, Constants.MACHINE_DOUBLE_ERROR));
+		assertTrue(forceOnP1.getCartesianComponent()[1].approximateEqual(0));
+		assertTrue(forceOnP1.getCartesianComponent()[2].approximateEqual(0));
 	}
 
 	@Test
 	public void farParticlesHaveAttractForce() {
 		MDVector p1 = new Vector3DCartesian(0, 0, 0);
-		MDVector p2 = new Vector3DCartesian(numFactory.valueOf(2).times(sigma),numFactory.valueOf(0), numFactory.valueOf(0));
+		MDVector p2 = new Vector3DCartesian(sigma.times(2),numFactory.valueOf(0), numFactory.valueOf(0));
 		MDVector p1_p2 = p1.minus(p2);
 
 		MDVector forceOnP1 = forceCalculator.calculate(p1_p2);
 		assertThat(forceOnP1.getCartesianComponent()[0].toDouble(), greaterThan(0.0));
-		assertThat(forceOnP1.getCartesianComponent()[1].toDouble(), closeTo(0.0, Constants.MACHINE_DOUBLE_ERROR));
-		assertThat(forceOnP1.getCartesianComponent()[2].toDouble(), closeTo(0.0, Constants.MACHINE_DOUBLE_ERROR));
+		assertTrue(forceOnP1.getCartesianComponent()[1].approximateEqual(0));
+		assertTrue(forceOnP1.getCartesianComponent()[2].approximateEqual(0));
 	}
 
 	@Test
@@ -83,9 +82,9 @@ public class LJForceCalculatorTest {
 		MDVector p1_p2 = p1.minus(p2);
 
 		MDVector forceOnP1 = forceCalculator.calculate(p1_p2);
-		assertThat(forceOnP1.getCartesianComponent()[0].toDouble(), closeTo(0.0, Constants.MACHINE_DOUBLE_ERROR));
-		assertThat(forceOnP1.getCartesianComponent()[1].toDouble(), closeTo(0.0, Constants.MACHINE_DOUBLE_ERROR));
-		assertThat(forceOnP1.getCartesianComponent()[2].toDouble(), closeTo(0.0, Constants.MACHINE_DOUBLE_ERROR));
+		assertTrue(forceOnP1.getCartesianComponent()[0].approximateEqual(0));
+		assertTrue(forceOnP1.getCartesianComponent()[1].approximateEqual(0));
+		assertTrue(forceOnP1.getCartesianComponent()[2].approximateEqual(0));
 	}
 	
 	private void setSmallCutoffRadius(){

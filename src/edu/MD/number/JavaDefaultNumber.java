@@ -1,5 +1,7 @@
 package edu.MD.number;
 
+import edu.MD.utilityBD.Constants;
+
 public class JavaDefaultNumber implements MDNumber {
 	private double num;
 	public static final JavaDefaultNumber ONE = new JavaDefaultNumber(1);
@@ -128,6 +130,11 @@ public class JavaDefaultNumber implements MDNumber {
 	@Override
 	public MDNumber divide(double in) {
 		return new JavaDefaultNumber(num / in);
+	}
+
+	@Override
+	public MDNumber floor() {
+		return new JavaDefaultNumber(Math.floor(this.toDouble()));
 	}
 
 }

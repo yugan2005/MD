@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import org.nevec.rjm.BigDecimalMath;
 
+import edu.MD.utilityBD.Constants;
+
 public class JavaBigDecimal implements MDNumber {
 	private static MathContext mc;
 	private BigDecimal num;
@@ -35,30 +37,33 @@ public class JavaBigDecimal implements MDNumber {
 	@Override
 	public JavaBigDecimal add(MDNumber in) {
 		checkinput(in);
-		return new JavaBigDecimal(num.add(((JavaBigDecimal) in).num, mc));
+		JavaBigDecimal javaBigDecimalIn = (JavaBigDecimal) in;
+		return new JavaBigDecimal(num.add(javaBigDecimalIn.num, mc));
 	}
 
 	@Override
 	public JavaBigDecimal minus(MDNumber in) {
 		checkinput(in);
-		return new JavaBigDecimal(num.subtract(((JavaBigDecimal) in).num, mc));
+		JavaBigDecimal javaBigDecimalIn = (JavaBigDecimal) in;
+		return new JavaBigDecimal(num.subtract(javaBigDecimalIn.num, mc));
 	}
 
 	@Override
 	public JavaBigDecimal times(MDNumber in) {
 		checkinput(in);
-		return new JavaBigDecimal(num.multiply(((JavaBigDecimal) in).num, mc));
+		JavaBigDecimal javaBigDecimalIn = (JavaBigDecimal) in;
+		return new JavaBigDecimal(num.multiply(javaBigDecimalIn.num, mc));
 	}
 
 	@Override
 	public JavaBigDecimal divide(MDNumber in) {
 		checkinput(in);
-		return new JavaBigDecimal(num.divide(((JavaBigDecimal) in).num, mc));
+		JavaBigDecimal javaBigDecimalIn = (JavaBigDecimal) in;
+		return new JavaBigDecimal(num.divide(javaBigDecimalIn.num, mc));
 	}
 
 	@Override
 	public JavaBigDecimal pow(MDNumber in) {
-		checkinput(in);
 		throw new UnsupportedOperationException("Only int power is support for JAVABigDecimal!");
 	}
 
@@ -133,5 +138,10 @@ public class JavaBigDecimal implements MDNumber {
 	@Override
 	public MDNumber divide(double in) {
 		return new JavaBigDecimal(num.divide(new BigDecimal(in, mc), mc));
+	}
+
+	@Override
+	public MDNumber floor() {
+		return new JavaBigDecimal(Math.floor(this.toDouble()));
 	}
 }

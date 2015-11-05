@@ -76,5 +76,35 @@ public class Vector3DPolar implements MDVector {
 		return null;
 	}
 
+	@Override
+	public MDVector minus(double c) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public MDVector times(double c) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public MDVector divide(MDNumber c) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public MDVector divide(double c) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean approximateEqual(MDVector vector) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 
 }
