@@ -25,36 +25,31 @@ public class JavaDefaultNumber implements MDNumber {
 
 	@Override
 	public MDNumber add(MDNumber in) {
-		checkinput(in);
-		JavaDefaultNumber javaDefaultNumberIn = (JavaDefaultNumber) in;
+		JavaDefaultNumber javaDefaultNumberIn = checkinput(in);
 		return new JavaDefaultNumber(num + javaDefaultNumberIn.num);
 	}
 
 	@Override
 	public MDNumber minus(MDNumber in) {
-		checkinput(in);
-		JavaDefaultNumber javaDefaultNumberIn = (JavaDefaultNumber) in;
+		JavaDefaultNumber javaDefaultNumberIn = checkinput(in);
 		return new JavaDefaultNumber(num - javaDefaultNumberIn.num);
 	}
 
 	@Override
 	public MDNumber times(MDNumber in) {
-		checkinput(in);
-		JavaDefaultNumber javaDefaultNumberIn = (JavaDefaultNumber) in;
+		JavaDefaultNumber javaDefaultNumberIn = checkinput(in);
 		return new JavaDefaultNumber(num * javaDefaultNumberIn.num);
 	}
 
 	@Override
 	public MDNumber divide(MDNumber in) {
-		checkinput(in);
-		JavaDefaultNumber javaDefaultNumberIn = (JavaDefaultNumber) in;
+		JavaDefaultNumber javaDefaultNumberIn = checkinput(in);
 		return new JavaDefaultNumber(num / javaDefaultNumberIn.num);
 	}
 
 	@Override
 	public MDNumber pow(MDNumber in) {
-		checkinput(in);
-		JavaDefaultNumber javaDefaultNumberIn = (JavaDefaultNumber) in;
+		JavaDefaultNumber javaDefaultNumberIn = checkinput(in);
 		return new JavaDefaultNumber(Math.pow(num, javaDefaultNumberIn.num));
 	}
 
@@ -68,9 +63,10 @@ public class JavaDefaultNumber implements MDNumber {
 		throw new UnsupportedOperationException("The Java Default Numbers do not support the getPrecision method");
 	}
 
-	private void checkinput(MDNumber in) {
+	private JavaDefaultNumber checkinput(MDNumber in) {
 		if (!(in instanceof JavaDefaultNumber))
 			throw new IllegalArgumentException("The number type is not compatible!");
+		return (JavaDefaultNumber) in;
 	}
 
 	@Override
@@ -133,6 +129,20 @@ public class JavaDefaultNumber implements MDNumber {
 	@Override
 	public MDNumber floor() {
 		return new JavaDefaultNumber(Math.floor(this.toDouble()));
+	}
+
+	@Override
+	public int compareTo(MDNumber in) {
+		JavaDefaultNumber javaDefaultNumberIn = checkinput(in);
+		return ((Double) this.num).compareTo(javaDefaultNumberIn.num);
+	}
+
+	@Override
+	public MDNumber mod(MDNumber in) {
+		JavaDefaultNumber javaDefaultNumberIn = checkinput(in);
+		double thisDouble = this.num;
+		double inDouble = javaDefaultNumberIn.num;
+		return new JavaDefaultNumber((thisDouble % inDouble + inDouble) % inDouble);
 	}
 
 }

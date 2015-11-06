@@ -65,4 +65,13 @@ public interface MDNumber {
 	}
 
 	public MDNumber floor();
+	
+	public int compareTo(MDNumber in);
+	
+	/**
+	 * This should always give the positive result in the range between 0 and in
+	 * @param in
+	 * @return this % in
+	 */
+	public MDNumber mod(MDNumber in);
 }

@@ -34,29 +34,25 @@ public class JavaBigDecimal implements MDNumber {
 
 	@Override
 	public JavaBigDecimal add(MDNumber in) {
-		checkinput(in);
-		JavaBigDecimal javaBigDecimalIn = (JavaBigDecimal) in;
+		JavaBigDecimal javaBigDecimalIn = checkinput(in);
 		return new JavaBigDecimal(num.add(javaBigDecimalIn.num, mc));
 	}
 
 	@Override
 	public JavaBigDecimal minus(MDNumber in) {
-		checkinput(in);
-		JavaBigDecimal javaBigDecimalIn = (JavaBigDecimal) in;
+		JavaBigDecimal javaBigDecimalIn = checkinput(in);
 		return new JavaBigDecimal(num.subtract(javaBigDecimalIn.num, mc));
 	}
 
 	@Override
 	public JavaBigDecimal times(MDNumber in) {
-		checkinput(in);
-		JavaBigDecimal javaBigDecimalIn = (JavaBigDecimal) in;
+		JavaBigDecimal javaBigDecimalIn = checkinput(in);
 		return new JavaBigDecimal(num.multiply(javaBigDecimalIn.num, mc));
 	}
 
 	@Override
 	public JavaBigDecimal divide(MDNumber in) {
-		checkinput(in);
-		JavaBigDecimal javaBigDecimalIn = (JavaBigDecimal) in;
+		JavaBigDecimal javaBigDecimalIn = checkinput(in);
 		return new JavaBigDecimal(num.divide(javaBigDecimalIn.num, mc));
 	}
 
@@ -70,9 +66,10 @@ public class JavaBigDecimal implements MDNumber {
 		return new JavaBigDecimal(num.pow(in, mc));
 	}
 
-	private void checkinput(MDNumber in) {
+	private JavaBigDecimal checkinput(MDNumber in) {
 		if (!(in instanceof JavaBigDecimal))
 			throw new IllegalArgumentException("The number type is not compatible!");
+		return (JavaBigDecimal) in;
 	}
 
 	@Override
@@ -99,7 +96,6 @@ public class JavaBigDecimal implements MDNumber {
 		if (!(that instanceof JavaBigDecimal))
 			return false;
 		JavaBigDecimal input = (JavaBigDecimal) that;
-
 		return this.num.equals(input.num);
 	}
 
@@ -141,5 +137,22 @@ public class JavaBigDecimal implements MDNumber {
 	@Override
 	public MDNumber floor() {
 		return new JavaBigDecimal(Math.floor(this.toDouble()));
+	}
+
+	@Override
+	public int compareTo(MDNumber in) {
+		JavaBigDecimal javaBigDecimalIn = checkinput(in);
+		return this.num.compareTo(javaBigDecimalIn.num);
+	}
+
+	@Override
+	public MDNumber mod(MDNumber in) {
+		JavaBigDecimal javaBigDecimalIn = checkinput(in);
+		BigDecimal thisNum = this.num;
+		BigDecimal inNum = javaBigDecimalIn.num;
+		BigDecimal result = thisNum.remainder(inNum, mc);
+		if (result.compareTo(BigDecimal.ZERO) < 0)
+			result = result.add(inNum, mc);
+		return new JavaBigDecimal(result);
 	}
 }

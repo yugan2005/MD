@@ -6,6 +6,7 @@ import java.util.Map;
 import edu.MD.number.MDNumber;
 import edu.MD.number.NumberFactory;
 import edu.MD.utilityBD.MDVector;
+import edu.MD.utilityBD.PBCCalculator;
 import edu.MD.utilityBD.Constants;
 
 public class VerletPositionUpdater {
@@ -41,22 +42,22 @@ public class VerletPositionUpdater {
 		}
 		return instances.get(type);
 	}
-	
+
 	/**
-	 * Refer to my PhD Thesis paper flow chart Fig3.11 P89 of 139
+	 * Refer to my PhD Thesis paper flow chart Fig3.11 P89 of 139. P.B.C is
+	 * applied to the new Position vector
+	 * 
 	 * @param oldPosition
 	 * @param oldVelocity
 	 * @param forceVector
 	 * @return newPosition
 	 */
-	public MDVector calculate(MDVector oldPosition, MDVector oldVelocity, MDVector forceVector, MDVector systemBoundary){
-		MDVector newPosition = oldPosition.add(oldVelocity.times(dt)).add(forceVector.times(dt.pow(2)).divide(mass.times(2)));
-		newPosition = applyPBC(newPosition, systemBoundary);
+	public MDVector calculate(MDVector oldPosition, MDVector oldVelocity, MDVector forceVector) {
+		PBCCalculator pbc = PBCCalculator.getInstance();
+		MDVector newPosition = oldPosition.add(oldVelocity.times(dt))
+				.add(forceVector.times(dt.pow(2)).divide(mass.times(2)));
+		pbc.applyPBC(newPosition);
 		return newPosition;
-	}
-	
-	private MDVector applyPBC(MDVector positionBeforePBC, MDVector systemBoundary){
-		
 	}
 
 }
