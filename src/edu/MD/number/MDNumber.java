@@ -27,6 +27,8 @@ public interface MDNumber {
 	public MDNumber pow(MDNumber in);
 
 	public MDNumber pow(int in);
+	
+	public MDNumber pow(double in);
 
 	public MDNumber zero();
 

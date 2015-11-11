@@ -56,14 +56,34 @@ public class JavaBigDecimal implements MDNumber {
 		return new JavaBigDecimal(num.divide(javaBigDecimalIn.num, mc));
 	}
 
+	/**
+	 * This version of power uses BigDecimalMath pow implementation. The
+	 * MathContext mc will be lost because this operation itself will reduce the
+	 * precision
+	 * 
+	 * @see org.nevec.rjm.BigDecimalMath
+	 */
 	@Override
 	public JavaBigDecimal pow(MDNumber in) {
-		throw new UnsupportedOperationException("Only int power is support for JAVABigDecimal!");
+		JavaBigDecimal javaBigDecimalIn = checkinput(in);
+		return new JavaBigDecimal(BigDecimalMath.pow(num, javaBigDecimalIn.num));
 	}
 
 	@Override
 	public JavaBigDecimal pow(int in) {
 		return new JavaBigDecimal(num.pow(in, mc));
+	}
+
+	/**
+	 * This version of power uses BigDecimalMath pow implementation. The
+	 * MathContext mc will be lost because this operation itself will reduce the
+	 * precision
+	 * 
+	 * @see org.nevec.rjm.BigDecimalMath
+	 */
+	@Override
+	public JavaBigDecimal pow(double in) {
+		return new JavaBigDecimal(BigDecimalMath.pow(num, new BigDecimal(in, mc)));
 	}
 
 	private JavaBigDecimal checkinput(MDNumber in) {

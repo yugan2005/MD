@@ -57,6 +57,11 @@ public class JavaDefaultNumber implements MDNumber {
 	public MDNumber pow(int in) {
 		return new JavaDefaultNumber(Math.pow(num, in));
 	}
+	
+	@Override
+	public MDNumber pow(double in) {
+		return new JavaDefaultNumber(Math.pow(num, in));
+	}
 
 	@Override
 	public int getPrecision() {
