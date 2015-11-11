@@ -16,7 +16,7 @@ public class NumberFactoryTest {
 	
 	@BeforeClass
 	public static void init(){
-		NumberFactory.setFactorySetting("JScienceRealFacotry", 32); 
+		NumberFactory.setFactorySetting("JavaBigDecimalFactory", 32); 
 	}
 
 	@Test

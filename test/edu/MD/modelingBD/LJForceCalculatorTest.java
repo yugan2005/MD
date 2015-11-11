@@ -34,7 +34,7 @@ public class LJForceCalculatorTest {
 	@Before
 	public void init() {
 		cutoff = 5;
-		forceCalculator = LJForceCalculator.getInstance("ARGON-ARGON-"+String.valueOf(cutoff));
+		forceCalculator = LJForceCalculator.getInstance("ARGON_ARGON_"+String.valueOf(cutoff));
 		sigma = PotentialConstants.getSigma("ARGON");
 	}
 
@@ -89,7 +89,7 @@ public class LJForceCalculatorTest {
 	
 	private void setSmallCutoffRadius(){
 		cutoff = 1;
-		forceCalculator = LJForceCalculator.getInstance("ARGON-ARGON-"+String.valueOf(cutoff));
+		forceCalculator = LJForceCalculator.getInstance("ARGON_ARGON_"+String.valueOf(cutoff));
 	}
 
 
