@@ -45,7 +45,8 @@ public class VerletPositionUpdater {
 
 	/**
 	 * Refer to my PhD Thesis paper flow chart Fig3.11 P89 of 139. P.B.C is
-	 * applied to the new Position vector
+	 * applied to the new Position vector. Also note that the full timestep dt
+	 * is used
 	 * 
 	 * @param oldPosition
 	 * @param oldVelocity

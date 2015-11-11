@@ -19,7 +19,6 @@ import edu.MD.utilityBD.PotentialConstants;
 public class PBCPairwiseDistanceFinderTest {
 
 	private static PBCPairwiseDistanceFinder distanceFinder;
-	private MDVector systemBoundary;
 
 	@Rule
 	public final ExpectedException exception = ExpectedException.none();
@@ -41,12 +40,12 @@ public class PBCPairwiseDistanceFinderTest {
 	}
 
 	private void setSystemBoundary(double x, double y, double z) {
-		systemBoundary = new Vector3DCartesian(x, y, z);
+		MDVector systemBoundary = new Vector3DCartesian(x, y, z);
 		PBCCalculator.setPBCCalculator(systemBoundary);
 	}
 
 	private void setSystemBoundary(MDNumber x, MDNumber y, MDNumber z) {
-		systemBoundary = new Vector3DCartesian(x, y, z);
+		MDVector systemBoundary = new Vector3DCartesian(x, y, z);
 		PBCCalculator.setPBCCalculator(systemBoundary);
 	}
 
