@@ -14,7 +14,7 @@ import edu.MD.number.NumberFactory;
 import edu.MD.utilityBD.Vector3DCartesian;
 import edu.MD.utilityBD.MDVector;
 import edu.MD.utilityBD.PBCCalculator;
-import edu.MD.utilityBD.PotentialConstants;
+import edu.MD.utilityBD.MDPotentialConstants;
 
 public class PBCPairwiseDistanceFinderTest {
 
@@ -93,7 +93,7 @@ public class PBCPairwiseDistanceFinderTest {
 	@Test
 	public void distanceUsedInForceCalculation() {
 		LJForceCalculator forceCalculator = LJForceCalculator.getInstance("ARGON_ARGON_5.0");
-		MDNumber sigma = PotentialConstants.getSigma("ARGON");
+		MDNumber sigma = MDPotentialConstants.getSigma("ARGON");
 		setSystemBoundary(sigma.times(6), sigma.times(6), sigma.times(6));
 		MDVector p1 = new Vector3DCartesian(0, 0, 0);
 		MDVector p2 = new Vector3DCartesian(sigma.times(0.1), sigma.times(5.9), sigma.times(0));

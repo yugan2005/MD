@@ -7,7 +7,7 @@ import edu.MD.number.MDNumber;
 import edu.MD.number.NumberFactory;
 import edu.MD.utilityBD.MDVector;
 import edu.MD.utilityBD.PBCCalculator;
-import edu.MD.utilityBD.Constants;
+import edu.MD.utilityBD.MDConstants;
 
 public class VerletPositionUpdater {
 	private static NumberFactory numberFactory = NumberFactory.getInstance();
@@ -34,7 +34,7 @@ public class VerletPositionUpdater {
 			MDNumber dt = numberFactory.valueOf(Double.parseDouble(type.split("_")[1]));
 			MDNumber mass;
 			try {
-				mass = Constants.getMass(name);
+				mass = MDConstants.getMass(name);
 			} catch (IllegalArgumentException ex) {
 				throw new IllegalArgumentException("The particle name is not correct, should be like 'ARGON_1e-15");
 			}

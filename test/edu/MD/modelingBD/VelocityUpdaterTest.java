@@ -11,7 +11,7 @@ import org.junit.Test;
 import edu.MD.number.MDNumber;
 import edu.MD.number.NumberFactory;
 import edu.MD.utilityBD.Vector3DCartesian;
-import edu.MD.utilityBD.Constants;
+import edu.MD.utilityBD.MDConstants;
 import edu.MD.utilityBD.MDVector;
 
 public class VelocityUpdaterTest {
@@ -33,7 +33,7 @@ public class VelocityUpdaterTest {
 	
 	@Before
 	public void init(){
-		MDNumber mass = Constants.getMass("ARGON");
+		MDNumber mass = MDConstants.getMass("ARGON");
 		forceVector = new Vector3DCartesian(mass.times(2),mass.times(2), numberFactory.valueOf(0));
 		oldVelocityVector = new Vector3DCartesian(0,0,0);
 		

@@ -6,7 +6,7 @@ import java.util.Map;
 import edu.MD.number.MDNumber;
 import edu.MD.number.NumberFactory;
 
-public class Constants {
+public class MDConstants {
 	private static NumberFactory numberFactory = NumberFactory.getInstance();
 
 	

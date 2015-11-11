@@ -6,7 +6,7 @@ import java.util.Map;
 import edu.MD.number.MDNumber;
 import edu.MD.number.NumberFactory;
 
-public class PotentialConstants {
+public class MDPotentialConstants {
 	private static NumberFactory numberFactory = NumberFactory.getInstance();
 	public static Map<String, MDNumber> sigma = new HashMap<>();
 	public static Map<String, MDNumber> epsilon = new HashMap<>();

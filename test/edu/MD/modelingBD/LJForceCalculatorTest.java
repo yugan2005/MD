@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import edu.MD.number.MDNumber;
 import edu.MD.number.NumberFactory;
-import edu.MD.utilityBD.PotentialConstants;
+import edu.MD.utilityBD.MDPotentialConstants;
 import edu.MD.utilityBD.MDVector;
 import edu.MD.utilityBD.Vector3DCartesian;
 
@@ -35,7 +35,7 @@ public class LJForceCalculatorTest {
 	public void init() {
 		cutoff = 5;
 		forceCalculator = LJForceCalculator.getInstance("ARGON_ARGON_"+String.valueOf(cutoff));
-		sigma = PotentialConstants.getSigma("ARGON");
+		sigma = MDPotentialConstants.getSigma("ARGON");
 	}
 
 	@Test

@@ -5,7 +5,7 @@ import java.util.Map;
 
 import edu.MD.number.*;
 import edu.MD.utilityBD.MDVector;
-import edu.MD.utilityBD.PotentialConstants;
+import edu.MD.utilityBD.MDPotentialConstants;
 
 public class LJForceCalculator {
 
@@ -37,10 +37,10 @@ public class LJForceCalculator {
 			double cutoff = Double.parseDouble(type.split("_")[2]);
 			MDNumber p1Sigma, p2Sigma, p1Epsilon, p2Epsilon;
 			try {
-				p1Sigma = PotentialConstants.getSigma(p1Name);
-				p2Sigma = PotentialConstants.getSigma(p2Name);
-				p1Epsilon = PotentialConstants.getEpsilon(p1Name);
-				p2Epsilon = PotentialConstants.getEpsilon(p2Name);
+				p1Sigma = MDPotentialConstants.getSigma(p1Name);
+				p2Sigma = MDPotentialConstants.getSigma(p2Name);
+				p1Epsilon = MDPotentialConstants.getEpsilon(p1Name);
+				p2Epsilon = MDPotentialConstants.getEpsilon(p2Name);
 			} catch (IllegalArgumentException ex) {
 				throw new IllegalArgumentException("The type name is not correct, should be like 'ARGON_ARGON_5.0");
 			}
