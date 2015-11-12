@@ -5,28 +5,49 @@ import edu.MD.utilityBD.MDConstants;
 import edu.MD.utilityBD.MDVector;
 
 public class MonatomicPositionInitializer {
+	private int filmThickness, filmSize, vaporLength;
 	private int numOfVapor, numOfLiquid;
 	private MDNumber vaporMolarDensity, liquidMolarDensity;
 	private MDNumber vaporLatticeLength, liquidLatticeLength;
 	private MDVector systemBoundary;
 	private Iterable<MDVector> positions;
 
-	public MonatomicPositionInitializer(String name, int numOfVapor, int numOfLiquid, double temperature) {
-		if (numOfVapor == 0 || numOfLiquid == 0)
-			throw new IllegalArgumentException(
-					"Need have both vapor and liquid to define a satuation system. If it is not satuation system use other constructor");
-		this.numOfLiquid = numOfLiquid;
-		this.numOfVapor = numOfVapor;
+	public MonatomicPositionInitializer(String name, int filmThickness, int filmSize, int vaporLength,
+			double temperature) {
+		if (filmThickness<1) throw new IllegalArgumentException("Film thickness should be at least 1");
+		
+		this.filmThickness = filmThickness;
+		this.filmSize = filmSize;
+		this.vaporLength = vaporLength;
+		
 		vaporMolarDensity = MDConstants.getMolarDensity(name, temperature, "vapor");
 		liquidMolarDensity = MDConstants.getMolarDensity(name, temperature, "liquid");
-		vaporLatticeLength = calLatticeLength(vaporMolarDensity);
-		liquidLatticeLength = calLatticeLength(liquidMolarDensity);
-	}
+		
+		liquidLatticeLength = calLiquidLatticeLength();
 
-	private MDNumber calLatticeLength(MDNumber molarDensity) {
-		double NA = MDConstants.AVOGADRO;
-		return molarDensity.times(NA).pow(-1.0).times(4).pow(1.0 / 3.0);
+		
+
 	}
 	
+	private MDNumber calLiquidLatticeLength(){
+		MDNumber liquidLatticeLength;
+		switch (filmSize) {
+		case 1:
+			liquidLatticeLength = liquidMolarDensity.times(MDConstants.AVOGADRO).pow(-1).times(6).pow(1.0 / 3.0);
+			break;
+		default:
+			liquidLatticeLength = liquidMolarDensity.times(MDConstants.AVOGADRO).pow(-1)
+					.times((4 * filmThickness + 2) / ((double) filmThickness)).pow(1.0 / 3.0);
+		}
+		return liquidLatticeLength;
+	}
+	
+	private MDNumber calVaporLatticeLength(){
+		MDNumber liquidLatticeLength;
+		// TODO to here
+		return null;
+
+	}
+
 
 }
