@@ -9,11 +9,11 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import edu.MD.number.MDNumber;
-import edu.MD.number.NumberFactory;
 import edu.MD.utilityBD.Vector3DCartesian;
 import edu.MD.utilityBD.MDVector;
 import edu.MD.utilityBD.PBCCalculator;
+import edu.MD.numberBD.MDNumber;
+import edu.MD.numberBD.NumberFactory;
 import edu.MD.utilityBD.MDPotentialConstants;
 
 public class PBCPairwiseDistanceFinderTest {

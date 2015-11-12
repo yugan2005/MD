@@ -1,4 +1,4 @@
-package edu.MD.number;
+package edu.MD.numberBD;
 
 import java.util.ArrayList;
 import java.util.Arrays;

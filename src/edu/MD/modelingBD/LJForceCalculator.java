@@ -3,8 +3,8 @@ package edu.MD.modelingBD;
 import java.util.HashMap;
 import java.util.Map;
 
-import edu.MD.number.*;
 import edu.MD.utilityBD.MDVector;
+import edu.MD.numberBD.*;
 import edu.MD.utilityBD.MDPotentialConstants;
 
 public class LJForceCalculator {

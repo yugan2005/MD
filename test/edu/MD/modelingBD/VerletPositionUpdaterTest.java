@@ -6,8 +6,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import edu.MD.number.MDNumber;
-import edu.MD.number.NumberFactory;
+import edu.MD.numberBD.MDNumber;
+import edu.MD.numberBD.NumberFactory;
 import edu.MD.utilityBD.MDConstants;
 import edu.MD.utilityBD.MDVector;
 import edu.MD.utilityBD.PBCCalculator;

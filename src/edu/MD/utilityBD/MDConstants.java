@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
-import edu.MD.number.MDNumber;
-import edu.MD.number.NumberFactory;
+import edu.MD.numberBD.MDNumber;
+import edu.MD.numberBD.NumberFactory;
 
 public class MDConstants {
 	private static NumberFactory numberFactory = NumberFactory.getInstance();
@@ -37,7 +37,9 @@ public class MDConstants {
 
 	// Following are Particle Constant in SI units
 	private static Map<String, MDNumber> mass = new HashMap<>();
-	private static Map<String, TreeMap<Double, MDNumber>> density = new HashMap<>();
+	private static Map<String, TreeMap<Double, MDNumber>> vaporDensity = new HashMap<>();
+	private static Map<String, TreeMap<Double, MDNumber>> liquidDensity = new HashMap<>();
+	private static Map<String, TreeMap<Double, MDNumber>> solidDensity = new HashMap<>();
 
 	public static MDNumber getMass(String name) {
 		if (mass.get(name) != null)
@@ -50,9 +52,27 @@ public class MDConstants {
 	 *            of the particle (All capital letters)
 	 * @param temperature
 	 *            in SI unit K.
+	 * @param phase
+	 *            specify the phase for getting the molar density: solid /
+	 *            liquid / vapor
 	 * @return Molardensity in MDNumber format
 	 */
-	public static MDNumber getMolarDensity(String name, double temperature) {
+	public static MDNumber getMolarDensity(String name, double temperature, String phase) {
+		Map<String, TreeMap<Double, MDNumber>> density;
+		switch (phase) {
+		case "vapor":
+			density = vaporDensity;
+			break;
+		case "liquid":
+			density = liquidDensity;
+			break;
+		case "solid":
+			density = solidDensity;
+			break;
+		default:
+			throw new IllegalArgumentException("Need specify valid phase for obtaining the molar density");
+		}
+
 		if (density.get(name) == null || density.get(name).lastKey() < temperature
 				|| density.get(name).firstKey() > temperature)
 			throw new IllegalArgumentException(
@@ -69,9 +89,11 @@ public class MDConstants {
 		double argonMass = 6.6331e-26; // Mass of argon atom (Kg) - The original
 										// value
 		mass.put(argon, numberFactory.valueOf(argonMass));
-		TreeMap<Double, MDNumber> argonMolarDensity = new TreeMap<>();
+		TreeMap<Double, MDNumber> argonVaporMolarDensity = new TreeMap<>();
+		TreeMap<Double, MDNumber> argonLiquidMolarDensity = new TreeMap<>();
 		// TODO populate the density map
-		density.put(argon, argonMolarDensity);
+		vaporDensity.put(argon, argonVaporMolarDensity);
+		liquidDensity.put(argon, argonLiquidMolarDensity);
 	}
 
 }

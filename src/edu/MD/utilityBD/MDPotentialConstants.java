@@ -3,8 +3,8 @@ package edu.MD.utilityBD;
 import java.util.HashMap;
 import java.util.Map;
 
-import edu.MD.number.MDNumber;
-import edu.MD.number.NumberFactory;
+import edu.MD.numberBD.MDNumber;
+import edu.MD.numberBD.NumberFactory;
 
 public class MDPotentialConstants {
 	private static NumberFactory numberFactory = NumberFactory.getInstance();

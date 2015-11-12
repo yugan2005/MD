@@ -1,4 +1,4 @@
-package edu.MD.number;
+package edu.MD.numberBD;
 
 public final class JavaDefaultNumberFactory extends NumberFactory {
 	public static final JavaDefaultNumberFactory INSTANCE=new JavaDefaultNumberFactory();

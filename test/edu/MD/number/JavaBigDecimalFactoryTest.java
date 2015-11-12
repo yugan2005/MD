@@ -10,8 +10,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import edu.MD.number.MDNumber;
-import edu.MD.number.NumberFactory;
+import edu.MD.numberBD.MDNumber;
+import edu.MD.numberBD.NumberFactory;
 
 public class JavaBigDecimalFactoryTest {
 	NumberFactory javaBigDecimalFactory;

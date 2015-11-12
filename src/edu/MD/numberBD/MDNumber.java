@@ -1,4 +1,4 @@
-package edu.MD.number;
+package edu.MD.numberBD;
 
 import edu.MD.utilityBD.MDConstants;
 
@@ -67,6 +67,8 @@ public interface MDNumber {
 	}
 
 	public MDNumber floor();
+	
+	public int floorToInt();
 	
 	public int compareTo(MDNumber in);
 	

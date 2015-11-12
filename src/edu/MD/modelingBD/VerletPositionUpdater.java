@@ -3,10 +3,10 @@ package edu.MD.modelingBD;
 import java.util.HashMap;
 import java.util.Map;
 
-import edu.MD.number.MDNumber;
-import edu.MD.number.NumberFactory;
 import edu.MD.utilityBD.MDVector;
 import edu.MD.utilityBD.PBCCalculator;
+import edu.MD.numberBD.MDNumber;
+import edu.MD.numberBD.NumberFactory;
 import edu.MD.utilityBD.MDConstants;
 
 public class VerletPositionUpdater {

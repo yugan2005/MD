@@ -8,7 +8,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import edu.MD.number.NumberFactory;
+import edu.MD.numberBD.NumberFactory;
 import edu.MD.utilityBD.Vector3DPolar;
 
 public class Vector3DCartesianTest {

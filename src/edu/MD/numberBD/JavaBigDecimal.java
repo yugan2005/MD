@@ -1,4 +1,4 @@
-package edu.MD.number;
+package edu.MD.numberBD;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -157,6 +157,11 @@ public class JavaBigDecimal implements MDNumber {
 	@Override
 	public MDNumber floor() {
 		return new JavaBigDecimal(Math.floor(this.toDouble()));
+	}
+	
+	@Override
+	public int floorToInt() {
+		return (int) (Math.floor(this.toDouble()));
 	}
 
 	@Override

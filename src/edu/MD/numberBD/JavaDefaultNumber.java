@@ -1,4 +1,4 @@
-package edu.MD.number;
+package edu.MD.numberBD;
 
 public class JavaDefaultNumber implements MDNumber {
 	private double num;
@@ -134,6 +134,11 @@ public class JavaDefaultNumber implements MDNumber {
 	@Override
 	public MDNumber floor() {
 		return new JavaDefaultNumber(Math.floor(this.toDouble()));
+	}
+	
+	@Override
+	public int floorToInt() {
+		return (int) (Math.floor(this.toDouble()));
 	}
 
 	@Override

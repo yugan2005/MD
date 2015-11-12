@@ -7,7 +7,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import edu.MD.number.NumberFactory;
+import edu.MD.numberBD.NumberFactory;
 
 public class NumberFactoryTest {
 	
