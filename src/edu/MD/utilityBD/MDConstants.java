@@ -1,5 +1,7 @@
 package edu.MD.utilityBD;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
@@ -78,6 +80,10 @@ public class MDConstants {
 			throw new IllegalArgumentException(
 					"Either the particle name is not implemented, or the temperature is out of range");
 		TreeMap<Double, MDNumber> particleDensity = density.get(name);
+		
+		if (particleDensity.get(temperature) != null)
+			return particleDensity.get(temperature);
+		
 		Map.Entry<Double, MDNumber> floor = particleDensity.floorEntry(temperature);
 		Map.Entry<Double, MDNumber> ceil = particleDensity.ceilingEntry(temperature);
 		return ceil.getValue().minus(floor.getValue()).divide(ceil.getKey() - floor.getKey())
@@ -89,11 +95,19 @@ public class MDConstants {
 		double argonMass = 6.6331e-26; // Mass of argon atom (Kg) - The original
 										// value
 		mass.put(argon, numberFactory.valueOf(argonMass));
-		TreeMap<Double, MDNumber> argonVaporMolarDensity = new TreeMap<>();
-		TreeMap<Double, MDNumber> argonLiquidMolarDensity = new TreeMap<>();
-		// TODO populate the density map
-		vaporDensity.put(argon, argonVaporMolarDensity);
-		liquidDensity.put(argon, argonLiquidMolarDensity);
+
+		// set argon's vapor and liquid density
+
+		try {
+			NISTSaturationPropertiesReader densityReader = new NISTSaturationPropertiesReader(argon);
+			vaporDensity.put(argon, densityReader.getSaturationDensityVSTemperature().get("vapor"));
+			liquidDensity.put(argon, densityReader.getSaturationDensityVSTemperature().get("liquid"));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 }
