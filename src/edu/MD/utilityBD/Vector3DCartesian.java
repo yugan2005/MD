@@ -22,6 +22,30 @@ public class Vector3DCartesian implements MDVector {
 		this(numberFactory.valueOf(x), numberFactory.valueOf(y), numberFactory.valueOf(z));
 	}
 
+	public Vector3DCartesian(MDNumber x, double y, double z) {
+		this(x, numberFactory.valueOf(y), numberFactory.valueOf(z));
+	}
+
+	public Vector3DCartesian(double x, MDNumber y, double z) {
+		this(numberFactory.valueOf(x), y, numberFactory.valueOf(z));
+	}
+
+	public Vector3DCartesian(double x, double y, MDNumber z) {
+		this(numberFactory.valueOf(x), numberFactory.valueOf(y), z);
+	}
+
+	public Vector3DCartesian(MDNumber x, MDNumber y, double z) {
+		this(x, y, numberFactory.valueOf(z));
+	}
+
+	public Vector3DCartesian(MDNumber x, double y, MDNumber z) {
+		this(x, numberFactory.valueOf(y), z);
+	}
+
+	public Vector3DCartesian(double x, MDNumber y, MDNumber z) {
+		this(numberFactory.valueOf(x), y, z);
+	}
+
 	public Vector3DCartesian(MDNumber[] corrdinates) {
 		if (corrdinates.length != 3)
 			throw new IllegalArgumentException("The corrdinates is of wrong dimensions");
@@ -234,8 +258,9 @@ public class Vector3DCartesian implements MDVector {
 		checkDimension(vector);
 		checkClass(vector);
 		Vector3DCartesian that = castToVector3DCartesian(vector);
-		for (int i=0; i<that.getDimension(); i++){
-			if (!this.cartesianCoordinates[i].approximateEqual(that.cartesianCoordinates[i])) return false;
+		for (int i = 0; i < that.getDimension(); i++) {
+			if (!this.cartesianCoordinates[i].approximateEqual(that.cartesianCoordinates[i]))
+				return false;
 		}
 		return true;
 	}
