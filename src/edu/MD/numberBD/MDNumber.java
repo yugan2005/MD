@@ -70,6 +70,8 @@ public interface MDNumber {
 	
 	public int floorToInt();
 	
+	public int round();
+	
 	public int compareTo(MDNumber in);
 	
 	/**

@@ -163,6 +163,11 @@ public class JavaBigDecimal implements MDNumber {
 	public int floorToInt() {
 		return (int) (Math.floor(this.toDouble()));
 	}
+	
+	@Override
+	public int round() {
+		return (int) Math.round(this.toDouble());
+	}
 
 	@Override
 	public int compareTo(MDNumber in) {
