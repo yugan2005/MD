@@ -31,7 +31,7 @@ public class PBCPairwiseDistanceFinderTest {
 			NumberFactory.setFactorySetting("JavaBigDecimalFactory", 32);
 			NumberFactory.getInstance();
 		}
-		distanceFinder = PBCPairwiseDistanceFinder.INSTANCE;
+		distanceFinder = PBCPairwiseDistanceFinder.getInstance();
 	}
 
 	@Before
@@ -53,8 +53,8 @@ public class PBCPairwiseDistanceFinderTest {
 	public void p1ToP2isOppositeOfP2ToP1() {
 		MDVector p1 = new Vector3DCartesian(4.5, 4.5, 4.5);
 		MDVector p2 = new Vector3DCartesian(2, 2, 2);
-		MDVector p2ToP1 = distanceFinder.calculate(p1, p2);
-		MDVector p1ToP2 = distanceFinder.calculate(p2, p1);
+		MDVector p2ToP1 = distanceFinder.getDistance(p1, p2);
+		MDVector p1ToP2 = distanceFinder.getDistance(p2, p1);
 
 		assertTrue(p2ToP1.approximateEqual(p1ToP2.times(-1)));
 	}
@@ -63,7 +63,7 @@ public class PBCPairwiseDistanceFinderTest {
 	public void distanceLessThanHalfOfSystemBoundary() {
 		MDVector p1 = new Vector3DCartesian(0, 0, 0);
 		MDVector p2 = new Vector3DCartesian(2, 2, 2);
-		MDVector p2ToP1 = distanceFinder.calculate(p1, p2);
+		MDVector p2ToP1 = distanceFinder.getDistance(p1, p2);
 		MDVector p2ToP1Expected = p1.minus(p2);
 
 		assertTrue(p2ToP1.approximateEqual(p2ToP1Expected));
@@ -73,7 +73,7 @@ public class PBCPairwiseDistanceFinderTest {
 	public void distanceMoreThanHalfOfSystemBoundary() {
 		MDVector p1 = new Vector3DCartesian(0, 0, 0);
 		MDVector p2 = new Vector3DCartesian(3, 3, 3);
-		MDVector p2ToP1 = distanceFinder.calculate(p1, p2);
+		MDVector p2ToP1 = distanceFinder.getDistance(p1, p2);
 		MDVector p2ToP1Expected = new Vector3DCartesian(2, 2, 2);
 		;
 
@@ -84,7 +84,7 @@ public class PBCPairwiseDistanceFinderTest {
 	public void distanceAtHalfOfSystemBoundary() {
 		MDVector p1 = new Vector3DCartesian(0, 0, 0);
 		MDVector p2 = new Vector3DCartesian(2.5, 2.5, 2.5);
-		MDVector p2ToP1 = distanceFinder.calculate(p1, p2);
+		MDVector p2ToP1 = distanceFinder.getDistance(p1, p2);
 		MDVector p2ToP1Expected = p2.times(-1);
 
 		assertTrue(p2ToP1.approximateEqual(p2ToP1Expected));
@@ -97,7 +97,7 @@ public class PBCPairwiseDistanceFinderTest {
 		setSystemBoundary(sigma.times(6), sigma.times(6), sigma.times(6));
 		MDVector p1 = new Vector3DCartesian(0, 0, 0);
 		MDVector p2 = new Vector3DCartesian(sigma.times(0.1), sigma.times(5.9), sigma.times(0));
-		MDVector p2ToP1 = distanceFinder.calculate(p1, p2);
+		MDVector p2ToP1 = distanceFinder.getDistance(p1, p2);
 		MDVector forceOnP1 = forceCalculator.calculate(p2ToP1);
 
 		assertThat(forceOnP1.getCartesianComponent()[0].toDouble(), lessThan(0.0));

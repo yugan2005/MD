@@ -42,7 +42,48 @@ public interface MDVector {
 	public MDVector elementwiseDivide(MDVector vector);
 
 	public MDVector floor();
-	
+
 	public MDNumber cuboidVolume(MDVector vector);
+
+	/**
+	 * This method returns true only when all components are greater than the
+	 * other vector
+	 * 
+	 * @param vector
+	 * @return boolean for whether this vector is strictly greater than the
+	 *         other
+	 */
+	public default boolean allComponentGreaterOrEqual(MDVector vector) {
+		if (this.getDimension() != vector.getDimension())
+			throw new IllegalArgumentException("The input vector has different dimension. Cannot compare");
+		boolean result = true;
+		for (int i = 0; i < vector.getDimension(); i++) {
+			if (this.getCartesianComponent()[i].compareTo(vector.getCartesianComponent()[i]) < 0) {
+				result = false;
+				break;
+			}
+		}
+		return result;
+	}
+
+	/**
+	 * This method returns true only when all components are less than the other
+	 * vector
+	 * 
+	 * @param vector
+	 * @return boolean for whether this vector is strictly less than the other
+	 */
+	public default boolean allComponentLessOrEqual(MDVector vector){
+		if (this.getDimension() != vector.getDimension())
+			throw new IllegalArgumentException("The input vector has different dimension. Cannot compare");
+		boolean result = true;
+		for (int i = 0; i < vector.getDimension(); i++) {
+			if (this.getCartesianComponent()[i].compareTo(vector.getCartesianComponent()[i]) > 0) {
+				result = false;
+				break;
+			}
+		}
+		return result;
+	}
 
 }

@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import edu.MD.modelingBD.PBCPairwiseDistanceFinder;
 import edu.MD.numberBD.MDNumber;
 import edu.MD.numberBD.NumberFactory;
 import edu.MD.utilityBD.MDConstants;
@@ -16,7 +17,6 @@ import edu.MD.utilityBD.Vector3DCartesian;
 
 public class MonatomicPositionInitializerTest {
 	private MonatomicPositionInitializer initializer;
-	private static NumberFactory numFactory;
 	private String name;
 	private int filmThickness, filmSize, vaporOneSideThickness;
 	private double temperature;
@@ -24,19 +24,19 @@ public class MonatomicPositionInitializerTest {
 	@BeforeClass
 	public static void globalInit() {
 		try {
-			numFactory = NumberFactory.getInstance();
+			NumberFactory.getInstance();
 		} catch (UnsupportedOperationException ex) {
-			NumberFactory.setFactorySetting("JavaBigDecimalFactory", 32);
-			numFactory = NumberFactory.getInstance();
+			NumberFactory.setFactorySetting("JavaDefaultNumberFactory");
+			NumberFactory.getInstance();
 		}
 	}
 
 	@Before
 	public void init() {
 		name = "ARGON";
-		filmThickness = 10;
-		filmSize = 20;
-		vaporOneSideThickness = 12;
+		filmThickness = 5;
+		filmSize = 10;
+		vaporOneSideThickness = 8;
 		temperature = 110;
 		initializer = new MonatomicPositionInitializer(name, filmThickness, filmSize, vaporOneSideThickness,
 				temperature);
@@ -71,7 +71,26 @@ public class MonatomicPositionInitializerTest {
 	@Test
 	public void correctSeperationAfterPBC() {
 		PBCCalculator.setPBCCalculator(initializer.getSystemBoundary());
-		//TODO finish the PBC testing
+		PBCPairwiseDistanceFinder distFinder = PBCPairwiseDistanceFinder.getInstance();
+		MDNumber minDistance = null;
+		MDNumber maxDistance = null;
+		for (int i = 0; i < initializer.getPositions().size(); i++) {
+			for (int j = i + 1; j < initializer.getPositions().size(); j++) {
+				MDNumber distance = distFinder
+						.getDistance(initializer.getPositions().get(i), initializer.getPositions().get(j)).norm();
+				if (minDistance == null || distance.compareTo(minDistance) < 0)
+					minDistance = distance;
+				if (maxDistance == null || distance.compareTo(minDistance) > 0)
+					maxDistance = distance;
+			}
+		}
+
+		MDNumber liquidLatticeLength = initializer.getSystemBoundary().getCartesianComponent()[0].divide(filmSize);
+		MDNumber minDistanceExpected = liquidLatticeLength.times(Math.sqrt(2) / 2);
+		MDNumber maxDistanceExpected = initializer.getSystemBoundary().norm().divide(2.0);
+
+		assertTrue(minDistance.approximateEqual(minDistanceExpected));
+		assertTrue(maxDistanceExpected.compareTo(maxDistance) > 0);
 
 	}
 

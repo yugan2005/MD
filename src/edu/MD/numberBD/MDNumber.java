@@ -2,7 +2,7 @@ package edu.MD.numberBD;
 
 import edu.MD.utilityBD.MDConstants;
 
-public interface MDNumber {
+public interface MDNumber extends Comparable<MDNumber>{
 
 	public MDNumber abs();
 

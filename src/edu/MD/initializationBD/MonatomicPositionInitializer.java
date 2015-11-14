@@ -15,7 +15,7 @@ public class MonatomicPositionInitializer {
 	private MDNumber vaporLatticeSize, vaporLatticeLength, liquidLatticeLength;
 	private MDNumber systemSize, systemLength;
 	private MDVector systemBoundary;
-	private Iterable<MDVector> positions;
+	private List<MDVector> positions;
 
 	/**
 	 * This constructs a sandwiched liquid + two sides of vapor
@@ -55,7 +55,7 @@ public class MonatomicPositionInitializer {
 		// between lateral direction and axial direction is allowed
 
 		// TODO Need auto change the filmSize, and extract this method out
-		if (vaporLatticeLength.minus(vaporLatticeSize).divide(vaporLatticeSize).abs().toDouble() > 0.1) {
+		if (vaporLatticeLength.minus(vaporLatticeSize).divide(vaporLatticeSize).abs().toDouble() > 0.2) {
 			String exceptionStr = "The defined parameters can not generate well defined lattices."
 					+ System.lineSeparator();
 			exceptionStr = exceptionStr + String.format("The skewness ratio of vapor lattic is: %.3f%n",
@@ -96,7 +96,7 @@ public class MonatomicPositionInitializer {
 
 	}
 
-	private Iterable<MDVector> sandwichedFCCPositions() {
+	private List<MDVector> sandwichedFCCPositions() {
 		List<MDVector> positionList = new ArrayList<>(totalNumberOfParticles);
 
 		// setting the lower y side vapor
@@ -177,7 +177,7 @@ public class MonatomicPositionInitializer {
 		return systemBoundary;
 	}
 
-	public Iterable<MDVector> getPositions() {
+	public List<MDVector> getPositions() {
 		return positions;
 	}
 
