@@ -17,8 +17,13 @@ public class PBCPairwiseDistanceFinder implements IDistanceFinder {
 	@Override
 	public MDVector calculate(MDVector p1Position, MDVector p2Position) {
 		MDVector distanceVector = p1Position.minus(p2Position);
-		PBCCalculator pbc = PBCCalculator.getInstance();
-		pbc.applyMinimumImageConvention(distanceVector);
+		try {
+			PBCCalculator pbc = PBCCalculator.getInstance();
+			pbc.applyMinimumImageConvention(distanceVector);
+		} catch (UnsupportedOperationException ex) {
+			throw new UnsupportedOperationException(
+					"Need set the global setPBCCalculator(MDVector systemBoundary) first");
+		}
 		return distanceVector;
 	}
 

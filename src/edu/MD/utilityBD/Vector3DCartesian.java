@@ -265,4 +265,17 @@ public class Vector3DCartesian implements MDVector {
 		return true;
 	}
 
+	@Override
+	public MDNumber cuboidVolume(MDVector vector) {
+		checkDimension(vector);
+		checkClass(vector);
+		Vector3DCartesian that = castToVector3DCartesian(vector);
+		MDVector diagonalVect = that.minus(this);
+		MDNumber result = diagonalVect.getCartesianComponent()[0];
+		for (int i = 1; i < diagonalVect.getDimension(); i++)
+			result = result.times(diagonalVect.getCartesianComponent()[i]);
+		result = result.abs();
+		return result;
+	}
+
 }

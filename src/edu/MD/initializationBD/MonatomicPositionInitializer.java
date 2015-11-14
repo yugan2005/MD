@@ -53,8 +53,15 @@ public class MonatomicPositionInitializer {
 		// check the thickness parameters are well defined
 		// The vapor lattices should not skewed too much, 10% of difference
 		// between lateral direction and axial direction is allowed
-		if (vaporLatticeLength.minus(vaporLatticeSize).divide(vaporLatticeSize).abs().toDouble() > 0.1)
-			throw new IllegalArgumentException("The defined parameters can not generate well defined lattices");
+
+		// TODO Need auto change the filmSize, and extract this method out
+		if (vaporLatticeLength.minus(vaporLatticeSize).divide(vaporLatticeSize).abs().toDouble() > 0.1) {
+			String exceptionStr = "The defined parameters can not generate well defined lattices."
+					+ System.lineSeparator();
+			exceptionStr = exceptionStr + String.format("The skewness ratio of vapor lattic is: %.3f%n",
+					vaporLatticeLength.minus(vaporLatticeSize).divide(vaporLatticeSize).abs().toDouble());
+			throw new IllegalArgumentException(exceptionStr);
+		}
 
 		totalNumberOfParticles = numOfVaporParticles + numOfLiquidParticles;
 
@@ -162,7 +169,7 @@ public class MonatomicPositionInitializer {
 				}
 			}
 		}
-		
+
 		return positionList;
 	}
 

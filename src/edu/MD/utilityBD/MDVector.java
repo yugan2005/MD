@@ -42,5 +42,7 @@ public interface MDVector {
 	public MDVector elementwiseDivide(MDVector vector);
 
 	public MDVector floor();
+	
+	public MDNumber cuboidVolume(MDVector vector);
 
 }

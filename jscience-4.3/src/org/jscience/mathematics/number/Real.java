@@ -233,7 +233,7 @@ public final class Real extends Number<Real> implements Field<Real> {
         if ('-' == chars.charAt(0)) {
             return valueOf(chars.subSequence(1, chars.length())).opposite();
         }
-        Text txt = Text.valueOf(chars); // TODO Use TextFormat...
+        Text txt = Text.valueOf(chars); // Use TextFormat...
         if ((txt.length() == 3) && (txt.indexOf("NaN", 0) == 0))
             return NaN;
         if (txt.equals("0"))

@@ -106,5 +106,11 @@ public class Vector3DPolar implements MDVector {
 		return false;
 	}
 
+	@Override
+	public MDNumber cuboidVolume(MDVector vector) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

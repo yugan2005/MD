@@ -140,7 +140,7 @@ public final class Rational extends Number<Rational> implements Field<Rational>{
      * @return the corresponding rational number.
      */
     public static Rational valueOf(CharSequence chars) {
-        Text txt = Text.valueOf(chars); // TODO Use TextFormat...
+        Text txt = Text.valueOf(chars); // Use TextFormat...
         int sep = txt.indexOf("/");
         if (sep >= 0) {
             LargeInteger dividend = LargeInteger.valueOf(txt.subtext(0, sep));

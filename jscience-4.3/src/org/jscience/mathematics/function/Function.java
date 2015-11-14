@@ -62,7 +62,7 @@ import javolution.text.TextBuilder;
  */
 public abstract class Function<X, Y> implements Serializable, Realtime  {
 
-    // TODO: Implements XMLSerializable.
+    // Implements XMLSerializable.
         
     /**
      * Default constructor. 
