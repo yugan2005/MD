@@ -57,7 +57,7 @@ public class JavaDefaultNumber implements MDNumber {
 	public MDNumber pow(int in) {
 		return new JavaDefaultNumber(Math.pow(num, in));
 	}
-	
+
 	@Override
 	public MDNumber pow(double in) {
 		return new JavaDefaultNumber(Math.pow(num, in));
@@ -135,12 +135,12 @@ public class JavaDefaultNumber implements MDNumber {
 	public MDNumber floor() {
 		return new JavaDefaultNumber(Math.floor(this.toDouble()));
 	}
-	
+
 	@Override
 	public int floorToInt() {
 		return (int) (Math.floor(this.toDouble()));
 	}
-	
+
 	@Override
 	public int round() {
 		return (int) (Math.round(this.toDouble()));
