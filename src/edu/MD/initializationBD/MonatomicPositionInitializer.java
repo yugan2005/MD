@@ -74,7 +74,8 @@ public class MonatomicPositionInitializer {
 
 	}
 	
-	private int findFilmSize(){
+	private int findVaporOneSideThickness(){
+		MDNumber approximatedLatticeLen = 
 		
 	}
 
@@ -90,13 +91,16 @@ public class MonatomicPositionInitializer {
 		// Refer to the attached notes
 		MDNumber approximatedLatticeLen = vaporMolarDensity.times(MDConstants.AVOGADRO).pow(-1)
 				.times((4 * vaporOneSideThickness - 1) / ((double) vaporOneSideThickness)).pow(1.0 / 3.0);
+		
 		vaporSize = systemSize.divide(approximatedLatticeLen).round();
-
-		numOfVaporParticles = (8 * vaporOneSideThickness - 2) * vaporSize * vaporSize;
-
 		vaporLatticeSize = systemSize.divide(vaporSize);
 		vaporLatticeLength = vaporMolarDensity.times(MDConstants.AVOGADRO).times(vaporLatticeSize.pow(2.0)).pow(-1)
 				.times((4 * vaporOneSideThickness - 1) / ((double) vaporOneSideThickness));
+		
+		System.out.println(String.format("Original vapor thickness is:%d", vaporOneSideThickness));
+		
+		int
+		numOfVaporParticles = (8 * vaporOneSideThickness - 2) * vaporSize * vaporSize;
 
 	}
 
