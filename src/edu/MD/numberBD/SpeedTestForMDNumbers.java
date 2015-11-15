@@ -14,7 +14,7 @@ public class SpeedTestForMDNumbers {
 		// Add and minus
 
 		long startTime = System.nanoTime();
-		for (int i = 0; i < 1000; i++) {
+		for (int i = 0; i < 100; i++) {
 			for (int j = 0; j < 1000; j++) {
 				result = result + x;
 				result = result - x;
@@ -24,7 +24,7 @@ public class SpeedTestForMDNumbers {
 		long duration1 = endTime - startTime;
 
 		startTime = System.nanoTime();
-		for (int i = 0; i < 1000; i++) {
+		for (int i = 0; i < 100; i++) {
 			for (int j = 0; j < 1000; j++) {
 				resultDN = resultDN.add(xDN);
 				resultDN = resultDN.minus(xDN);
@@ -33,8 +33,8 @@ public class SpeedTestForMDNumbers {
 		endTime = System.nanoTime();
 		long duration2 = endTime - startTime;
 
-		System.out.println(String.format("The 1e6 add and minus oprations take %.3f percent more time.",
-				100 * (duration2 - duration1) / ((double) duration1)));
+		System.out.println(String.format("The 1e5 add and minus oprations take %.3f times more time.",
+				(duration2 - duration1) / ((double) duration1)));
 
 		// multiplication and division
 
@@ -51,7 +51,7 @@ public class SpeedTestForMDNumbers {
 		duration1 = endTime - startTime;
 
 		startTime = System.nanoTime();
-		for (int i = 0; i < 1000; i++) {
+		for (int i = 0; i < 100; i++) {
 			for (int j = 0; j < 1000; j++) {
 				resultDN = resultDN.times(xDN);
 				resultDN = resultDN.divide(xDN);
@@ -60,36 +60,36 @@ public class SpeedTestForMDNumbers {
 		endTime = System.nanoTime();
 		duration2 = endTime - startTime;
 
-		System.out.println(String.format("The 1e6 times and divide oprations take %.3f percent more time.",
-				100 * (duration2 - duration1) / ((double) duration1)));
+		System.out.println(String.format("The 1e5 times and divide oprations take %.3f times more time.",
+				(duration2 - duration1) / ((double) duration1)));
 
-//		// power and root
-//
-//		result = 6.7;
-//		resultDN = numFactory.valueOf(6.7);
-//		startTime = System.nanoTime();
-//		double x2 = 1.0 / x;
-//		for (int i = 0; i < 1000; i++) {
-//			for (int j = 0; j < 1000; j++) {
-//				result = Math.pow(result, x);
-//				result = Math.pow(result, x2);
-//			}
-//		}
-//		endTime = System.nanoTime();
-//		duration1 = endTime - startTime;
-//		MDNumber xDN2 = xDN.pow(-1);
-//		startTime = System.nanoTime();
-//		for (int i = 0; i < 100; i++) {
-//			for (int j = 0; j < 1000; j++) {
-//				resultDN = resultDN.pow(xDN);
-//				resultDN = resultDN.pow(xDN2);
-//			}
-//		}
-//		endTime = System.nanoTime();
-//		duration2 = endTime - startTime;
-//
-//		System.out.println(String.format("The 1e5 pow and root oprations take %.3f percent more time.",
-//				100 * (duration2 - duration1) / ((double) duration1)));
+		// power and root
+
+		result = 6.7;
+		resultDN = numFactory.valueOf(6.7);
+		startTime = System.nanoTime();
+		double x2 = 1.0 / x;
+		for (int i = 0; i < 1000; i++) {
+			for (int j = 0; j < 1000; j++) {
+				result = Math.pow(result, x);
+				result = Math.pow(result, x2);
+			}
+		}
+		endTime = System.nanoTime();
+		duration1 = endTime - startTime;
+		MDNumber xDN2 = xDN.pow(-1);
+		startTime = System.nanoTime();
+		for (int i = 0; i < 100; i++) {
+			for (int j = 0; j < 1000; j++) {
+				resultDN = resultDN.pow(xDN);
+				resultDN = resultDN.pow(xDN2);
+			}
+		}
+		endTime = System.nanoTime();
+		duration2 = endTime - startTime;
+
+		System.out.println(String.format("The 1e5 pow and root oprations take %.3f times more time.",
+				(duration2 - duration1) / ((double) duration1)));
 
 		// power and divide
 
@@ -109,7 +109,7 @@ public class SpeedTestForMDNumbers {
 		resultDN = numFactory.valueOf(6.7);
 		startTime = System.nanoTime();
 		
-		for (int i = 0; i < 1000; i++) {
+		for (int i = 0; i < 100; i++) {
 			for (int j = 0; j < 1000; j++) {
 				resultDN = resultDN.pow(-1);
 				resultDN = resultDN.pow(-1);
@@ -118,8 +118,8 @@ public class SpeedTestForMDNumbers {
 		endTime = System.nanoTime();
 		duration2 = endTime - startTime;
 
-		System.out.println(String.format("The 1e6 pow VS. divide oprations take %.3f percent more time.",
-				100 * (duration2 - duration1) / ((double) duration1)));
+		System.out.println(String.format("The 1e5 pow VS. divide oprations take %.3f times more time.",
+				(duration2 - duration1) / ((double) duration1)));
 
 	}
 

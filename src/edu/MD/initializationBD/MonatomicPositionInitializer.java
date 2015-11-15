@@ -73,6 +73,10 @@ public class MonatomicPositionInitializer {
 		positions = sandwichedFCCPositions();
 
 	}
+	
+	private int findFilmSize(){
+		
+	}
 
 	private void liquidFCCLattice() {
 		// Refer to the attached notes
