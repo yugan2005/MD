@@ -2,8 +2,8 @@ package edu.MD.numberBD;
 
 public class SpeedTestForMDNumbers {
 	public static void main(String[] args) {
-//		NumberFactory.setFactorySetting("JavaBigDecimalFactory", 32);
-		 NumberFactory.setFactorySetting("JavaDefaultNumberFactory");
+		// NumberFactory.setFactorySetting("JavaBigDecimalFactory", 32);
+		NumberFactory.setFactorySetting("JavaDefaultNumberFactory");
 
 		NumberFactory numFactory = NumberFactory.getInstance();
 		double x = 0.17;
@@ -105,10 +105,10 @@ public class SpeedTestForMDNumbers {
 		}
 		endTime = System.nanoTime();
 		duration1 = endTime - startTime;
-		
+
 		resultDN = numFactory.valueOf(6.7);
 		startTime = System.nanoTime();
-		
+
 		for (int i = 0; i < 100; i++) {
 			for (int j = 0; j < 1000; j++) {
 				resultDN = resultDN.pow(-1);
