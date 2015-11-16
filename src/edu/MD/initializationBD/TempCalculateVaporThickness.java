@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.MD.numberBD.MDNumber;
+import edu.MD.numberBD.NumberFactory;
 import edu.MD.utilityBD.MDConstants;
 import edu.MD.utilityBD.MDVector;
 import edu.MD.utilityBD.Vector3DCartesian;
 
-public class MonatomicPositionInitializer {
+public class TempCalculateVaporThickness {
 	private int filmThickness, filmSize, vaporOneSideThickness, vaporSize;
 	private int numOfVaporParticles, numOfLiquidParticles, totalNumberOfParticles;
 	private MDNumber vaporMolarDensity, liquidMolarDensity;
@@ -34,14 +35,12 @@ public class MonatomicPositionInitializer {
 	 * @param temperature
 	 *            in SI unit K
 	 */
-	public MonatomicPositionInitializer(String name, int filmThickness, int filmSize, int vaporOneSideThickness,
-			double temperature) {
+	public TempCalculateVaporThickness(String name, int filmThickness, int filmSize, double temperature) {
 		if (filmThickness < 1)
 			throw new IllegalArgumentException("Film thickness should be at least 1");
 
 		this.filmThickness = filmThickness;
 		this.filmSize = filmSize;
-		this.vaporOneSideThickness = vaporOneSideThickness;
 
 		vaporMolarDensity = MDConstants.getMolarDensity(name, temperature, "vapor");
 		liquidMolarDensity = MDConstants.getMolarDensity(name, temperature, "liquid");
@@ -50,18 +49,6 @@ public class MonatomicPositionInitializer {
 		systemSize = liquidLatticeLength.times(filmSize);
 		vaporFCCLattice();
 
-		// check the thickness parameters are well defined
-		// The vapor lattices should not skewed too much, 10% of difference
-		// between lateral direction and axial direction is allowed
-
-		// TODO Need auto change the filmSize, and extract this method out
-		if (vaporLatticeLength.minus(vaporLatticeSize).divide(vaporLatticeSize).abs().toDouble() > 0.2) {
-			String exceptionStr = "The defined parameters can not generate well defined lattices."
-					+ System.lineSeparator();
-			exceptionStr = exceptionStr + String.format("The skewness ratio of vapor lattic is: %.3f%n",
-					vaporLatticeLength.minus(vaporLatticeSize).divide(vaporLatticeSize).abs().toDouble());
-			throw new IllegalArgumentException(exceptionStr);
-		}
 
 		totalNumberOfParticles = numOfVaporParticles + numOfLiquidParticles;
 
@@ -84,9 +71,18 @@ public class MonatomicPositionInitializer {
 
 	private void vaporFCCLattice() {
 		// Refer to the attached notes
-		MDNumber approximatedLatticeLen = vaporMolarDensity.times(MDConstants.AVOGADRO).pow(-1)
-				.times((4 * vaporOneSideThickness - 1) / ((double) vaporOneSideThickness)).pow(1.0 / 3.0);
-		vaporSize = systemSize.divide(approximatedLatticeLen).round();
+		int vaporThickness = 2*filmThickness;
+		int vaporThicknessCal = vaporThickness+1;
+		while (vaporThicknessCal!=vaporThickness){
+			vaporThickness +=1;
+			MDNumber vaporLatticeLen = vaporMolarDensity.times(MDConstants.AVOGADRO).pow(-1)
+					.times((4 * vaporThickness - 1) / ((double) vaporThickness)).pow(1.0 / 3.0);
+			int vaporSizeCal = (int) systemSize.divide(vaporLatticeLen).floor().toDouble();
+			vaporLatticeLen = systemSize.divide(vaporSizeCal);
+			vaporThicknessCal = vaporMolarDensity.times(vaporLatticeLen.pow(3)).times(MDConstants.AVOGADRO).minus(4).times(-1).pow(-1).round();
+		}
+		
+		vaporOneSideThickness = vaporThickness;
 
 		numOfVaporParticles = (8 * vaporOneSideThickness - 2) * vaporSize * vaporSize;
 
@@ -191,6 +187,12 @@ public class MonatomicPositionInitializer {
 
 	public int getTotalNumberOfParticles() {
 		return totalNumberOfParticles;
+	}
+	
+	public static void main(String[] args){
+		NumberFactory.setFactorySetting("JavaDefaultNumberFactory");
+		TempCalculateVaporThickness test = new TempCalculateVaporThickness("ARGON", 10, 5, 125);
+		System.out.println(test.vaporOneSideThickness);
 	}
 
 }
