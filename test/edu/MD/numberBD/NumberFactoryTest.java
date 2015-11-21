@@ -1,4 +1,4 @@
-package edu.MD.number;
+package edu.MD.numberBD;
 
 import static org.junit.Assert.assertTrue;
 
@@ -21,9 +21,9 @@ public class NumberFactoryTest {
 
 	@Test
 	public void singletonFactoryTest(){
-		NumberFactory jRealFactory1 = NumberFactory.getInstance();
-		NumberFactory jRealFactory2 = NumberFactory.getInstance();
-		assertTrue(jRealFactory1==jRealFactory2);
+		NumberFactory numFactory1 = NumberFactory.getInstance();
+		NumberFactory numFactory2 = NumberFactory.getInstance();
+		assertTrue(numFactory1==numFactory2);
 	}
 	
 	@Test

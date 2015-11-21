@@ -2,125 +2,120 @@ package edu.MD.numberBD;
 
 public class SpeedTestForMDNumbers {
 	public static void main(String[] args) {
-		// NumberFactory.setFactorySetting("JavaBigDecimalFactory", 32);
-		NumberFactory.setFactorySetting("JavaDefaultNumberFactory");
+		NumberFactory.setFactorySetting("JavaBigDecimalFactory", 32);
+		// NumberFactory.setFactorySetting("JavaDefaultNumberFactory");
+		int testTime = 10000;
 
 		NumberFactory numFactory = NumberFactory.getInstance();
-		double x = 0.17;
-		double result = 63.8;
-		MDNumber xDN = numFactory.valueOf(x);
-		MDNumber resultDN = numFactory.valueOf(result);
+		double x[] = new double[testTime];
+		double[] result = new double[testTime];
+		MDNumber[] xDN = new MDNumber[testTime];
+		MDNumber[] resultDN = new MDNumber[testTime];
 
 		// Add and minus
-
+		setTestNum(testTime, x, result);
 		long startTime = System.nanoTime();
-		for (int i = 0; i < 100; i++) {
-			for (int j = 0; j < 1000; j++) {
-				result = result + x;
-				result = result - x;
-			}
+		for (int i = 0; i < testTime; i++) {
+			result[i] = result[i] + x[i];
 		}
 		long endTime = System.nanoTime();
 		long duration1 = endTime - startTime;
 
+		setTestMDNum(testTime, numFactory, x, result, xDN, resultDN);
 		startTime = System.nanoTime();
-		for (int i = 0; i < 100; i++) {
-			for (int j = 0; j < 1000; j++) {
-				resultDN = resultDN.add(xDN);
-				resultDN = resultDN.minus(xDN);
-			}
+		for (int i = 0; i < testTime; i++) {
+			resultDN[i] = resultDN[i].add(xDN[i]);
 		}
 		endTime = System.nanoTime();
 		long duration2 = endTime - startTime;
 
-		System.out.println(String.format("The 1e5 add and minus oprations take %.3f times more time.",
+		System.out.println(String.format("The " + testTime + " add oprations take %.3f times more time for MDNumber.",
 				(duration2 - duration1) / ((double) duration1)));
 
 		// multiplication and division
 
-		result = 6.7;
-		resultDN = numFactory.valueOf(6.7);
+		setTestNum(testTime, x, result);
 		startTime = System.nanoTime();
-		for (int i = 0; i < 1000; i++) {
-			for (int j = 0; j < 1000; j++) {
-				result = result * x;
-				result = result / x;
-			}
+		for (int i = 0; i < testTime; i++) {
+			result[i] = result[i] * x[i];
 		}
 		endTime = System.nanoTime();
 		duration1 = endTime - startTime;
 
+		setTestMDNum(testTime, numFactory, x, result, xDN, resultDN);
 		startTime = System.nanoTime();
-		for (int i = 0; i < 100; i++) {
-			for (int j = 0; j < 1000; j++) {
-				resultDN = resultDN.times(xDN);
-				resultDN = resultDN.divide(xDN);
-			}
+		for (int i = 0; i < testTime; i++) {
+			resultDN[i] = resultDN[i].times(xDN[i]);
 		}
 		endTime = System.nanoTime();
 		duration2 = endTime - startTime;
 
-		System.out.println(String.format("The 1e5 times and divide oprations take %.3f times more time.",
+		System.out.println(String.format("The " + testTime + " times oprations take %.3f times more time for MDNumber.",
 				(duration2 - duration1) / ((double) duration1)));
 
 		// power and root
 
-		result = 6.7;
-		resultDN = numFactory.valueOf(6.7);
+		setTestNum(testTime, x, result);
 		startTime = System.nanoTime();
-		double x2 = 1.0 / x;
-		for (int i = 0; i < 1000; i++) {
-			for (int j = 0; j < 1000; j++) {
-				result = Math.pow(result, x);
-				result = Math.pow(result, x2);
-			}
+		for (int i = 0; i < testTime; i++) {
+			result[i] = Math.pow(result[i], x[i]);
 		}
 		endTime = System.nanoTime();
 		duration1 = endTime - startTime;
-		MDNumber xDN2 = xDN.pow(-1);
+
+		setTestMDNum(testTime, numFactory, x, result, xDN, resultDN);
 		startTime = System.nanoTime();
-		for (int i = 0; i < 100; i++) {
-			for (int j = 0; j < 1000; j++) {
-				resultDN = resultDN.pow(xDN);
-				resultDN = resultDN.pow(xDN2);
-			}
+		for (int i = 0; i < testTime; i++) {
+			resultDN[i] = resultDN[i].pow(xDN[i]);
 		}
 		endTime = System.nanoTime();
 		duration2 = endTime - startTime;
 
-		System.out.println(String.format("The 1e5 pow and root oprations take %.3f times more time.",
+		System.out.println(String.format("The " + testTime + " pow oprations take %.3f times more time for MDNumber.",
 				(duration2 - duration1) / ((double) duration1)));
 
 		// power and divide
 
-		resultDN = numFactory.valueOf(6.7);
+		setTestMDNum(testTime, numFactory, x, result, xDN, resultDN);
 		MDNumber one = numFactory.valueOf(1);
 
 		startTime = System.nanoTime();
-		for (int i = 0; i < 100; i++) {
-			for (int j = 0; j < 1000; j++) {
-				resultDN = one.divide(resultDN);
-				resultDN = one.divide(resultDN);
-			}
+		for (int i = 0; i < testTime; i++) {
+			resultDN[i] = one.divide(resultDN[i]);
 		}
 		endTime = System.nanoTime();
 		duration1 = endTime - startTime;
 
-		resultDN = numFactory.valueOf(6.7);
+		setTestMDNum(testTime, numFactory, x, result, xDN, resultDN);
 		startTime = System.nanoTime();
 
-		for (int i = 0; i < 100; i++) {
-			for (int j = 0; j < 1000; j++) {
-				resultDN = resultDN.pow(-1);
-				resultDN = resultDN.pow(-1);
-			}
+		for (int i = 0; i < testTime; i++) {
+			resultDN[i] = resultDN[i].pow(-1);
 		}
 		endTime = System.nanoTime();
 		duration2 = endTime - startTime;
 
-		System.out.println(String.format("The 1e5 pow VS. divide oprations take %.3f times more time.",
-				(duration2 - duration1) / ((double) duration1)));
+		System.out.println(
+				String.format("The " + testTime + " pow operation take %.3f times more time than divide oprations for MDNumber.",
+						(duration2 - duration1) / ((double) duration1)));
 
+	}
+
+	private static void setTestMDNum(int testTime, NumberFactory numFactory, double[] x, double[] result,
+			MDNumber[] xDN, MDNumber[] resultDN) {
+		for (int i = 0; i < testTime; i++) {
+			x[i] = Math.random() * 100;
+			result[i] = Math.random() * 100;
+			xDN[i] = numFactory.valueOf(x[i]);
+			resultDN[i] = numFactory.valueOf(result[i]);
+		}
+	}
+
+	private static void setTestNum(int testTime, double[] x, double[] result) {
+		for (int i = 0; i < testTime; i++) {
+			x[i] = Math.random() * 100;
+			result[i] = Math.random() * 100;
+		}
 	}
 
 }

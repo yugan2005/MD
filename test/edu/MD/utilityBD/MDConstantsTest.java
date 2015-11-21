@@ -13,7 +13,7 @@ public class MDConstantsTest {
 	@BeforeClass
 	public static void globalInit(){
 		try {
-			NumberFactory numFactory = NumberFactory.getInstance();
+			NumberFactory.getInstance();
 		}
 		catch (UnsupportedOperationException ex){
 			NumberFactory.setFactorySetting("JavaBigDecimalFactory", 32);
