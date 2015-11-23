@@ -1,0 +1,48 @@
+For BigDecimal 64 precision:
+
+The 10000 add oprations take 56.664 times more time for MDNumber.
+The 10000 times oprations take 117.251 times more time for MDNumber.
+The 10000 pow oprations take 8488.200 times more time for MDNumber.
+The 10000 pow operation take 0.277 times more time than divide oprations for MDNumber.
+
+
+For wrapped DefaultNumber:
+
+The 10000 add oprations take 1.340 times more time for MDNumber.
+The 10000 times oprations take 2.800 times more time for MDNumber.
+The 10000 pow oprations take 0.635 times more time for MDNumber.
+The 10000 pow operation take 0.511 times more time than divide oprations for MDNumber.
+
+
+--- After added the special handling for pow(-1)
+
+For BigDecimal 64 precision:
+The 10000 add oprations take 66.512 times more time for MDNumber.
+The 10000 times oprations take 132.942 times more time for MDNumber.
+The 10000 pow oprations take 8617.209 times more time for MDNumber.
+The 10000 pow operation take -0.227 times more time than divide oprations for MDNumber.
+The 10000 pow operation take 18.031 times more time than sqrt oprations for MDNumber.
+
+For wrapped DefaultNumber:
+The 10000 add oprations take 2.591 times more time for MDNumber.
+The 10000 times oprations take 2.908 times more time for MDNumber.
+The 10000 pow oprations take 0.401 times more time for MDNumber.
+The 10000 pow operation take 0.154 times more time than divide oprations for MDNumber.
+The 10000 pow operation take 0.801 times more time than sqrt oprations for MDNumber.
+
+
+--- After add the special handling for pow(0.5)
+
+For BigDecimal 64 precision:
+The 10000 add oprations take 114.058 times more time for MDNumber.
+The 10000 times oprations take 69.204 times more time for MDNumber.
+The 10000 pow oprations take 7513.373 times more time for MDNumber.
+The 10000 pow operation take -0.112 times more time than divide oprations for MDNumber.
+The 10000 pow operation take -0.223 times more time than sqrt oprations for MDNumber.
+
+For wrapped DefaultNumber:
+The 10000 add oprations take 2.756 times more time for MDNumber.
+The 10000 times oprations take 2.947 times more time for MDNumber.
+The 10000 pow oprations take 0.404 times more time for MDNumber.
+The 10000 pow operation take 0.058 times more time than divide oprations for MDNumber.
+The 10000 pow operation take 0.101 times more time than sqrt oprations for MDNumber.

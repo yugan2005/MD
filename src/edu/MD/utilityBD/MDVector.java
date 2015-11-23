@@ -28,6 +28,8 @@ public interface MDVector {
 	public int hashCode();
 
 	public MDNumber norm();
+	
+	public MDNumber normSquare();
 
 	public MDVector times(MDNumber c);
 

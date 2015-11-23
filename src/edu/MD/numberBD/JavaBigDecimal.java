@@ -71,6 +71,9 @@ public class JavaBigDecimal implements MDNumber {
 
 	@Override
 	public JavaBigDecimal pow(int in) {
+		if (in==-1){
+			return new JavaBigDecimal(BigDecimal.ONE.divide(this.num, mc));
+		}
 		return new JavaBigDecimal(num.pow(in, mc));
 	}
 
@@ -83,6 +86,8 @@ public class JavaBigDecimal implements MDNumber {
 	 */
 	@Override
 	public JavaBigDecimal pow(double in) {
+		if (in==0.5) return this.sqrt();
+		
 		return new JavaBigDecimal(BigDecimalMath.pow(num, new BigDecimal(in, mc)));
 	}
 

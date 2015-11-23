@@ -39,6 +39,7 @@ public class MDConstants {
 
 	// Following are Particle Constant in SI units
 	private static Map<String, MDNumber> mass = new HashMap<>();
+	private static Map<String, Integer> DOF = new HashMap<>();
 	private static Map<String, TreeMap<Double, MDNumber>> vaporDensity = new HashMap<>();
 	private static Map<String, TreeMap<Double, MDNumber>> liquidDensity = new HashMap<>();
 	private static Map<String, TreeMap<Double, MDNumber>> solidDensity = new HashMap<>();
@@ -94,7 +95,9 @@ public class MDConstants {
 		String argon = "ARGON";
 		double argonMass = 6.6331e-26; // Mass of argon atom (Kg) - The original
 										// value
+		int argonDOF = 3;
 		mass.put(argon, numberFactory.valueOf(argonMass));
+		DOF.put(argon, argonDOF);
 
 		// set argon's vapor and liquid density
 
@@ -108,6 +111,12 @@ public class MDConstants {
 			e.printStackTrace();
 		}
 
+	}
+
+	public static int getDOF(String name) {
+		if (DOF.get(name) != null)
+			return DOF.get(name);
+		throw new IllegalArgumentException("There is no DOF value for the particle: " + name);
 	}
 
 }

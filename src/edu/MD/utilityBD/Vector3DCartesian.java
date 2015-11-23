@@ -160,11 +160,16 @@ public class Vector3DCartesian implements MDVector {
 	}
 
 	@Override
-	public MDNumber norm() {
-		MDNumber norm = numberFactory.valueOf(0);
+	public MDNumber normSquare() {
+		MDNumber normSquare = numberFactory.valueOf(0);
 		for (int i = 0; i < 3; i++)
-			norm = norm.add(cartesianCoordinates[i].times(cartesianCoordinates[i]));
-		return norm.sqrt();
+			normSquare = normSquare.add(cartesianCoordinates[i].times(cartesianCoordinates[i]));
+		return normSquare;
+	}
+	
+	@Override
+	public MDNumber norm() {
+		return normSquare().sqrt();
 	}
 
 	@Override

@@ -16,6 +16,7 @@ public class MonatomicPositionInitializer {
 	private MDNumber systemSize, systemLength;
 	private MDVector systemBoundary;
 	private List<MDVector> positions;
+	private double vaporLatticeSkewness;
 
 	/**
 	 * This constructs a sandwiched liquid + two sides of vapor
@@ -50,11 +51,6 @@ public class MonatomicPositionInitializer {
 		systemSize = liquidLatticeLength.times(filmSize);
 		vaporFCCLattice();
 
-		// check the thickness parameters are well defined
-		// The vapor lattices should not skewed too much, 10% of difference
-		// between lateral direction and axial direction is allowed
-
-		// TODO Need auto change the filmSize, and extract this method out
 		if (vaporLatticeLength.minus(vaporLatticeSize).divide(vaporLatticeSize).abs().toDouble() > 0.2) {
 			String exceptionStr = "The defined parameters can not generate well defined lattices."
 					+ System.lineSeparator();
@@ -73,7 +69,7 @@ public class MonatomicPositionInitializer {
 		positions = sandwichedFCCPositions();
 
 	}
-	
+
 	private void liquidFCCLattice() {
 		// Refer to the attached notes
 		// This uses the F.C.C lattice structure
@@ -91,8 +87,9 @@ public class MonatomicPositionInitializer {
 		numOfVaporParticles = (8 * vaporOneSideThickness - 2) * vaporSize * vaporSize;
 
 		vaporLatticeSize = systemSize.divide(vaporSize);
-		vaporLatticeLength = vaporMolarDensity.times(MDConstants.AVOGADRO).times(vaporLatticeSize.pow(2.0)).pow(-1)
+		vaporLatticeLength = vaporMolarDensity.times(MDConstants.AVOGADRO).times(vaporLatticeSize.pow(2)).pow(-1)
 				.times((4 * vaporOneSideThickness - 1) / ((double) vaporOneSideThickness));
+		vaporLatticeSkewness = vaporLatticeLength.minus(vaporLatticeSize).abs().divide(vaporLatticeSize).toDouble();
 
 	}
 
@@ -191,6 +188,18 @@ public class MonatomicPositionInitializer {
 
 	public int getTotalNumberOfParticles() {
 		return totalNumberOfParticles;
+	}
+
+	/**
+	 * Due to the need of matching liquid and vapor lateral size, the vapor
+	 * lattice is not strictly FCC structure. The axial direction vapor lattice
+	 * length will be different that the lateral direction length.
+	 * 
+	 * @return the relative difference between the vapor lateral length with
+	 *         axial length (abs(axialL-lateralL)/lateralL)
+	 */
+	public double getVaporLatticeSkewness() {
+		return vaporLatticeSkewness;
 	}
 
 }

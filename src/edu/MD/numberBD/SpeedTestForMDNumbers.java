@@ -2,7 +2,7 @@ package edu.MD.numberBD;
 
 public class SpeedTestForMDNumbers {
 	public static void main(String[] args) {
-		NumberFactory.setFactorySetting("JavaBigDecimalFactory", 32);
+		NumberFactory.setFactorySetting("JavaBigDecimalFactory", 64);
 		// NumberFactory.setFactorySetting("JavaDefaultNumberFactory");
 		int testTime = 10000;
 
@@ -12,7 +12,7 @@ public class SpeedTestForMDNumbers {
 		MDNumber[] xDN = new MDNumber[testTime];
 		MDNumber[] resultDN = new MDNumber[testTime];
 
-		// Add and minus
+		// Add
 		setTestNum(testTime, x, result);
 		long startTime = System.nanoTime();
 		for (int i = 0; i < testTime; i++) {
@@ -32,7 +32,7 @@ public class SpeedTestForMDNumbers {
 		System.out.println(String.format("The " + testTime + " add oprations take %.3f times more time for MDNumber.",
 				(duration2 - duration1) / ((double) duration1)));
 
-		// multiplication and division
+		// multiplication
 
 		setTestNum(testTime, x, result);
 		startTime = System.nanoTime();
@@ -53,7 +53,7 @@ public class SpeedTestForMDNumbers {
 		System.out.println(String.format("The " + testTime + " times oprations take %.3f times more time for MDNumber.",
 				(duration2 - duration1) / ((double) duration1)));
 
-		// power and root
+		// power
 
 		setTestNum(testTime, x, result);
 		startTime = System.nanoTime();
@@ -95,9 +95,33 @@ public class SpeedTestForMDNumbers {
 		endTime = System.nanoTime();
 		duration2 = endTime - startTime;
 
-		System.out.println(
-				String.format("The " + testTime + " pow operation take %.3f times more time than divide oprations for MDNumber.",
-						(duration2 - duration1) / ((double) duration1)));
+		System.out.println(String.format(
+				"The " + testTime + " pow operation take %.3f times more time than divide oprations for MDNumber.",
+				(duration2 - duration1) / ((double) duration1)));
+
+		// power and sqrt
+
+		setTestMDNum(testTime, numFactory, x, result, xDN, resultDN);
+
+		startTime = System.nanoTime();
+		for (int i = 0; i < testTime; i++) {
+			resultDN[i] = resultDN[i].sqrt();
+		}
+		endTime = System.nanoTime();
+		duration1 = endTime - startTime;
+
+		setTestMDNum(testTime, numFactory, x, result, xDN, resultDN);
+		startTime = System.nanoTime();
+
+		for (int i = 0; i < testTime; i++) {
+			resultDN[i] = resultDN[i].pow(0.5);
+		}
+		endTime = System.nanoTime();
+		duration2 = endTime - startTime;
+
+		System.out.println(String.format(
+				"The " + testTime + " pow operation take %.3f times more time than sqrt oprations for MDNumber.",
+				(duration2 - duration1) / ((double) duration1)));
 
 	}
 

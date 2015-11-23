@@ -27,7 +27,6 @@ public class MonatomicPositionInitializerTest {
 			NumberFactory.getInstance();
 		} catch (UnsupportedOperationException ex) {
 			NumberFactory.setFactorySetting("JavaDefaultNumberFactory");
-			NumberFactory.getInstance();
 		}
 	}
 

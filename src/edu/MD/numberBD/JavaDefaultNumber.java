@@ -55,11 +55,16 @@ public class JavaDefaultNumber implements MDNumber {
 
 	@Override
 	public MDNumber pow(int in) {
+		if (in==-1){
+			return new JavaDefaultNumber(1.0/this.num);
+		}
 		return new JavaDefaultNumber(Math.pow(num, in));
 	}
 
 	@Override
 	public MDNumber pow(double in) {
+		if (in==0.5) return this.sqrt();
+
 		return new JavaDefaultNumber(Math.pow(num, in));
 	}
 
