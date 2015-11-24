@@ -1,4 +1,4 @@
-package edu.MD.app;
+package edu.MD.application;
 
 public class ArgonMDSimualtion {
 
