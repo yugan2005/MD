@@ -1,13 +1,20 @@
 package edu.MD.modeling;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import edu.MD.number.*;
+import edu.MD.utility.MDPotentialConstants;
 import edu.MD.utility.MDVector;
 
 public class LJForceCalculator {
 
-	private final double sigma6, sigma12, epsilon, cutoffPotential;
+	private static Map<String, LJForceCalculator> instances = new HashMap<>();
 
-	private LJForceCalculator(final double sigma6, final double sigma12, final double epsilon,
-			final double cutoffPotential) {
+	private MDNumber sigma6, sigma12, epsilon, cutoffPotential;
+
+	private LJForceCalculator(MDNumber sigma6, MDNumber sigma12, MDNumber epsilon,
+			MDNumber cutoffPotential) {
 		this.sigma6 = sigma6;
 		this.sigma12 = sigma12;
 		this.epsilon = epsilon;
@@ -15,52 +22,58 @@ public class LJForceCalculator {
 	}
 
 	/**
+	 * Factory method, get a configured LJForceCalculator
+	 * 
+	 * @param "type":
+	 *            String: in form of 'ARGON_ARGON_5.0'. The last 5.0 means the
+	 *            cutoff radius is 5 times its averaged sigma potential
+	 *            parameter.
+	 * @return LJForceCalculator instance (from the HashMap)
+	 */
+	public static LJForceCalculator getInstance(String type) {
+		if (instances.get(type) == null) {
+			String p1Name = type.split("_")[0];
+			String p2Name = type.split("_")[1];
+			double cutoff = Double.parseDouble(type.split("_")[2]);
+			MDNumber p1Sigma, p2Sigma, p1Epsilon, p2Epsilon;
+			try {
+				p1Sigma = MDPotentialConstants.getSigma(p1Name);
+				p2Sigma = MDPotentialConstants.getSigma(p2Name);
+				p1Epsilon = MDPotentialConstants.getEpsilon(p1Name);
+				p2Epsilon = MDPotentialConstants.getEpsilon(p2Name);
+			} catch (IllegalArgumentException ex) {
+				throw new IllegalArgumentException("The type name is not correct, should be like 'ARGON_ARGON_5.0");
+			}
+
+			MDNumber sigma = p1Sigma.add(p2Sigma).divide(2);
+			MDNumber epsilon = p1Epsilon.add(p2Epsilon).divide(2);
+			MDNumber sigma6 = sigma.pow(6);
+			MDNumber sigma12 = sigma.pow(12);
+			MDNumber cutoffRadius = sigma.times(cutoff);
+			MDNumber cutoffPotential = epsilon.times(4).times(
+					(sigma12.times(-12).divide(cutoffRadius.pow(13)).add(sigma6.times(6).divide(cutoffRadius.pow(7)))));
+			instances.put(type, new LJForceCalculator(sigma6, sigma12, epsilon, cutoffPotential));
+		}
+		return instances.get(type);
+	}
+	
+
+	/**
+	 * The distance vector should be the output of the distanceFinder.</n>
+	 * 
+	 * If in PBC system, the minimum image convention should already be
+	 * applied</n>
+	 * 
 	 * @param p1_p2
-	 *            Distance vector from p2 to p1, i.e. vector p1-p2. If in PBC
-	 *            system, the minimum image convention should already be applied
-	 *            to the distance vector
-	 * @return Force vector of particle p1. This is the force acting on p1 and is
+	 *            Distance vector from p2 to p1, i.e. vector p1_p2. </n>
+	 * @return Force vector of particle p1, i.e. the force acting on p1 and is
 	 *         exerted by p2
 	 */
 	public MDVector calculate(MDVector p1_p2) {
-		double norm = p1_p2.norm();
-		double coefficient = 48 * epsilon * sigma12 / Math.pow(norm, 14) - 24 * epsilon * sigma6 / Math.pow(norm, 8)
-				+ cutoffPotential / norm;
-
+		MDNumber norm = p1_p2.norm();
+		MDNumber coefficient = epsilon.times(48).times(sigma12).divide(norm.pow(14))
+				.minus(epsilon.times(24).times(sigma6).divide(norm.pow(8))).add(cutoffPotential.divide(norm));
 		return p1_p2.times(coefficient);
 	}
-
-	/**
-	 * Factory method, get a configured LJForceCalculator
-	 * 
-	 * @param sigma6 LJ length parameter to the 6th power
-	 * @param sigma12 LJ length parameter to the 12th power
-	 * @param epsilon LJ energy parameter
-	 * @param cutoffPotential calculated using cutoff radius
-	 * @return LJForceCalculator
-	 */
-	public static LJForceCalculator getInstance(double sigma6, double sigma12, double epsilon, double cutoffPotential) {
-		return new LJForceCalculator(sigma6, sigma12, epsilon, cutoffPotential);
-	}
-
-	// TODO Move to other class, this is the way to obtain parameters for
-	// LJForceCalculator
-	// public MDVector calculate(Particle p1, Particle p2, ISystem system) {
-	// // potential parameters
-	// String keyPrefixString = p1.getType() + "_" + p1.getName() + "_" +
-	// p2.getType() + "_" + p2.getName() + "_";
-	// String keyString = keyPrefixString + "sigma_12";
-	// double sigma12 = system.getPotentialParameters(keyString);
-	// keyString = keyPrefixString + "sigma_6";
-	// double sigma6 = system.getPotentialParameters(keyString);
-	// keyString = keyPrefixString + "epsilon";
-	// double epsilon = system.getPotentialParameters(keyString);
-	// // cutoffPotential formula is on note Page1
-	// keyString = keyPrefixString + "cutoffPotential";
-	// double cutoffPotential = system.getPotentialParameters(keyString);
-	// // distance vector
-	// IDistanceFinder distanceFinder = system.getDistanceFinder();
-	// MDVector distance = distanceFinder.findDistance(p1, p2, system);
-	// }
 
 }

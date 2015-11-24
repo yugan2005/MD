@@ -1,40 +1,48 @@
 package edu.MD.modeling;
 
 import static org.junit.Assert.*;
-
 import static org.hamcrest.Matchers.*;
 
+
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
+import edu.MD.modeling.LJForceCalculator;
+import edu.MD.number.MDNumber;
+import edu.MD.number.NumberFactory;
+import edu.MD.utility.MDPotentialConstants;
 import edu.MD.utility.MDVector;
-import edu.MD.utility.PotentialConstants;
 import edu.MD.utility.Vector3DCartesian;
-import edu.MD.utility.Constants;
+
 public class LJForceCalculatorTest {
-	LJForceCalculator forceCalculator;
-	double epsilon, sigma, sigma6, sigma12, cutoffRadius, cutoffPotential;
+	private LJForceCalculator forceCalculator;
+	private MDNumber sigma;
+	private double cutoff;
+	private static NumberFactory numFactory;
+	
+	@BeforeClass
+	public static void globalInit(){
+		try {
+			numFactory = NumberFactory.getInstance();
+		}
+		catch (UnsupportedOperationException ex){
+			NumberFactory.setFactorySetting("JavaBigDecimalFactory", 32);
+			numFactory = NumberFactory.getInstance();
+		}
+	}
 
 	@Before
 	public void init() {
-		
-		epsilon = PotentialConstants.ARGON_EPSILON; // This initialize to Argon
-		sigma = PotentialConstants.ARGON_SIGMA;
-
-		cutoffRadius = 5 * sigma;
-
-		sigma6 = Math.pow(sigma, 6);
-		sigma12 = Math.pow(sigma, 12);
-		cutoffPotential = 4 * epsilon
-				* (-12 * sigma12 / Math.pow(cutoffRadius, 13) + 6 * sigma6 / Math.pow(cutoffRadius, 7));
-
-		forceCalculator = LJForceCalculator.getInstance(sigma6, sigma12, epsilon, cutoffPotential);
+		cutoff = 5;
+		forceCalculator = LJForceCalculator.getInstance("ARGON_ARGON_"+String.valueOf(cutoff));
+		sigma = MDPotentialConstants.getSigma("ARGON");
 	}
 
 	@Test
 	public void p1ForceOnP2IsOppositeOfP2ForceOnP1() {
 		MDVector p1 = new Vector3DCartesian(0, 0, 0);
-		MDVector p2 = new Vector3DCartesian(2 * sigma, 0, 0);
+		MDVector p2 = new Vector3DCartesian(sigma.times(2),numFactory.valueOf(0), numFactory.valueOf(0));
 		MDVector p1_p2 = p1.minus(p2);
 		MDVector p2_p1 = p2.minus(p1);
 
@@ -46,47 +54,44 @@ public class LJForceCalculatorTest {
 	@Test
 	public void closeParticlesHaveRepelForce() {
 		MDVector p1 = new Vector3DCartesian(0, 0, 0);
-		MDVector p2 = new Vector3DCartesian(0.1 * sigma, 0, 0);
+		MDVector p2 = new Vector3DCartesian(sigma.times(0.1),numFactory.valueOf(0), numFactory.valueOf(0));
 		MDVector p1_p2 = p1.minus(p2);
 
 		MDVector forceOnP1 = forceCalculator.calculate(p1_p2);
-		assertThat(forceOnP1.getCartesianComponent()[0], lessThan(0.0));
-		assertThat(forceOnP1.getCartesianComponent()[1], closeTo(0.0, Constants.MACHINE_DOUBLE_ERROR));
-		assertThat(forceOnP1.getCartesianComponent()[2], closeTo(0.0, Constants.MACHINE_DOUBLE_ERROR));
+		assertThat(forceOnP1.getCartesianComponent()[0].toDouble(), lessThan(0.0));
+		assertTrue(forceOnP1.getCartesianComponent()[1].approximateEqual(0));
+		assertTrue(forceOnP1.getCartesianComponent()[2].approximateEqual(0));
 	}
 
 	@Test
 	public void farParticlesHaveAttractForce() {
 		MDVector p1 = new Vector3DCartesian(0, 0, 0);
-		MDVector p2 = new Vector3DCartesian(2 * sigma, 0, 0);
+		MDVector p2 = new Vector3DCartesian(sigma.times(2),numFactory.valueOf(0), numFactory.valueOf(0));
 		MDVector p1_p2 = p1.minus(p2);
 
 		MDVector forceOnP1 = forceCalculator.calculate(p1_p2);
-		assertThat(forceOnP1.getCartesianComponent()[0], greaterThan(0.0));
-		assertThat(forceOnP1.getCartesianComponent()[1], closeTo(0.0, Constants.MACHINE_DOUBLE_ERROR));
-		assertThat(forceOnP1.getCartesianComponent()[2], closeTo(0.0, Constants.MACHINE_DOUBLE_ERROR));
+		assertThat(forceOnP1.getCartesianComponent()[0].toDouble(), greaterThan(0.0));
+		assertTrue(forceOnP1.getCartesianComponent()[1].approximateEqual(0));
+		assertTrue(forceOnP1.getCartesianComponent()[2].approximateEqual(0));
 	}
 
 	@Test
 	public void atCutoffParticlesHaveZeroForce() {
 		setSmallCutoffRadius(); // set the cutoff radius small
 		MDVector p1 = new Vector3DCartesian(0, 0, 0);
-		MDVector p2 = new Vector3DCartesian(cutoffRadius, 0, 0);
+		MDVector p2 = new Vector3DCartesian(sigma.times(cutoff), numFactory.valueOf(0), numFactory.valueOf(0));
 		MDVector p1_p2 = p1.minus(p2);
 
 		MDVector forceOnP1 = forceCalculator.calculate(p1_p2);
-		assertThat(forceOnP1.getCartesianComponent()[0], closeTo(0.0, Constants.MACHINE_DOUBLE_ERROR));
-		assertThat(forceOnP1.getCartesianComponent()[1], closeTo(0.0, Constants.MACHINE_DOUBLE_ERROR));
-		assertThat(forceOnP1.getCartesianComponent()[2], closeTo(0.0, Constants.MACHINE_DOUBLE_ERROR));
+		assertTrue(forceOnP1.getCartesianComponent()[0].approximateEqual(0));
+		assertTrue(forceOnP1.getCartesianComponent()[1].approximateEqual(0));
+		assertTrue(forceOnP1.getCartesianComponent()[2].approximateEqual(0));
 	}
 	
 	private void setSmallCutoffRadius(){
-		cutoffRadius = 1 * sigma;
-		cutoffPotential = 4 * epsilon
-				* (-12 * sigma12 / Math.pow(cutoffRadius, 13) + 6 * sigma6 / Math.pow(cutoffRadius, 7));
-
-		forceCalculator = LJForceCalculator.getInstance(sigma6, sigma12, epsilon, cutoffPotential);
-
+		cutoff = 1;
+		forceCalculator = LJForceCalculator.getInstance("ARGON_ARGON_"+String.valueOf(cutoff));
 	}
+
 
 }
