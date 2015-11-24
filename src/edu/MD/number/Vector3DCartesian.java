@@ -1,11 +1,8 @@
-package edu.MD.utility;
+package edu.MD.number;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import edu.MD.number.MDNumber;
-import edu.MD.number.NumberFactory;
 
 public class Vector3DCartesian implements MDVector {
 	private static final List<String> SUPPORTED_VECTOR_TYPE = new ArrayList<String>(Arrays.asList("Vector3DCartesian"));

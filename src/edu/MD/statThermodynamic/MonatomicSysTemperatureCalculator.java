@@ -2,9 +2,9 @@ package edu.MD.statThermodynamic;
 
 import edu.MD.modeling.Particle;
 import edu.MD.number.MDNumber;
+import edu.MD.number.MDVector;
 import edu.MD.utility.IterableCounter;
 import edu.MD.utility.MDConstants;
-import edu.MD.utility.MDVector;
 
 public class MonatomicSysTemperatureCalculator {
 

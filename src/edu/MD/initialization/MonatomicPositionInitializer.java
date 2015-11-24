@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.MD.number.MDNumber;
+import edu.MD.number.MDVector;
+import edu.MD.number.Vector3DCartesian;
 import edu.MD.utility.MDConstants;
-import edu.MD.utility.MDVector;
-import edu.MD.utility.Vector3DCartesian;
 
 public class MonatomicPositionInitializer {
 	private int filmThickness, filmSize, vaporOneSideThickness, vaporSize;

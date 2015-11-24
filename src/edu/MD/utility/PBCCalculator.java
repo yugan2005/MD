@@ -1,6 +1,7 @@
 package edu.MD.utility;
 
 import edu.MD.number.MDNumber;
+import edu.MD.number.MDVector;
 
 public class PBCCalculator {
 	private static PBCCalculator instance;

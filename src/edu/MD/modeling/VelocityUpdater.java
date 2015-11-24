@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import edu.MD.number.MDNumber;
+import edu.MD.number.MDVector;
 import edu.MD.number.NumberFactory;
 import edu.MD.utility.MDConstants;
-import edu.MD.utility.MDVector;
 
 public class VelocityUpdater {
 	private static NumberFactory numberFactory = NumberFactory.getInstance();

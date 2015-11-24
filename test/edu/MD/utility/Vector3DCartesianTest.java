@@ -8,9 +8,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import edu.MD.number.MDVector;
 import edu.MD.number.NumberFactory;
-import edu.MD.utility.MDVector;
-import edu.MD.utility.Vector3DCartesian;
+import edu.MD.number.Vector3DCartesian;
 
 public class Vector3DCartesianTest {
 	private Vector3DCartesian vector3DCartesian;

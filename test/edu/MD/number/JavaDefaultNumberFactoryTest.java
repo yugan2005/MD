@@ -3,6 +3,9 @@ package edu.MD.number;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.core.IsNot.*;
+
+import java.lang.reflect.InvocationTargetException;
+
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
@@ -19,8 +22,14 @@ public class JavaDefaultNumberFactoryTest {
 	public final ExpectedException exception = ExpectedException.none();
 
 	@BeforeClass
-	public static void initGlobalFactory() {
-		NumberFactory.setFactorySetting("JavaDefaultNumberFactory");
+	public static void globalInit() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+		try{
+			NumberFactory.setFactorySetting("JavaDefaultNumberFactory");
+		}
+		catch (Exception ex){
+			NumberFactory.destroyInstance();
+			NumberFactory.setFactorySetting("JavaDefaultNumberFactory");
+		}
 	}
 
 	@Before

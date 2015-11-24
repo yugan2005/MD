@@ -1,6 +1,6 @@
 package edu.MD.modeling;
 
-import edu.MD.utility.MDVector;
+import edu.MD.number.MDVector;
 import edu.MD.utility.PBCCalculator;
 
 public class PBCPairwiseDistanceFinder implements IDistanceFinder {

@@ -6,7 +6,7 @@ import org.nevec.rjm.BigDecimalMath;
 
 public class JavaBigDecimal implements MDNumber {
 	private final MathContext mc;
-	private BigDecimal num;
+	private final BigDecimal num;
 	public static final JavaBigDecimal ONE = new JavaBigDecimal(BigDecimal.ONE, JavaBigDecimalFactory.getMC());
 	public static final JavaBigDecimal ZERO = new JavaBigDecimal(BigDecimal.ZERO, JavaBigDecimalFactory.getMC());
 

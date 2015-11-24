@@ -1,7 +1,7 @@
 package edu.MD.modeling;
 
 import edu.MD.number.MDNumber;
-import edu.MD.utility.MDVector;
+import edu.MD.number.MDVector;
 
 public abstract class Particle {
 

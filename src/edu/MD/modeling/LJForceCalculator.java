@@ -5,7 +5,6 @@ import java.util.Map;
 
 import edu.MD.number.*;
 import edu.MD.utility.MDPotentialConstants;
-import edu.MD.utility.MDVector;
 
 public class LJForceCalculator {
 

@@ -1,6 +1,4 @@
-package edu.MD.utility;
-
-import edu.MD.number.MDNumber;
+package edu.MD.number;
 
 public interface MDVector {
 	public int getDimension();

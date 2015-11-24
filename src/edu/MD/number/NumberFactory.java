@@ -1,7 +1,6 @@
 package edu.MD.number;
 
-import java.math.MathContext;
-import java.math.RoundingMode;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -23,18 +22,17 @@ public abstract class NumberFactory {
 			Arrays.asList("JavaBigDecimalFactory", "JavaDefaultNumberFactory"));
 	private static NumberFactory numberFactory;
 	protected static int precision;
-	private static final MathContext MC = new MathContext(precision, RoundingMode.HALF_EVEN);
 
 
 	protected NumberFactory() {
 	}
 
 	/**
-	 * No argument version to get the singleton instance
+	 * No argument version to get the single instance
 	 * 
-	 * @return the singleton factory
+	 * @return the single instance factory
 	 */
-	public static synchronized NumberFactory getInstance() {
+	public static NumberFactory getInstance() {
 		if (numberFactory != null)
 			return numberFactory;
 		else
@@ -43,7 +41,7 @@ public abstract class NumberFactory {
 	}
 
 	/**
-	 * Initialize the NumberFactory singleton</n>
+	 * Initialize the NumberFactory single instance
 	 * 
 	 * @param numType
 	 *            String - Type of the numberfactory
@@ -51,32 +49,32 @@ public abstract class NumberFactory {
 	 *            int - Number of precision digits. As a reference, double has
 	 *            precision of 16 digits
 	 */
-	public static synchronized void setFactorySetting(String numType, int setPrecision) {
+	public static void setFactorySetting(String numType, int setPrecision) {
 		if (numberFactory != null)
 			throw new UnsupportedOperationException(
-					"The number facotry has been set and cannot be set again, use getInstance() to get the singleton instance");
-		precision = setPrecision;
+					"The number facotry has been set and cannot be set again, either use getInstance() to get the single instance, or use destroyInstance() first");
 		if (!NUMBER_TYPE.contains(numType))
 			throw new IllegalArgumentException(
 					"The type of number specified by numType has not been defined or added to the registry yet");
 		switch (numType) {
 		case "JavaBigDecimalFactory":
-			numberFactory = JavaBigDecimalFactory.INSTANCE;
+			precision = setPrecision;
+			numberFactory = JavaBigDecimalFactory.getInstance();
 			break;
 		case "JavaDefaultNumberFactory":
 			throw new IllegalArgumentException("JavaDefaultNumberFactory should be set without precision");
 		}
 	}
 
-	public static synchronized void setFactorySetting(String numType) {
+	public static void setFactorySetting(String numType) {
 		if (numberFactory != null)
 			throw new UnsupportedOperationException(
-					"The number facotry has been set and cannot be set again, use getInstance() to get the singleton instance");
+					"The number facotry has been set and cannot be set again, either use getInstance() to get the single instance, or use destroyInstance() first");
 		if (!(numType.equals("JavaDefaultNumberFactory")))
 			throw new IllegalArgumentException(
 					"The type of number specified by numType need specify the precision too. Only JavaDefaultNumberFactory can be set without precision.");
 
-		numberFactory = JavaDefaultNumberFactory.INSTANCE;
+		numberFactory = JavaDefaultNumberFactory.getInstance();
 	}
 
 	public static String getFactorySetting() {
@@ -87,11 +85,14 @@ public abstract class NumberFactory {
 			currentSetting += "precision is: " + precision + "/n";
 		return currentSetting;
 	}
-
-	public static MathContext getMC(){
-		return MC;
-	}
-	
 	
 	public abstract MDNumber valueOf(double in);
+	
+	public static void destroyInstance() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException{
+		if (numberFactory == null)
+			throw new UnsupportedOperationException("The number factory has not been initialized yet, nothing to destroy");
+		numberFactory.getClass().getMethod("destroyInstance").invoke(null);
+		numberFactory = null;
+		precision = 0;
+	}
 }

@@ -14,9 +14,9 @@ import edu.MD.initialization.MonatomicVelocityInitializer;
 import edu.MD.modeling.Particle;
 import edu.MD.modeling.ParticleFactory;
 import edu.MD.number.MDNumber;
+import edu.MD.number.MDVector;
 import edu.MD.number.NumberFactory;
 import edu.MD.statThermodynamic.MonatomicSysTemperatureCalculator;
-import edu.MD.utility.MDVector;
 
 public class MonatomicVelocityInitializerTest {
 	private MonatomicVelocityInitializer initializer;

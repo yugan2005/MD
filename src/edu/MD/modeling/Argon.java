@@ -1,8 +1,8 @@
 package edu.MD.modeling;
 
 import edu.MD.number.MDNumber;
+import edu.MD.number.MDVector;
 import edu.MD.utility.MDConstants;
-import edu.MD.utility.MDVector;
 
 public class Argon extends Particle {
 	private static final String NAME = "ARGON";

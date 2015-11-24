@@ -2,8 +2,8 @@ package edu.MD.statThermodynamic;
 
 import edu.MD.modeling.Particle;
 import edu.MD.number.MDNumber;
+import edu.MD.number.MDVector;
 import edu.MD.number.NumberFactory;
-import edu.MD.utility.MDVector;
 
 public class MonatomicSysKineticECalculator {
 	private static final NumberFactory numFactory = NumberFactory.getInstance();

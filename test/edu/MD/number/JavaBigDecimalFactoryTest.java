@@ -4,6 +4,8 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.core.IsNot.not;
 
+import java.lang.reflect.InvocationTargetException;
+
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
@@ -20,8 +22,14 @@ public class JavaBigDecimalFactoryTest {
 	public final ExpectedException exception = ExpectedException.none();
 
 	@BeforeClass
-	public static void initGlobalFactory() {
-		NumberFactory.setFactorySetting("JavaBigDecimalFactory", 32);
+	public static void globalInit() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+		try{
+			NumberFactory.setFactorySetting("JavaBigDecimalFactory", 32);
+		}
+		catch (Exception ex){
+			NumberFactory.destroyInstance();
+			NumberFactory.setFactorySetting("JavaBigDecimalFactory", 32);
+		}
 	}
 
 	@Before
