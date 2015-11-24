@@ -2,6 +2,8 @@ package edu.MD.utility;
 
 import static org.junit.Assert.*;
 
+import java.lang.reflect.InvocationTargetException;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -12,11 +14,12 @@ import edu.MD.utility.MDConstants;
 public class MDConstantsTest {
 	
 	@BeforeClass
-	public static void globalInit(){
-		try {
-			NumberFactory.getInstance();
+	public static void globalInit() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+		try{
+			NumberFactory.setFactorySetting("JavaBigDecimalFactory", 32);
 		}
-		catch (UnsupportedOperationException ex){
+		catch (Exception ex){
+			NumberFactory.destroyInstance();
 			NumberFactory.setFactorySetting("JavaBigDecimalFactory", 32);
 		}
 	}

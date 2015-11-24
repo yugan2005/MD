@@ -1,6 +1,9 @@
 package edu.MD.modeling;
 
 import static org.junit.Assert.*;
+
+import java.lang.reflect.InvocationTargetException;
+
 import static org.hamcrest.Matchers.*;
 
 
@@ -22,14 +25,15 @@ public class LJForceCalculatorTest {
 	private static NumberFactory numFactory;
 	
 	@BeforeClass
-	public static void globalInit(){
-		try {
-			numFactory = NumberFactory.getInstance();
-		}
-		catch (UnsupportedOperationException ex){
+	public static void globalInit() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+		try{
 			NumberFactory.setFactorySetting("JavaBigDecimalFactory", 32);
-			numFactory = NumberFactory.getInstance();
 		}
+		catch (Exception ex){
+			NumberFactory.destroyInstance();
+			NumberFactory.setFactorySetting("JavaBigDecimalFactory", 32);
+		}
+		numFactory = NumberFactory.getInstance();
 	}
 
 	@Before

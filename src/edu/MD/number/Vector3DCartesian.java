@@ -7,12 +7,14 @@ import java.util.List;
 public class Vector3DCartesian implements MDVector {
 	private static final List<String> SUPPORTED_VECTOR_TYPE = new ArrayList<String>(Arrays.asList("Vector3DCartesian"));
 	private final static NumberFactory numberFactory = NumberFactory.getInstance();
-	private MDNumber[] cartesianCoordinates = new MDNumber[3];
+	private final MDNumber compX, compY, compZ;
+	private final MDNumber[] cartesianCoordinates;
 
 	public Vector3DCartesian(MDNumber x, MDNumber y, MDNumber z) {
-		cartesianCoordinates[0] = x;
-		cartesianCoordinates[1] = y;
-		cartesianCoordinates[2] = z;
+		compX = x;
+		compY = y;
+		compZ = z;
+		cartesianCoordinates = new MDNumber[] { compX, compY, compZ };
 	}
 
 	public Vector3DCartesian(double x, double y, double z) {
@@ -46,9 +48,10 @@ public class Vector3DCartesian implements MDVector {
 	public Vector3DCartesian(MDNumber[] corrdinates) {
 		if (corrdinates.length != 3)
 			throw new IllegalArgumentException("The corrdinates is of wrong dimensions");
-		cartesianCoordinates[0] = corrdinates[0];
-		cartesianCoordinates[1] = corrdinates[1];
-		cartesianCoordinates[2] = corrdinates[2];
+		compX = corrdinates[0];
+		compY = corrdinates[1];
+		compZ = corrdinates[2];
+		cartesianCoordinates = new MDNumber[] { compX, compY, compZ };
 	}
 
 	@Override
@@ -163,7 +166,7 @@ public class Vector3DCartesian implements MDVector {
 			normSquare = normSquare.add(cartesianCoordinates[i].times(cartesianCoordinates[i]));
 		return normSquare;
 	}
-	
+
 	@Override
 	public MDNumber norm() {
 		return normSquare().sqrt();

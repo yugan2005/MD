@@ -2,6 +2,8 @@ package edu.MD.modeling;
 
 import static org.junit.Assert.*;
 
+import java.lang.reflect.InvocationTargetException;
+
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -19,13 +21,14 @@ public class VerletPositionUpdaterTest {
 	private VerletPositionUpdater positionUpdater;
 
 	@BeforeClass
-	public static void globalInit() {
+	public static void globalInit() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException,
+			NoSuchMethodException, SecurityException {
 		try {
-			NumberFactory.getInstance();
-		} catch (UnsupportedOperationException ex) {
+			NumberFactory.setFactorySetting("JavaBigDecimalFactory", 32);
+		} catch (Exception ex) {
+			NumberFactory.destroyInstance();
 			NumberFactory.setFactorySetting("JavaBigDecimalFactory", 32);
 		}
-
 	}
 
 	@Before

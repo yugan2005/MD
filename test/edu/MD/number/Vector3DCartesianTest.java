@@ -1,7 +1,10 @@
-package edu.MD.utility;
+package edu.MD.number;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+
+import java.lang.reflect.InvocationTargetException;
+
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
@@ -20,13 +23,15 @@ public class Vector3DCartesianTest {
 	public final ExpectedException exception = ExpectedException.none();
 
 	@BeforeClass
-	public static void globalInit() {
-		try {
-			numberFactory = NumberFactory.getInstance();
-		} catch (UnsupportedOperationException ex) {
+	public static void globalInit() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+		try{
 			NumberFactory.setFactorySetting("JavaBigDecimalFactory", 32);
-			numberFactory = NumberFactory.getInstance();
 		}
+		catch (Exception ex){
+			NumberFactory.destroyInstance();
+			NumberFactory.setFactorySetting("JavaBigDecimalFactory", 32);
+		}
+		numberFactory = NumberFactory.getInstance();
 	}
 
 	@Before
