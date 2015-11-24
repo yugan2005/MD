@@ -1,7 +1,7 @@
 package edu.MD.number;
 
 public class JavaDefaultNumber implements MDNumber {
-	private double num;
+	private final double num;
 	public static final JavaDefaultNumber ONE = new JavaDefaultNumber(1);
 	public static final JavaDefaultNumber ZERO = new JavaDefaultNumber(0);
 

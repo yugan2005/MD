@@ -1,5 +1,7 @@
 package edu.MD.number;
 
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -21,6 +23,8 @@ public abstract class NumberFactory {
 			Arrays.asList("JavaBigDecimalFactory", "JavaDefaultNumberFactory"));
 	private static NumberFactory numberFactory;
 	protected static int precision;
+	private static final MathContext MC = new MathContext(precision, RoundingMode.HALF_EVEN);
+
 
 	protected NumberFactory() {
 	}
@@ -84,5 +88,10 @@ public abstract class NumberFactory {
 		return currentSetting;
 	}
 
+	public static MathContext getMC(){
+		return MC;
+	}
+	
+	
 	public abstract MDNumber valueOf(double in);
 }
