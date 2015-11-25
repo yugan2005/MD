@@ -10,13 +10,13 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import edu.MD.globalSetting.NumberFactorySetting;
 import edu.MD.modeling.LJForceCalculator;
 import edu.MD.number.MDVector;
 import edu.MD.number.NumberFactory;
 import edu.MD.number.Vector3DCartesian;
 import edu.MD.utility.MDConstants;
 import edu.MD.utility.MDPotentialConstants;
-import globalSettingUtility.NumberFactorySetting;
 
 public class LJForceCalculatorTest {
 	private LJForceCalculator forceCalculator;

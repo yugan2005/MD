@@ -1,4 +1,4 @@
-package globalSettingUtility;
+package edu.MD.globalSetting;
 
 import java.lang.reflect.InvocationTargetException;
 

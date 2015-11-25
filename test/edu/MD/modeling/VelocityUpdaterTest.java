@@ -10,11 +10,11 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import edu.MD.globalSetting.NumberFactorySetting;
 import edu.MD.modeling.VelocityUpdater;
 import edu.MD.number.MDVector;
 import edu.MD.number.Vector3DCartesian;
 import edu.MD.utility.MDConstants;
-import globalSettingUtility.NumberFactorySetting;
 
 public class VelocityUpdaterTest {
 	private static VelocityUpdater velocityUpdater;

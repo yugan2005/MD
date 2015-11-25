@@ -11,10 +11,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import edu.MD.globalSetting.NumberFactorySetting;
 import edu.MD.number.MDVector;
 import edu.MD.number.NumberFactory;
 import edu.MD.number.Vector3DCartesian;
-import globalSettingUtility.NumberFactorySetting;
 
 public class Vector3DCartesianTest {
 	private Vector3DCartesian vector3DCartesian;

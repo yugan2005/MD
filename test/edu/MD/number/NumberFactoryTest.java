@@ -9,8 +9,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import edu.MD.globalSetting.NumberFactorySetting;
 import edu.MD.number.NumberFactory;
-import globalSettingUtility.NumberFactorySetting;
 
 public class NumberFactoryTest {
 	

@@ -11,14 +11,14 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import edu.MD.globalSetting.NumberFactorySetting;
+import edu.MD.globalSetting.PBCBoundarySetting;
 import edu.MD.initialization.MonatomicPositionInitializer;
 import edu.MD.modeling.PBCDistanceFinder;
 import edu.MD.number.MDNumber;
 import edu.MD.number.NumberFactory;
 import edu.MD.number.Vector3DCartesian;
 import edu.MD.utility.MDConstants;
-import globalSettingUtility.NumberFactorySetting;
-import globalSettingUtility.PBCBoundarySetting;
 
 public class MonatomicPositionInitializerTest {
 	private MonatomicPositionInitializer initializer;

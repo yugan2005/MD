@@ -12,13 +12,13 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import edu.MD.globalSetting.NumberFactorySetting;
+import edu.MD.globalSetting.PBCBoundarySetting;
 import edu.MD.modeling.LJForceCalculator;
 import edu.MD.modeling.PBCDistanceFinder;
 import edu.MD.number.MDVector;
 import edu.MD.number.Vector3DCartesian;
 import edu.MD.utility.MDPotentialConstants;
-import globalSettingUtility.NumberFactorySetting;
-import globalSettingUtility.PBCBoundarySetting;
 
 public class PBCPairwiseDistanceFinderTest {
 

@@ -1,4 +1,4 @@
-package globalSettingUtility;
+package edu.MD.globalSetting;
 
 import edu.MD.number.MDVector;
 import edu.MD.utility.PBCCalculator;

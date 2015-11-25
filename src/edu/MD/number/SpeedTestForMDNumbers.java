@@ -2,7 +2,7 @@ package edu.MD.number;
 
 import java.lang.reflect.InvocationTargetException;
 
-import globalSettingUtility.NumberFactorySetting;
+import edu.MD.globalSetting.NumberFactorySetting;
 
 public class SpeedTestForMDNumbers {
 	public static void main(String[] args) throws IllegalAccessException, IllegalArgumentException,

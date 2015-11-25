@@ -8,13 +8,13 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import edu.MD.globalSetting.NumberFactorySetting;
+import edu.MD.globalSetting.PBCBoundarySetting;
 import edu.MD.modeling.VerletPositionUpdater;
 import edu.MD.number.MDVector;
 import edu.MD.number.Vector3DCartesian;
 import edu.MD.utility.MDConstants;
 import edu.MD.utility.MDPotentialConstants;
-import globalSettingUtility.NumberFactorySetting;
-import globalSettingUtility.PBCBoundarySetting;
 
 public class VerletPositionUpdaterTest {
 	private VerletPositionUpdater positionUpdater;

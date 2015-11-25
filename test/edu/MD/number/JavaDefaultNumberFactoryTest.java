@@ -12,9 +12,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import edu.MD.globalSetting.NumberFactorySetting;
 import edu.MD.number.MDNumber;
 import edu.MD.number.NumberFactory;
-import globalSettingUtility.NumberFactorySetting;
 
 public class JavaDefaultNumberFactoryTest {
 	NumberFactory javaDefaultNumberFactory;

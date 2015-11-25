@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import edu.MD.globalSetting.NumberFactorySetting;
 import edu.MD.initialization.MonatomicPositionInitializer;
 import edu.MD.initialization.MonatomicVelocityInitializer;
 import edu.MD.modeling.Particle;
@@ -17,7 +18,6 @@ import edu.MD.modeling.ParticleFactory;
 import edu.MD.number.MDNumber;
 import edu.MD.number.MDVector;
 import edu.MD.statThermodynamic.MonatomicSysTemperatureCalculator;
-import globalSettingUtility.NumberFactorySetting;
 
 public class MonatomicVelocityInitializerTest {
 	private MonatomicVelocityInitializer initializer;
