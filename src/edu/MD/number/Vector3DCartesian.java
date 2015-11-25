@@ -122,9 +122,9 @@ public class Vector3DCartesian implements MDVector {
 	}
 
 	private Vector3DCartesian addVector3DCartesian(Vector3DCartesian vector) {
-		MDNumber x = cartesianCoordinates[0].add(vector.getCartesianComponent()[0]);
-		MDNumber y = cartesianCoordinates[1].add(vector.getCartesianComponent()[1]);
-		MDNumber z = cartesianCoordinates[2].add(vector.getCartesianComponent()[2]);
+		MDNumber x = cartesianCoordinates[0].plus(vector.getCartesianComponent()[0]);
+		MDNumber y = cartesianCoordinates[1].plus(vector.getCartesianComponent()[1]);
+		MDNumber z = cartesianCoordinates[2].plus(vector.getCartesianComponent()[2]);
 		return new Vector3DCartesian(x, y, z);
 	}
 
@@ -162,7 +162,7 @@ public class Vector3DCartesian implements MDVector {
 	public MDNumber normSquare() {
 		MDNumber normSquare = NumberFactory.getInstance().valueOf(0);
 		for (int i = 0; i < 3; i++)
-			normSquare = normSquare.add(cartesianCoordinates[i].times(cartesianCoordinates[i]));
+			normSquare = normSquare.plus(cartesianCoordinates[i].times(cartesianCoordinates[i]));
 		return normSquare;
 	}
 
@@ -181,17 +181,17 @@ public class Vector3DCartesian implements MDVector {
 
 	@Override
 	public MDVector add(MDNumber c) {
-		MDNumber x = cartesianCoordinates[0].add(c);
-		MDNumber y = cartesianCoordinates[1].add(c);
-		MDNumber z = cartesianCoordinates[2].add(c);
+		MDNumber x = cartesianCoordinates[0].plus(c);
+		MDNumber y = cartesianCoordinates[1].plus(c);
+		MDNumber z = cartesianCoordinates[2].plus(c);
 		return new Vector3DCartesian(x, y, z);
 	}
 
 	@Override
 	public MDVector add(double c) {
-		MDNumber x = cartesianCoordinates[0].add(c);
-		MDNumber y = cartesianCoordinates[1].add(c);
-		MDNumber z = cartesianCoordinates[2].add(c);
+		MDNumber x = cartesianCoordinates[0].plus(c);
+		MDNumber y = cartesianCoordinates[1].plus(c);
+		MDNumber z = cartesianCoordinates[2].plus(c);
 		return new Vector3DCartesian(x, y, z);
 	}
 

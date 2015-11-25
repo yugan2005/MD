@@ -42,7 +42,7 @@ public class JavaBigDecimalFactoryTest {
 		MDNumber x = javaBigDecimalFactory.valueOf(10864);
 		MDNumber y = javaBigDecimalFactory.valueOf(18817);
 		MDNumber z = javaBigDecimalFactory.valueOf(9).times(x.pow(4)).minus(y.pow(4))
-				.add(javaBigDecimalFactory.valueOf(2).times(y.pow(2)));
+				.plus(javaBigDecimalFactory.valueOf(2).times(y.pow(2)));
 		MDNumber expected = javaBigDecimalFactory.valueOf(1);
 		assertThat(z, equalTo(expected));
 	}
@@ -55,7 +55,7 @@ public class JavaBigDecimalFactoryTest {
 	@Test
 	public void javaBigDecimalCalculationTest2(){
 		MDNumber x = javaBigDecimalFactory.valueOf(0.1);
-		MDNumber y = x.add(x).add(x).add(x).add(x).add(x).add(x).add(x).add(x).add(x);
+		MDNumber y = x.plus(x).plus(x).plus(x).plus(x).plus(x).plus(x).plus(x).plus(x).plus(x);
 		double calculated = y.toDouble();
 		MDNumber expected = javaBigDecimalFactory.valueOf(1.0d); // correct value should be 1
 		double expectedDouble = expected.toDouble();
@@ -71,7 +71,7 @@ public class JavaBigDecimalFactoryTest {
 	public void javaBigDecimalCalculationTest3(){
 		MDNumber x = javaBigDecimalFactory.valueOf(1234.0d);
 		MDNumber y = javaBigDecimalFactory.valueOf(1.0e-13d);
-		MDNumber z = x.add(y);
+		MDNumber z = x.plus(y);
 		assertThat(z, not(equalTo(x)));
 	}
 }

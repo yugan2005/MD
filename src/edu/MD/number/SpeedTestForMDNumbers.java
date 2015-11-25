@@ -29,7 +29,7 @@ public class SpeedTestForMDNumbers {
 		setTestMDNum(testTime, numFactory, x, result, xDN, resultDN);
 		startTime = System.nanoTime();
 		for (int i = 0; i < testTime; i++) {
-			resultDN[i] = resultDN[i].add(xDN[i]);
+			resultDN[i] = resultDN[i].plus(xDN[i]);
 		}
 		endTime = System.nanoTime();
 		long duration2 = endTime - startTime;

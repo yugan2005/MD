@@ -63,7 +63,7 @@ public class MonatomicPositionInitializer {
 		totalNumberOfParticles = numOfVaporParticles + numOfLiquidParticles;
 
 		systemLength = liquidLatticeLength.times(filmThickness)
-				.add(vaporLatticeLength.times(vaporOneSideThickness * 2));
+				.plus(vaporLatticeLength.times(vaporOneSideThickness * 2));
 
 		systemBoundary = new Vector3DCartesian(systemSize, systemLength, systemSize);
 
@@ -144,7 +144,7 @@ public class MonatomicPositionInitializer {
 
 		// setting the higher y side vapor
 		MDVector highYVaporStartPoint = new Vector3DCartesian(0,
-				vaporLatticeLength.times(vaporOneSideThickness).add(liquidLatticeLength.times(filmThickness)), 0);
+				vaporLatticeLength.times(vaporOneSideThickness).plus(liquidLatticeLength.times(filmThickness)), 0);
 
 		for (int y = 0; y < vaporOneSideThickness; y++) {
 			for (int x = 0; x < vaporSize; x++) {

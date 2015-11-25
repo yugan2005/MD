@@ -49,7 +49,7 @@ public class MonatomicAxialBasedOnParticleDensityCalculator {
 		MDNumber ySum = NumberFactory.getInstance().valueOf(0);
 		for (int i = 0; i < numParticles; i++) {
 			MDNumber yLocalPosition = positionIterator.next().getCartesianComponent()[1];
-			ySum = ySum.add(yLocalPosition);
+			ySum = ySum.plus(yLocalPosition);
 			yLocalPositions.add(yLocalPosition);
 		}
 		while (positionIterator.hasNext()){
@@ -62,7 +62,7 @@ public class MonatomicAxialBasedOnParticleDensityCalculator {
 			yLocalPositions.poll();
 			MDNumber yNext = positionIterator.next().getCartesianComponent()[1];
 			yLocalPositions.add(yNext);
-			ySum = ySum.add(yNext);
+			ySum = ySum.plus(yNext);
 		}
 		return density;
 

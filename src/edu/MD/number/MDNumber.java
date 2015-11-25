@@ -8,9 +8,9 @@ public interface MDNumber extends Comparable<MDNumber>{
 
 	public MDNumber sqrt();
 
-	public MDNumber add(MDNumber in);
+	public MDNumber plus(MDNumber in);
 
-	public MDNumber add(double in);
+	public MDNumber plus(double in);
 
 	public MDNumber minus(MDNumber in);
 

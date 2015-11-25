@@ -24,7 +24,7 @@ public class JavaDefaultNumber implements MDNumber {
 	}
 
 	@Override
-	public MDNumber add(MDNumber in) {
+	public MDNumber plus(MDNumber in) {
 		JavaDefaultNumber javaDefaultNumberIn = checkinput(in);
 		return new JavaDefaultNumber(num + javaDefaultNumberIn.num);
 	}
@@ -117,7 +117,7 @@ public class JavaDefaultNumber implements MDNumber {
 	}
 
 	@Override
-	public MDNumber add(double in) {
+	public MDNumber plus(double in) {
 		return new JavaDefaultNumber(num + in);
 	}
 

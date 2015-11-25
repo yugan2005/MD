@@ -50,7 +50,7 @@ public class LJForceCalculator {
 			MDNumber sigma12 = sigma6.pow(2);
 			MDNumber cutoffRadius = sigma.times(cutoff);
 			MDNumber cutoffPotential = epsilon.times(4).times(
-					(sigma12.times(-12).divide(cutoffRadius.pow(13)).add(sigma6.times(6).divide(cutoffRadius.pow(7)))));
+					(sigma12.times(-12).divide(cutoffRadius.pow(13)).plus(sigma6.times(6).divide(cutoffRadius.pow(7)))));
 			instances.put(type, new LJForceCalculator(sigma6, sigma12, epsilon, cutoffPotential));
 		}
 		return instances.get(type);
@@ -71,7 +71,7 @@ public class LJForceCalculator {
 	public MDVector calculate(MDVector p1_p2) {
 		MDNumber norm = p1_p2.norm();
 		MDNumber coefficient = epsilon.times(48).times(sigma12).divide(norm.pow(14))
-				.minus(epsilon.times(24).times(sigma6).divide(norm.pow(8))).add(cutoffPotential.divide(norm));
+				.minus(epsilon.times(24).times(sigma6).divide(norm.pow(8))).plus(cutoffPotential.divide(norm));
 		return p1_p2.times(coefficient);
 	}
 

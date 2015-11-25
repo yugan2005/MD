@@ -43,7 +43,7 @@ public class JavaDefaultNumberFactoryTest {
 		MDNumber x = javaDefaultNumberFactory.valueOf(10864);
 		MDNumber y = javaDefaultNumberFactory.valueOf(18817);
 		MDNumber z = javaDefaultNumberFactory.valueOf(9).times(x.pow(4)).minus(y.pow(4))
-				.add(javaDefaultNumberFactory.valueOf(2).times(y.pow(2)));
+				.plus(javaDefaultNumberFactory.valueOf(2).times(y.pow(2)));
 		MDNumber expected = javaDefaultNumberFactory.valueOf(2); // correct
 																	// value
 																	// should be
@@ -59,7 +59,7 @@ public class JavaDefaultNumberFactoryTest {
 	@Test
 	public void javaDefaultDoubleShowsRoundErrorExample2() {
 		MDNumber x = javaDefaultNumberFactory.valueOf(0.1d);
-		MDNumber y = x.add(x).add(x).add(x).add(x).add(x).add(x).add(x).add(x).add(x);
+		MDNumber y = x.plus(x).plus(x).plus(x).plus(x).plus(x).plus(x).plus(x).plus(x).plus(x);
 		double calculated = y.toDouble();
 		MDNumber expected = javaDefaultNumberFactory.valueOf(1.0d); // correct
 																	// value
@@ -78,7 +78,7 @@ public class JavaDefaultNumberFactoryTest {
 	public void javaDefaultDoubleShowsRoundErrorExample3() {
 		MDNumber x = javaDefaultNumberFactory.valueOf(1234.0d);
 		MDNumber y = javaDefaultNumberFactory.valueOf(1.0e-13d);
-		MDNumber z = x.add(y);
+		MDNumber z = x.plus(y);
 		assertThat(z, equalTo(x));
 	}
 

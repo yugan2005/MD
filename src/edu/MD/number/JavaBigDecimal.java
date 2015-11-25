@@ -31,7 +31,7 @@ public class JavaBigDecimal implements MDNumber {
 	}
 
 	@Override
-	public JavaBigDecimal add(MDNumber in) {
+	public JavaBigDecimal plus(MDNumber in) {
 		JavaBigDecimal javaBigDecimalIn = checkinput(in);
 		return new JavaBigDecimal(num.add(javaBigDecimalIn.num, mc), mc);
 	}
@@ -139,7 +139,7 @@ public class JavaBigDecimal implements MDNumber {
 	}
 
 	@Override
-	public MDNumber add(double in) {
+	public MDNumber plus(double in) {
 		return new JavaBigDecimal(num.add(new BigDecimal(in, mc), mc), mc);
 	}
 

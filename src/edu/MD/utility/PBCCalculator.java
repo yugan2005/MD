@@ -68,7 +68,7 @@ public class PBCCalculator {
 			// System Boundary
 			if (!oldDistance[i].approximateEqual(bound[i].times(0.5))) {
 				adjustedDistances[i] = oldDistance[i]
-						.minus(bound[i].times(oldDistance[i].divide(bound[i]).add(0.5).floor()));
+						.minus(bound[i].times(oldDistance[i].divide(bound[i]).plus(0.5).floor()));
 			} else {
 				adjustedDistances[i] = oldDistance[i];
 			}

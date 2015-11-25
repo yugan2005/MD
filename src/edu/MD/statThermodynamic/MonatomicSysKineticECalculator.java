@@ -11,7 +11,7 @@ public class MonatomicSysKineticECalculator {
 		MDNumber kinecticE = NumberFactory.getInstance().valueOf(0);
 
 		for (MDVector velocity : velocities) {
-			kinecticE = kinecticE.add(velocity.normSquare());
+			kinecticE = kinecticE.plus(velocity.normSquare());
 		}
 
 		return kinecticE.times(mass).times(0.5);
@@ -24,7 +24,7 @@ public class MonatomicSysKineticECalculator {
 		MDNumber kinecticE = NumberFactory.getInstance().valueOf(0);
 
 		for (Particle particle : particles) {
-			kinecticE = kinecticE.add(particle.getVelocity().normSquare());
+			kinecticE = kinecticE.plus(particle.getVelocity().normSquare());
 		}
 
 		return kinecticE.times(mass).times(0.5);
