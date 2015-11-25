@@ -11,30 +11,26 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import edu.MD.modeling.VelocityUpdater;
-import edu.MD.number.MDNumber;
 import edu.MD.number.MDVector;
-import edu.MD.number.NumberFactory;
 import edu.MD.number.Vector3DCartesian;
 import edu.MD.utility.MDConstants;
 import globalSettingUtility.NumberFactorySetting;
 
 public class VelocityUpdaterTest {
 	private static VelocityUpdater velocityUpdater;
-	private static NumberFactory numberFactory;
 	private MDVector forceVector, oldVelocityVector;
 
 	@BeforeClass
 	public static void globalInit() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException,
 			NoSuchMethodException, SecurityException {
 		NumberFactorySetting.set("JavaBigDecimalFactory", 32);
-		numberFactory = NumberFactory.getInstance();
 		velocityUpdater = VelocityUpdater.getInstance("ARGON_1e-5");
 	}
 
 	@Before
 	public void init() {
-		MDNumber mass = MDConstants.getMass("ARGON");
-		forceVector = new Vector3DCartesian(mass.times(2), mass.times(2), numberFactory.valueOf(0));
+		double mass = MDConstants.getMass("ARGON");
+		forceVector = new Vector3DCartesian(2*mass, 2*mass, 0);
 		oldVelocityVector = new Vector3DCartesian(0, 0, 0);
 
 	}

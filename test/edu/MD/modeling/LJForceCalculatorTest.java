@@ -22,7 +22,6 @@ public class LJForceCalculatorTest {
 	private LJForceCalculator forceCalculator;
 	private MDNumber sigma;
 	private double cutoff;
-	private static NumberFactory numFactory;
 	
 	@BeforeClass
 	public static void globalInit() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
@@ -33,7 +32,6 @@ public class LJForceCalculatorTest {
 			NumberFactory.destroyInstance();
 			NumberFactory.setFactorySetting("JavaBigDecimalFactory", 32);
 		}
-		numFactory = NumberFactory.getInstance();
 	}
 
 	@Before
@@ -46,7 +44,7 @@ public class LJForceCalculatorTest {
 	@Test
 	public void p1ForceOnP2IsOppositeOfP2ForceOnP1() {
 		MDVector p1 = new Vector3DCartesian(0, 0, 0);
-		MDVector p2 = new Vector3DCartesian(sigma.times(2),numFactory.valueOf(0), numFactory.valueOf(0));
+		MDVector p2 = new Vector3DCartesian(sigma.times(2),NumberFactory.getInstance().valueOf(0), NumberFactory.getInstance().valueOf(0));
 		MDVector p1_p2 = p1.minus(p2);
 		MDVector p2_p1 = p2.minus(p1);
 
@@ -58,7 +56,7 @@ public class LJForceCalculatorTest {
 	@Test
 	public void closeParticlesHaveRepelForce() {
 		MDVector p1 = new Vector3DCartesian(0, 0, 0);
-		MDVector p2 = new Vector3DCartesian(sigma.times(0.1),numFactory.valueOf(0), numFactory.valueOf(0));
+		MDVector p2 = new Vector3DCartesian(sigma.times(0.1),NumberFactory.getInstance().valueOf(0), NumberFactory.getInstance().valueOf(0));
 		MDVector p1_p2 = p1.minus(p2);
 
 		MDVector forceOnP1 = forceCalculator.calculate(p1_p2);
@@ -70,7 +68,7 @@ public class LJForceCalculatorTest {
 	@Test
 	public void farParticlesHaveAttractForce() {
 		MDVector p1 = new Vector3DCartesian(0, 0, 0);
-		MDVector p2 = new Vector3DCartesian(sigma.times(2),numFactory.valueOf(0), numFactory.valueOf(0));
+		MDVector p2 = new Vector3DCartesian(sigma.times(2),NumberFactory.getInstance().valueOf(0), NumberFactory.getInstance().valueOf(0));
 		MDVector p1_p2 = p1.minus(p2);
 
 		MDVector forceOnP1 = forceCalculator.calculate(p1_p2);
@@ -83,7 +81,7 @@ public class LJForceCalculatorTest {
 	public void atCutoffParticlesHaveZeroForce() {
 		setSmallCutoffRadius(); // set the cutoff radius small
 		MDVector p1 = new Vector3DCartesian(0, 0, 0);
-		MDVector p2 = new Vector3DCartesian(sigma.times(cutoff), numFactory.valueOf(0), numFactory.valueOf(0));
+		MDVector p2 = new Vector3DCartesian(sigma.times(cutoff), NumberFactory.getInstance().valueOf(0), NumberFactory.getInstance().valueOf(0));
 		MDVector p1_p2 = p1.minus(p2);
 
 		MDVector forceOnP1 = forceCalculator.calculate(p1_p2);

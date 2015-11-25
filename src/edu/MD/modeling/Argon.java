@@ -1,12 +1,11 @@
 package edu.MD.modeling;
 
-import edu.MD.number.MDNumber;
 import edu.MD.number.MDVector;
 import edu.MD.utility.MDConstants;
 
 public class Argon extends Particle {
 	private static final String NAME = "ARGON";
-	private static final MDNumber MASS = MDConstants.getMass(NAME);
+	private static final double MASS = MDConstants.getMass(NAME);
 	private static final int DOF = MDConstants.getDOF(NAME);;
 	private MDVector position;
 	private MDVector velocity;
@@ -26,7 +25,7 @@ public class Argon extends Particle {
 	}
 	
 	@Override
-	public MDNumber getMass() {
+	public double getMass() {
 		return MASS;
 	}
 

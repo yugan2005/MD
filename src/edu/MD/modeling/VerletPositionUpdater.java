@@ -3,19 +3,16 @@ package edu.MD.modeling;
 import java.util.HashMap;
 import java.util.Map;
 
-import edu.MD.number.MDNumber;
 import edu.MD.number.MDVector;
-import edu.MD.number.NumberFactory;
 import edu.MD.utility.MDConstants;
 import edu.MD.utility.PBCCalculator;
 
 public class VerletPositionUpdater {
-	private static NumberFactory numberFactory = NumberFactory.getInstance();
 	private static Map<String, VerletPositionUpdater> instances = new HashMap<>();
 
-	private MDNumber mass, dt;
+	private double mass, dt;
 
-	private VerletPositionUpdater(MDNumber mass, MDNumber dt) {
+	private VerletPositionUpdater(double mass, double dt) {
 		this.mass = mass;
 		this.dt = dt;
 	}
@@ -31,8 +28,8 @@ public class VerletPositionUpdater {
 	public static VerletPositionUpdater getInstance(String type) {
 		if (instances.get(type) == null) {
 			String name = type.split("_")[0];
-			MDNumber dt = numberFactory.valueOf(Double.parseDouble(type.split("_")[1]));
-			MDNumber mass;
+			double dt = Double.parseDouble(type.split("_")[1]);
+			double mass;
 			try {
 				mass = MDConstants.getMass(name);
 			} catch (IllegalArgumentException ex) {
@@ -55,8 +52,7 @@ public class VerletPositionUpdater {
 	 */
 	public MDVector calculate(MDVector oldPosition, MDVector oldVelocity, MDVector forceVector) {
 		PBCCalculator pbc = PBCCalculator.getInstance();
-		MDVector newPosition = oldPosition.add(oldVelocity.times(dt))
-				.add(forceVector.times(dt.pow(2)).divide(mass.times(2)));
+		MDVector newPosition = oldPosition.add(oldVelocity.times(dt)).add(forceVector.times(dt * dt).divide(2 * mass));
 		MDVector adjustedPosition = pbc.applyPBC(newPosition);
 		return adjustedPosition;
 	}

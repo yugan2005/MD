@@ -18,7 +18,6 @@ import globalSettingUtility.NumberFactorySetting;
 
 public class Vector3DCartesianTest {
 	private Vector3DCartesian vector3DCartesian;
-	private static NumberFactory numberFactory;
 
 	@Rule
 	public final ExpectedException exception = ExpectedException.none();
@@ -27,7 +26,6 @@ public class Vector3DCartesianTest {
 	public static void globalInit() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException,
 			NoSuchMethodException, SecurityException {
 		NumberFactorySetting.set("JavaBigDecimalFactory", 32);
-		numberFactory = NumberFactory.getInstance();
 	}
 
 	@Before
@@ -38,12 +36,12 @@ public class Vector3DCartesianTest {
 	@Test
 	public void addVectorWithCorrectDeclaredClass() {
 
-		MDVector vectorWithCorrectDeclaredClass = new Vector3DCartesian(numberFactory.valueOf(2),
-				numberFactory.valueOf(2), numberFactory.valueOf(2));
+		MDVector vectorWithCorrectDeclaredClass = new Vector3DCartesian(NumberFactory.getInstance().valueOf(2),
+				NumberFactory.getInstance().valueOf(2), NumberFactory.getInstance().valueOf(2));
 		MDVector actualResult = vector3DCartesian.add(vectorWithCorrectDeclaredClass);
 
-		MDVector expectedResult = new Vector3DCartesian(numberFactory.valueOf(3), numberFactory.valueOf(3),
-				numberFactory.valueOf(3));
+		MDVector expectedResult = new Vector3DCartesian(NumberFactory.getInstance().valueOf(3), NumberFactory.getInstance().valueOf(3),
+				NumberFactory.getInstance().valueOf(3));
 
 		assertThat(actualResult, equalTo(expectedResult));
 	}
@@ -51,12 +49,12 @@ public class Vector3DCartesianTest {
 	@Test
 	public void subtractVectorWithCorrectDeclaredClass() {
 
-		MDVector vectorWithCorrectDeclaredClass = new Vector3DCartesian(numberFactory.valueOf(2),
-				numberFactory.valueOf(2), numberFactory.valueOf(2));
+		MDVector vectorWithCorrectDeclaredClass = new Vector3DCartesian(NumberFactory.getInstance().valueOf(2),
+				NumberFactory.getInstance().valueOf(2), NumberFactory.getInstance().valueOf(2));
 		MDVector actualResult = vector3DCartesian.minus(vectorWithCorrectDeclaredClass);
 
-		MDVector expectedResult = new Vector3DCartesian(numberFactory.valueOf(-1), numberFactory.valueOf(-1),
-				numberFactory.valueOf(-1));
+		MDVector expectedResult = new Vector3DCartesian(NumberFactory.getInstance().valueOf(-1), NumberFactory.getInstance().valueOf(-1),
+				NumberFactory.getInstance().valueOf(-1));
 
 		assertThat(actualResult, equalTo(expectedResult));
 	}
@@ -64,8 +62,8 @@ public class Vector3DCartesianTest {
 	@Test
 	public void twoEqualVectorsHaveTheSameHashCode() {
 
-		MDVector vector = new Vector3DCartesian(numberFactory.valueOf(1), numberFactory.valueOf(1),
-				numberFactory.valueOf(1));
+		MDVector vector = new Vector3DCartesian(NumberFactory.getInstance().valueOf(1), NumberFactory.getInstance().valueOf(1),
+				NumberFactory.getInstance().valueOf(1));
 
 		assertThat(vector.hashCode(), equalTo(vector3DCartesian.hashCode()));
 	}

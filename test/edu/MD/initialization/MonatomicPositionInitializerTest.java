@@ -14,6 +14,7 @@ import org.junit.Test;
 import edu.MD.initialization.MonatomicPositionInitializer;
 import edu.MD.modeling.PBCDistanceFinder;
 import edu.MD.number.MDNumber;
+import edu.MD.number.NumberFactory;
 import edu.MD.number.Vector3DCartesian;
 import edu.MD.utility.MDConstants;
 import globalSettingUtility.NumberFactorySetting;
@@ -27,7 +28,7 @@ public class MonatomicPositionInitializerTest {
 
 	@BeforeClass
 	public static void globalInit() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
-		NumberFactorySetting.set("JavaBigDecimalFactory", 16);
+		NumberFactorySetting.set("JavaDefaultNumberFactory");
 	}
 
 	@Before
@@ -46,7 +47,7 @@ public class MonatomicPositionInitializerTest {
 	public void initializerGiveCorrectNumberOfLiquid() {
 		int numOfLiquid = initializer.getNumOfLiquidParticles();
 
-		MDNumber liquidMolarDensity = MDConstants.getMolarDensity(name, temperature, "liquid");
+		MDNumber liquidMolarDensity = NumberFactory.getInstance().valueOf(MDConstants.getMolarDensity(name, temperature, "liquid"));
 		MDNumber liquidLatticeLength = initializer.getSystemBoundary().getCartesianComponent()[0].divide(filmSize);
 		MDNumber liquidVolume = liquidLatticeLength.pow(3).times(filmSize * filmSize * filmThickness);
 
@@ -62,7 +63,7 @@ public class MonatomicPositionInitializerTest {
 		MDNumber liquidLatticeLength = initializer.getSystemBoundary().getCartesianComponent()[0].divide(filmSize);
 		MDNumber liquidVolume = liquidLatticeLength.pow(3).times(filmSize * filmSize * filmThickness);
 		MDNumber vaporVolume = totalVolume.minus(liquidVolume);
-		MDNumber vaporMolarDensity = MDConstants.getMolarDensity(name, temperature, "vapor");
+		MDNumber vaporMolarDensity = NumberFactory.getInstance().valueOf(MDConstants.getMolarDensity(name, temperature, "vapor"));
 		int numOfVaporExpected = vaporVolume.times(vaporMolarDensity).times(MDConstants.AVOGADRO).round();
 
 		assertThat(numOfVapor, equalTo(numOfVaporExpected));

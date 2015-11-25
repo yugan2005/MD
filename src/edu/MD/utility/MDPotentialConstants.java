@@ -7,7 +7,6 @@ import edu.MD.number.MDNumber;
 import edu.MD.number.NumberFactory;
 
 public class MDPotentialConstants {
-	private static NumberFactory numberFactory = NumberFactory.getInstance();
 	public static Map<String, MDNumber> sigma = new HashMap<>();
 	public static Map<String, MDNumber> epsilon = new HashMap<>();
 	
@@ -15,8 +14,8 @@ public class MDPotentialConstants {
 		String argon = "ARGON";
 		double argonSigma = 3.4e-10; // LJ Length parameter in (m) - The original value
 		double argonEpsilon = 1.67e-21; // LJ energy parameter in (J) - The original value
-		sigma.put(argon, numberFactory.valueOf(argonSigma)); 
-		epsilon.put(argon, numberFactory.valueOf(argonEpsilon));
+		sigma.put(argon, NumberFactory.getInstance().valueOf(argonSigma)); 
+		epsilon.put(argon, NumberFactory.getInstance().valueOf(argonEpsilon));
 	}
 
 	public static MDNumber getSigma(String name) {

@@ -6,10 +6,9 @@ import edu.MD.number.MDVector;
 import edu.MD.number.NumberFactory;
 
 public class MonatomicSysKineticECalculator {
-	private static final NumberFactory numFactory = NumberFactory.getInstance();
 
-	public static MDNumber calculate(Iterable<MDVector> velocities, MDNumber mass) {
-		MDNumber kinecticE = numFactory.valueOf(0);
+	public static MDNumber calculate(Iterable<MDVector> velocities, double mass) {
+		MDNumber kinecticE = NumberFactory.getInstance().valueOf(0);
 
 		for (MDVector velocity : velocities) {
 			kinecticE = kinecticE.add(velocity.normSquare());
@@ -20,9 +19,9 @@ public class MonatomicSysKineticECalculator {
 
 	public static MDNumber calculate(Iterable<Particle> particles) {
 		Particle sampleParticle = particles.iterator().next();
-		MDNumber mass = sampleParticle.getMass();
+		double mass = sampleParticle.getMass();
 
-		MDNumber kinecticE = numFactory.valueOf(0);
+		MDNumber kinecticE = NumberFactory.getInstance().valueOf(0);
 
 		for (Particle particle : particles) {
 			kinecticE = kinecticE.add(particle.getVelocity().normSquare());

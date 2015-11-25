@@ -1,6 +1,5 @@
 package edu.MD.modeling;
 
-import edu.MD.number.MDNumber;
 import edu.MD.number.MDVector;
 
 public abstract class Particle {
@@ -10,7 +9,7 @@ public abstract class Particle {
 	public abstract void setInitialPosition(MDVector initialPosition);
 	public abstract void setInitialVelocity(MDVector initialVelocity);
 
-	public abstract MDNumber getMass();
+	public abstract double getMass();
 	public abstract int getDOF();
 
 }

@@ -1,9 +1,14 @@
 package edu.MD.number;
 
+import java.lang.reflect.InvocationTargetException;
+
+import globalSettingUtility.NumberFactorySetting;
+
 public class SpeedTestForMDNumbers {
-	public static void main(String[] args) {
-		NumberFactory.setFactorySetting("JavaBigDecimalFactory", 64);
-		// NumberFactory.setFactorySetting("JavaDefaultNumberFactory");
+	public static void main(String[] args) throws IllegalAccessException, IllegalArgumentException,
+			InvocationTargetException, NoSuchMethodException, SecurityException {
+		NumberFactorySetting.set("JavaBigDecimalFactory", 64);
+		// NumberFactorySetting.set("JavaDefaultNumberFactory");
 		int testTime = 10000;
 
 		NumberFactory numFactory = NumberFactory.getInstance();

@@ -3,18 +3,15 @@ package edu.MD.modeling;
 import java.util.HashMap;
 import java.util.Map;
 
-import edu.MD.number.MDNumber;
 import edu.MD.number.MDVector;
-import edu.MD.number.NumberFactory;
 import edu.MD.utility.MDConstants;
 
 public class VelocityUpdater {
-	private static NumberFactory numberFactory = NumberFactory.getInstance();
 	private static Map<String, VelocityUpdater> instances = new HashMap<>();
 
-	private MDNumber mass, dt;
+	private double mass, dt;
 
-	private VelocityUpdater(MDNumber mass, MDNumber dt) {
+	private VelocityUpdater(double mass, double dt) {
 		this.mass = mass;
 		this.dt = dt;
 	}
@@ -30,8 +27,8 @@ public class VelocityUpdater {
 	public static VelocityUpdater getInstance(String type) {
 		if (instances.get(type) == null) {
 			String name = type.split("_")[0];
-			MDNumber dt = numberFactory.valueOf(Double.parseDouble(type.split("_")[1]));
-			MDNumber mass;
+			double dt = Double.parseDouble(type.split("_")[1]);
+			double mass;
 			try {
 				mass = MDConstants.getMass(name);
 			} catch (IllegalArgumentException ex) {

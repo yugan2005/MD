@@ -8,19 +8,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
-import edu.MD.number.MDNumber;
-import edu.MD.number.NumberFactory;
 
 public class NISTSaturationPropertiesReader {
-	private final NumberFactory numberFactory = NumberFactory.getInstance();
 	private String filename;
 	private final String fileNameSurffix = "_saturation_properties.txt";
-	private Map<String, TreeMap<Double, MDNumber>> saturationDensityVSTemperature = new HashMap<>();
+	private Map<String, TreeMap<Double, Double>> saturationDensityVSTemperature = new HashMap<>();
 
 	public NISTSaturationPropertiesReader(String name) throws FileNotFoundException, IOException {
 		filename = name + fileNameSurffix;
-		TreeMap<Double, MDNumber> vaporDensity = new TreeMap<>();
-		TreeMap<Double, MDNumber> liquidDensity = new TreeMap<>();
+		TreeMap<Double, Double> vaporDensity = new TreeMap<>();
+		TreeMap<Double, Double> liquidDensity = new TreeMap<>();
 		saturationDensityVSTemperature.put("vapor", vaporDensity);
 		saturationDensityVSTemperature.put("liquid", liquidDensity);
 		readFile();
@@ -42,15 +39,14 @@ public class NISTSaturationPropertiesReader {
 																				// Unit
 																				// of
 																				// mol/m^3
-				saturationDensityVSTemperature.get("liquid").put(temperature,
-						numberFactory.valueOf(liquidMolarDensity));
-				saturationDensityVSTemperature.get("vapor").put(temperature, numberFactory.valueOf(vaporMolarDensity));
+				saturationDensityVSTemperature.get("liquid").put(temperature, liquidMolarDensity);
+				saturationDensityVSTemperature.get("vapor").put(temperature, vaporMolarDensity);
 			}
 
 		}
 	}
 
-	public Map<String, TreeMap<Double, MDNumber>> getSaturationDensityVSTemperature() {
+	public Map<String, TreeMap<Double, Double>> getSaturationDensityVSTemperature() {
 		return saturationDensityVSTemperature;
 	}
 

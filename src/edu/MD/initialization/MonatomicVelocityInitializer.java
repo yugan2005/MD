@@ -5,6 +5,7 @@ import java.util.List;
 
 import edu.MD.number.MDNumber;
 import edu.MD.number.MDVector;
+import edu.MD.number.NumberFactory;
 import edu.MD.number.Vector3DCartesian;
 import edu.MD.statThermodynamic.MonatomicSysTemperatureCalculator;
 import edu.MD.utility.MDConstants;
@@ -16,7 +17,7 @@ public class MonatomicVelocityInitializer {
 	
 	
 	public MonatomicVelocityInitializer(String name, int totalNumParticles, double temperature){
-		this.mass = MDConstants.getMass(name);
+		this.mass = NumberFactory.getInstance().valueOf(MDConstants.getMass(name));
 		characteristicVelocity = mass.pow(-1).times(MDConstants.KB*temperature).pow(0.5);
 		velocities = new ArrayList<>(totalNumParticles);
 		

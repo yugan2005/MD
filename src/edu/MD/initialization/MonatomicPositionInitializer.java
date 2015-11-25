@@ -5,6 +5,7 @@ import java.util.List;
 
 import edu.MD.number.MDNumber;
 import edu.MD.number.MDVector;
+import edu.MD.number.NumberFactory;
 import edu.MD.number.Vector3DCartesian;
 import edu.MD.utility.MDConstants;
 
@@ -44,8 +45,8 @@ public class MonatomicPositionInitializer {
 		this.filmSize = filmSize;
 		this.vaporOneSideThickness = vaporOneSideThickness;
 
-		vaporMolarDensity = MDConstants.getMolarDensity(name, temperature, "vapor");
-		liquidMolarDensity = MDConstants.getMolarDensity(name, temperature, "liquid");
+		vaporMolarDensity = NumberFactory.getInstance().valueOf(MDConstants.getMolarDensity(name, temperature, "vapor"));
+		liquidMolarDensity = NumberFactory.getInstance().valueOf(MDConstants.getMolarDensity(name, temperature, "liquid"));
 
 		liquidFCCLattice();
 		systemSize = liquidLatticeLength.times(filmSize);

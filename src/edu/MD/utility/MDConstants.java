@@ -6,11 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
-import edu.MD.number.MDNumber;
-import edu.MD.number.NumberFactory;
 
 public class MDConstants {
-	private static NumberFactory numberFactory = NumberFactory.getInstance();
 
 	// Following are General Constant
 	public static final double MACHINE_DOUBLE_ERROR = 1e-28; // reference:
@@ -38,13 +35,13 @@ public class MDConstants {
 																// J�mol-1�K-1
 
 	// Following are Particle Constant in SI units
-	private static Map<String, MDNumber> mass = new HashMap<>();
+	private static Map<String, Double> mass = new HashMap<>();
 	private static Map<String, Integer> DOF = new HashMap<>();
-	private static Map<String, TreeMap<Double, MDNumber>> vaporDensity = new HashMap<>();
-	private static Map<String, TreeMap<Double, MDNumber>> liquidDensity = new HashMap<>();
-	private static Map<String, TreeMap<Double, MDNumber>> solidDensity = new HashMap<>();
+	private static Map<String, TreeMap<Double, Double>> vaporDensity = new HashMap<>();
+	private static Map<String, TreeMap<Double, Double>> liquidDensity = new HashMap<>();
+	private static Map<String, TreeMap<Double, Double>> solidDensity = new HashMap<>();
 
-	public static MDNumber getMass(String name) {
+	public static Double getMass(String name) {
 		if (mass.get(name) != null)
 			return mass.get(name);
 		throw new IllegalArgumentException("There is no mass value for the particle: " + name);
@@ -58,10 +55,10 @@ public class MDConstants {
 	 * @param phase
 	 *            specify the phase for getting the molar density: solid /
 	 *            liquid / vapor
-	 * @return Molardensity in MDNumber format
+	 * @return Molardensity in Double format
 	 */
-	public static MDNumber getMolarDensity(String name, double temperature, String phase) {
-		Map<String, TreeMap<Double, MDNumber>> density;
+	public static Double getMolarDensity(String name, double temperature, String phase) {
+		Map<String, TreeMap<Double, Double>> density;
 		switch (phase) {
 		case "vapor":
 			density = vaporDensity;
@@ -80,15 +77,15 @@ public class MDConstants {
 				|| density.get(name).firstKey() > temperature)
 			throw new IllegalArgumentException(
 					"Either the particle name is not implemented, or the temperature is out of range");
-		TreeMap<Double, MDNumber> particleDensity = density.get(name);
-		
+		TreeMap<Double, Double> particleDensity = density.get(name);
+
 		if (particleDensity.get(temperature) != null)
 			return particleDensity.get(temperature);
-		
-		Map.Entry<Double, MDNumber> floor = particleDensity.floorEntry(temperature);
-		Map.Entry<Double, MDNumber> ceil = particleDensity.ceilingEntry(temperature);
-		return ceil.getValue().minus(floor.getValue()).divide(ceil.getKey() - floor.getKey())
-				.times(temperature - floor.getKey()).add(floor.getValue());
+
+		Map.Entry<Double, Double> floor = particleDensity.floorEntry(temperature);
+		Map.Entry<Double, Double> ceil = particleDensity.ceilingEntry(temperature);
+		return (ceil.getValue() - floor.getValue()) / (ceil.getKey() - floor.getKey()) * (temperature - floor.getKey())
+				+ (floor.getValue());
 	}
 
 	static {
@@ -96,7 +93,7 @@ public class MDConstants {
 		double argonMass = 6.6331e-26; // Mass of argon atom (Kg) - The original
 										// value
 		int argonDOF = 3;
-		mass.put(argon, numberFactory.valueOf(argonMass));
+		mass.put(argon, argonMass);
 		DOF.put(argon, argonDOF);
 
 		// set argon's vapor and liquid density
