@@ -53,7 +53,8 @@ public class MonatomicAxialBasedOnParticleDensityCalculatorTest {
 		List<List<MDNumber>> densityProfile = MonatomicAxialBasedOnParticleDensityCalculator.calculate(positions, systemBoundary);
 
 		MDNumber averageDensity = densityProfile.get(1).get(0);
-		for (int i=1; i<densityProfile.get(1).size(); i++){
+		MDNumber yLocation = densityProfile.get(0).get(0);
+		for (int i=0; i<densityProfile.get(1).size(); i++){
 			averageDensity = averageDensity.plus(densityProfile.get(1).get(i));
 		}
 		// TODO worked to here
