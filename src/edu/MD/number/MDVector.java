@@ -1,6 +1,7 @@
 package edu.MD.number;
 
 public interface MDVector {
+
 	public int getDimension();
 
 	public MDNumber[] getCartesianComponent();
@@ -26,7 +27,7 @@ public interface MDVector {
 	public int hashCode();
 
 	public MDNumber norm();
-	
+
 	public MDNumber normSquare();
 
 	public MDVector times(MDNumber c);
@@ -73,7 +74,7 @@ public interface MDVector {
 	 * @param vector
 	 * @return boolean for whether this vector is strictly less than the other
 	 */
-	public default boolean allComponentLessOrEqual(MDVector vector){
+	public default boolean allComponentLessOrEqual(MDVector vector) {
 		if (this.getDimension() != vector.getDimension())
 			throw new IllegalArgumentException("The input vector has different dimension. Cannot compare");
 		boolean result = true;
@@ -85,5 +86,7 @@ public interface MDVector {
 		}
 		return result;
 	}
+
+	public MDVector getVectorFromCartesianComps(MDNumber[] comps);
 
 }

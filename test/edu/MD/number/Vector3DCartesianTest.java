@@ -14,6 +14,7 @@ import org.junit.rules.ExpectedException;
 import edu.MD.number.MDVector;
 import edu.MD.number.NumberFactory;
 import edu.MD.number.Vector3DCartesian;
+import globalSettingUtility.NumberFactorySetting;
 
 public class Vector3DCartesianTest {
 	private Vector3DCartesian vector3DCartesian;
@@ -23,14 +24,9 @@ public class Vector3DCartesianTest {
 	public final ExpectedException exception = ExpectedException.none();
 
 	@BeforeClass
-	public static void globalInit() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
-		try{
-			NumberFactory.setFactorySetting("JavaBigDecimalFactory", 32);
-		}
-		catch (Exception ex){
-			NumberFactory.destroyInstance();
-			NumberFactory.setFactorySetting("JavaBigDecimalFactory", 32);
-		}
+	public static void globalInit() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException,
+			NoSuchMethodException, SecurityException {
+		NumberFactorySetting.set("JavaBigDecimalFactory", 32);
 		numberFactory = NumberFactory.getInstance();
 	}
 

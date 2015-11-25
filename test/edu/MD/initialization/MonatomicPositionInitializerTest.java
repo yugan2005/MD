@@ -1,6 +1,9 @@
 package edu.MD.initialization;
 
 import static org.junit.Assert.assertTrue;
+
+import java.lang.reflect.InvocationTargetException;
+
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
@@ -9,12 +12,12 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import edu.MD.initialization.MonatomicPositionInitializer;
-import edu.MD.modeling.PBCPairwiseDistanceFinder;
+import edu.MD.modeling.PBCDistanceFinder;
 import edu.MD.number.MDNumber;
-import edu.MD.number.NumberFactory;
 import edu.MD.number.Vector3DCartesian;
 import edu.MD.utility.MDConstants;
-import edu.MD.utility.PBCCalculator;
+import globalSettingUtility.NumberFactorySetting;
+import globalSettingUtility.PBCBoundarySetting;
 
 public class MonatomicPositionInitializerTest {
 	private MonatomicPositionInitializer initializer;
@@ -23,23 +26,20 @@ public class MonatomicPositionInitializerTest {
 	private double temperature;
 
 	@BeforeClass
-	public static void globalInit() {
-		try {
-			NumberFactory.getInstance();
-		} catch (UnsupportedOperationException ex) {
-			NumberFactory.setFactorySetting("JavaDefaultNumberFactory");
-		}
+	public static void globalInit() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+		NumberFactorySetting.set("JavaBigDecimalFactory", 16);
 	}
 
 	@Before
 	public void init() {
 		name = "ARGON";
 		filmThickness = 5;
-		filmSize = 10;
-		vaporOneSideThickness = 8;
+		filmSize = 6;
+		vaporOneSideThickness = 4;
 		temperature = 110;
 		initializer = new MonatomicPositionInitializer(name, filmThickness, filmSize, vaporOneSideThickness,
 				temperature);
+		PBCBoundarySetting.set(initializer.getSystemBoundary());
 	}
 
 	@Test
@@ -70,14 +70,11 @@ public class MonatomicPositionInitializerTest {
 
 	@Test
 	public void correctSeperationAfterPBC() {
-		PBCCalculator.setPBCCalculator(initializer.getSystemBoundary());
-		PBCPairwiseDistanceFinder distFinder = PBCPairwiseDistanceFinder.getInstance();
 		MDNumber minDistance = null;
 		MDNumber maxDistance = null;
 		for (int i = 0; i < initializer.getPositions().size(); i++) {
 			for (int j = i + 1; j < initializer.getPositions().size(); j++) {
-				MDNumber distance = distFinder
-						.getDistance(initializer.getPositions().get(i), initializer.getPositions().get(j)).norm();
+				MDNumber distance = PBCDistanceFinder.getDistance(initializer.getPositions().get(i), initializer.getPositions().get(j)).norm();
 				if (minDistance == null || distance.compareTo(minDistance) < 0)
 					minDistance = distance;
 				if (maxDistance == null || distance.compareTo(minDistance) > 0)

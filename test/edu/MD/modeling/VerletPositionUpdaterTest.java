@@ -11,11 +11,11 @@ import org.junit.Test;
 import edu.MD.modeling.VerletPositionUpdater;
 import edu.MD.number.MDNumber;
 import edu.MD.number.MDVector;
-import edu.MD.number.NumberFactory;
 import edu.MD.number.Vector3DCartesian;
 import edu.MD.utility.MDConstants;
 import edu.MD.utility.MDPotentialConstants;
-import edu.MD.utility.PBCCalculator;
+import globalSettingUtility.NumberFactorySetting;
+import globalSettingUtility.PBCBoundarySetting;
 
 public class VerletPositionUpdaterTest {
 	private VerletPositionUpdater positionUpdater;
@@ -23,12 +23,7 @@ public class VerletPositionUpdaterTest {
 	@BeforeClass
 	public static void globalInit() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException,
 			NoSuchMethodException, SecurityException {
-		try {
-			NumberFactory.setFactorySetting("JavaBigDecimalFactory", 32);
-		} catch (Exception ex) {
-			NumberFactory.destroyInstance();
-			NumberFactory.setFactorySetting("JavaBigDecimalFactory", 32);
-		}
+		NumberFactorySetting.set("JavaBigDecimalFactory", 32);
 	}
 
 	@Before
@@ -66,12 +61,12 @@ public class VerletPositionUpdaterTest {
 
 	private void setSystemBoundary(double x, double y, double z) {
 		MDVector systemBoundary = new Vector3DCartesian(x, y, z);
-		PBCCalculator.setPBCCalculator(systemBoundary);
+		PBCBoundarySetting.set(systemBoundary);
 	}
 
 	private void setSystemBoundary(MDNumber x, MDNumber y, MDNumber z) {
 		MDVector systemBoundary = new Vector3DCartesian(x, y, z);
-		PBCCalculator.setPBCCalculator(systemBoundary);
+		PBCBoundarySetting.set(systemBoundary);
 	}
 
 }

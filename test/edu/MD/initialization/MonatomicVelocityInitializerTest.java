@@ -2,6 +2,7 @@ package edu.MD.initialization;
 
 import static org.junit.Assert.*;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,8 +16,8 @@ import edu.MD.modeling.Particle;
 import edu.MD.modeling.ParticleFactory;
 import edu.MD.number.MDNumber;
 import edu.MD.number.MDVector;
-import edu.MD.number.NumberFactory;
 import edu.MD.statThermodynamic.MonatomicSysTemperatureCalculator;
+import globalSettingUtility.NumberFactorySetting;
 
 public class MonatomicVelocityInitializerTest {
 	private MonatomicVelocityInitializer initializer;
@@ -24,16 +25,12 @@ public class MonatomicVelocityInitializerTest {
 	private double temperature;
 	private int numOfParticles;
 	private List<Particle> particles;
-	
+
 	@BeforeClass
-	public static void globalInit() {
-		try {
-			NumberFactory.getInstance();
-		} catch (UnsupportedOperationException ex) {
-			NumberFactory.setFactorySetting("JavaDefaultNumberFactory");
-		}
+	public static void globalInit() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+		NumberFactorySetting.set("JavaBigDecimalFactory", 32);
 	}
-	
+
 	@Before
 	public void init() {
 		name = "ARGON";
@@ -41,12 +38,13 @@ public class MonatomicVelocityInitializerTest {
 		int filmSize = 10;
 		int vaporOneSideThickness = 8;
 		temperature = 110;
-		numOfParticles = new MonatomicPositionInitializer(name, filmThickness, filmSize, vaporOneSideThickness, temperature).getTotalNumberOfParticles();
+		numOfParticles = new MonatomicPositionInitializer(name, filmThickness, filmSize, vaporOneSideThickness,
+				temperature).getTotalNumberOfParticles();
 		initializer = new MonatomicVelocityInitializer(name, numOfParticles, temperature);
 		List<MDVector> velocities = initializer.getVelocities();
 		particles = new ArrayList<>(numOfParticles);
 
-		for (MDVector velocity:velocities){
+		for (MDVector velocity : velocities) {
 			Particle particle = ParticleFactory.getParticle(name);
 			particle.setInitialVelocity(velocity);
 			particles.add(particle);

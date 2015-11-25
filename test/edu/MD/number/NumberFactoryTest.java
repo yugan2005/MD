@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import edu.MD.number.NumberFactory;
+import globalSettingUtility.NumberFactorySetting;
 
 public class NumberFactoryTest {
 	
@@ -18,13 +19,7 @@ public class NumberFactoryTest {
 	
 	@BeforeClass
 	public static void globalInit() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
-		try{
-			NumberFactory.setFactorySetting("JavaBigDecimalFactory", 32);
-		}
-		catch (Exception ex){
-			NumberFactory.destroyInstance();
-			NumberFactory.setFactorySetting("JavaBigDecimalFactory", 32);
-		}
+		NumberFactorySetting.set("JavaBigDecimalFactory", 32);
 	}
 
 	@Test
@@ -51,8 +46,6 @@ public class NumberFactoryTest {
 		}
 		NumberFactory.destroyInstance();
 		NumberFactory.setFactorySetting("JavaDefaultNumberFactory");
-
-
 	}
 
 }

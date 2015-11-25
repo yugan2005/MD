@@ -283,4 +283,11 @@ public class Vector3DCartesian implements MDVector {
 		return result;
 	}
 
+	@Override
+	public MDVector getVectorFromCartesianComps(MDNumber[] comps) {
+		if (comps.length!=3) throw new UnsupportedOperationException("This is not a 3D Cartesian Vector");
+		
+		return new Vector3DCartesian(comps);
+	}
+
 }

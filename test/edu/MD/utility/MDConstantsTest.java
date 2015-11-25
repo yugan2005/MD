@@ -8,20 +8,14 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import edu.MD.number.MDNumber;
-import edu.MD.number.NumberFactory;
 import edu.MD.utility.MDConstants;
+import globalSettingUtility.NumberFactorySetting;
 
 public class MDConstantsTest {
 	
 	@BeforeClass
 	public static void globalInit() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
-		try{
-			NumberFactory.setFactorySetting("JavaBigDecimalFactory", 32);
-		}
-		catch (Exception ex){
-			NumberFactory.destroyInstance();
-			NumberFactory.setFactorySetting("JavaBigDecimalFactory", 32);
-		}
+		NumberFactorySetting.set("JavaBigDecimalFactory", 32);
 	}
 
 	@Test

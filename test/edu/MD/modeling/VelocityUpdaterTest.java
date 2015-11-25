@@ -16,6 +16,7 @@ import edu.MD.number.MDVector;
 import edu.MD.number.NumberFactory;
 import edu.MD.number.Vector3DCartesian;
 import edu.MD.utility.MDConstants;
+import globalSettingUtility.NumberFactorySetting;
 
 public class VelocityUpdaterTest {
 	private static VelocityUpdater velocityUpdater;
@@ -25,12 +26,7 @@ public class VelocityUpdaterTest {
 	@BeforeClass
 	public static void globalInit() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException,
 			NoSuchMethodException, SecurityException {
-		try {
-			NumberFactory.setFactorySetting("JavaBigDecimalFactory", 32);
-		} catch (Exception ex) {
-			NumberFactory.destroyInstance();
-			NumberFactory.setFactorySetting("JavaBigDecimalFactory", 32);
-		}
+		NumberFactorySetting.set("JavaBigDecimalFactory", 32);
 		numberFactory = NumberFactory.getInstance();
 		velocityUpdater = VelocityUpdater.getInstance("ARGON_1e-5");
 	}
