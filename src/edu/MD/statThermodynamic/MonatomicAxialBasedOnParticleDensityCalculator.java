@@ -30,6 +30,7 @@ public class MonatomicAxialBasedOnParticleDensityCalculator {
 	}
 
 	public static List<List<MDNumber>> calculate(Iterable<MDVector> positions, MDVector systemBoundary) {
+		// TODO need be able to set the numParticles dynamically.
 		TreeSet<MDVector> densityAlongYAxis = new TreeSet<>(new YComparator());
 		for (MDVector position : positions) {
 			densityAlongYAxis.add(position);
