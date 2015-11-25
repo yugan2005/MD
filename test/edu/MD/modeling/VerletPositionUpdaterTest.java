@@ -9,7 +9,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import edu.MD.modeling.VerletPositionUpdater;
-import edu.MD.number.MDNumber;
 import edu.MD.number.MDVector;
 import edu.MD.number.Vector3DCartesian;
 import edu.MD.utility.MDConstants;
@@ -23,7 +22,7 @@ public class VerletPositionUpdaterTest {
 	@BeforeClass
 	public static void globalInit() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException,
 			NoSuchMethodException, SecurityException {
-		NumberFactorySetting.set("JavaBigDecimalFactory", 32);
+		NumberFactorySetting.set();
 	}
 
 	@Before
@@ -44,8 +43,8 @@ public class VerletPositionUpdaterTest {
 
 	@Test
 	public void calculateNewPositionOutOfBound() {
-		setSystemBoundary(MDPotentialConstants.getSigma("ARGON"), MDPotentialConstants.getSigma("ARGON").times(3),
-				MDPotentialConstants.getSigma("ARGON").times(2));
+		double sigma = MDPotentialConstants.getSigma("ARGON");
+		setSystemBoundary(sigma, 3*sigma, 2*sigma);
 		positionUpdater = VerletPositionUpdater.getInstance("ARGON_2");
 
 		MDVector oldPoistion = (new Vector3DCartesian(0.9, 2.9, 0.9)).times(MDPotentialConstants.getSigma("ARGON"));
@@ -64,9 +63,5 @@ public class VerletPositionUpdaterTest {
 		PBCBoundarySetting.set(systemBoundary);
 	}
 
-	private void setSystemBoundary(MDNumber x, MDNumber y, MDNumber z) {
-		MDVector systemBoundary = new Vector3DCartesian(x, y, z);
-		PBCBoundarySetting.set(systemBoundary);
-	}
 
 }

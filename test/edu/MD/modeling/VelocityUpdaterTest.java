@@ -23,7 +23,7 @@ public class VelocityUpdaterTest {
 	@BeforeClass
 	public static void globalInit() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException,
 			NoSuchMethodException, SecurityException {
-		NumberFactorySetting.set("JavaBigDecimalFactory", 32);
+		NumberFactorySetting.set();
 		velocityUpdater = VelocityUpdater.getInstance("ARGON_1e-5");
 	}
 

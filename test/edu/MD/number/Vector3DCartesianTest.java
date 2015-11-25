@@ -25,7 +25,7 @@ public class Vector3DCartesianTest {
 	@BeforeClass
 	public static void globalInit() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException,
 			NoSuchMethodException, SecurityException {
-		NumberFactorySetting.set("JavaBigDecimalFactory", 32);
+		NumberFactorySetting.set();
 	}
 
 	@Before

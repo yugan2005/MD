@@ -25,5 +25,10 @@ public class NumberFactorySetting {
 			NumberFactory.setFactorySetting(type);
 		}
 	}
+	
+	public static void set() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException{
+		set("JavaBigDecimalFactory", 32);
+//		set("JavaDefaultNumberFactory");
+	}
 
 }

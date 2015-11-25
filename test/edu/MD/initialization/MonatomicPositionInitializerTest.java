@@ -28,15 +28,15 @@ public class MonatomicPositionInitializerTest {
 
 	@BeforeClass
 	public static void globalInit() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
-		NumberFactorySetting.set("JavaDefaultNumberFactory");
+		NumberFactorySetting.set();
 	}
 
 	@Before
 	public void init() {
 		name = "ARGON";
-		filmThickness = 5;
-		filmSize = 6;
-		vaporOneSideThickness = 4;
+		filmThickness = 3;
+		filmSize = 3;
+		vaporOneSideThickness = 2;
 		temperature = 110;
 		initializer = new MonatomicPositionInitializer(name, filmThickness, filmSize, vaporOneSideThickness,
 				temperature);

@@ -34,7 +34,7 @@ public class LJForceCalculator {
 			String p1Name = type.split("_")[0];
 			String p2Name = type.split("_")[1];
 			double cutoff = Double.parseDouble(type.split("_")[2]);
-			MDNumber p1Sigma, p2Sigma, p1Epsilon, p2Epsilon;
+			double p1Sigma, p2Sigma, p1Epsilon, p2Epsilon;
 			try {
 				p1Sigma = MDPotentialConstants.getSigma(p1Name);
 				p2Sigma = MDPotentialConstants.getSigma(p2Name);
@@ -44,10 +44,10 @@ public class LJForceCalculator {
 				throw new IllegalArgumentException("The type name is not correct, should be like 'ARGON_ARGON_5.0");
 			}
 
-			MDNumber sigma = p1Sigma.add(p2Sigma).divide(2);
-			MDNumber epsilon = p1Epsilon.add(p2Epsilon).divide(2);
+			MDNumber sigma = NumberFactory.getInstance().valueOf((p1Sigma+p2Sigma)/2.0);
+			MDNumber epsilon = NumberFactory.getInstance().valueOf((p1Epsilon+p2Epsilon)/2.0);
 			MDNumber sigma6 = sigma.pow(6);
-			MDNumber sigma12 = sigma.pow(12);
+			MDNumber sigma12 = sigma6.pow(2);
 			MDNumber cutoffRadius = sigma.times(cutoff);
 			MDNumber cutoffPotential = epsilon.times(4).times(
 					(sigma12.times(-12).divide(cutoffRadius.pow(13)).add(sigma6.times(6).divide(cutoffRadius.pow(7)))));

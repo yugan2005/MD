@@ -14,7 +14,6 @@ import org.junit.rules.ExpectedException;
 
 import edu.MD.modeling.LJForceCalculator;
 import edu.MD.modeling.PBCDistanceFinder;
-import edu.MD.number.MDNumber;
 import edu.MD.number.MDVector;
 import edu.MD.number.Vector3DCartesian;
 import edu.MD.utility.MDPotentialConstants;
@@ -29,7 +28,7 @@ public class PBCPairwiseDistanceFinderTest {
 	@BeforeClass
 	public static void globalInit() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException,
 			NoSuchMethodException, SecurityException {
-		NumberFactorySetting.set("JavaBigDecimalFactory", 32);
+		NumberFactorySetting.set();
 	}
 
 	@Before
@@ -38,11 +37,6 @@ public class PBCPairwiseDistanceFinderTest {
 	}
 
 	private void setSystemBoundary(double x, double y, double z) {
-		MDVector systemBoundary = new Vector3DCartesian(x, y, z);
-		PBCBoundarySetting.set(systemBoundary);
-	}
-
-	private void setSystemBoundary(MDNumber x, MDNumber y, MDNumber z) {
 		MDVector systemBoundary = new Vector3DCartesian(x, y, z);
 		PBCBoundarySetting.set(systemBoundary);
 	}
@@ -91,10 +85,10 @@ public class PBCPairwiseDistanceFinderTest {
 	@Test
 	public void distanceUsedInForceCalculation() {
 		LJForceCalculator forceCalculator = LJForceCalculator.getInstance("ARGON_ARGON_5.0");
-		MDNumber sigma = MDPotentialConstants.getSigma("ARGON");
-		setSystemBoundary(sigma.times(6), sigma.times(6), sigma.times(6));
+		double sigma = MDPotentialConstants.getSigma("ARGON");
+		setSystemBoundary(6*sigma, 6*sigma, 6*sigma);
 		MDVector p1 = new Vector3DCartesian(0, 0, 0);
-		MDVector p2 = new Vector3DCartesian(sigma.times(0.1), sigma.times(5.9), sigma.times(0));
+		MDVector p2 = new Vector3DCartesian(0.1*sigma, 5.9*sigma, 0);
 		MDVector p2ToP1 = PBCDistanceFinder.getDistance(p1, p2);
 		MDVector forceOnP1 = forceCalculator.calculate(p2ToP1);
 

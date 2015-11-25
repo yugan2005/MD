@@ -61,7 +61,7 @@ public interface MDNumber extends Comparable<MDNumber>{
 	 */
 	public default boolean approximateEqual(MDNumber in) {
 		if (in.toDouble() == 0)
-			return Math.abs(this.toDouble()) < MDConstants.MACHINE_DOUBLE_ERROR;
+			return Math.abs(this.toDouble()) < MDConstants.RELATIVE_DOUBLE_ERROR;
 		return Math.abs(this.divide(in).minus(1).toDouble()) < MDConstants.RELATIVE_DOUBLE_ERROR;
 
 	}
