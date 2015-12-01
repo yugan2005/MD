@@ -18,7 +18,7 @@ import edu.MD.number.MDNumber;
 import edu.MD.number.MDVector;
 import edu.MD.utility.MDConstants;
 
-public class MonatomicAxialBasedOnParticleDensityCalculatorTest {
+public class OLDMonatomicAxialBasedOnParticleDensityCalculatorTest {
 	private Iterable<MDVector> positions;
 	private MDVector systemBoundary;
 	private static String name;
@@ -47,13 +47,13 @@ public class MonatomicAxialBasedOnParticleDensityCalculatorTest {
 		double molarVaproDensity = MDConstants.getMolarDensity(name, temperature, "vapor");
 
 		PBCBoundarySetting.set(systemBoundary);
-		MonatomicAxialBasedOnParticleDensityCalculator.setDensityCalculator(molarVaproDensity, systemBoundary, nBins);
+		OLDMonatomicAxialBasedOnParticleDensityCalculator.setDensityCalculator(molarVaproDensity, systemBoundary, nBins);
 
 	}
 
 	@Test
 	public void yOfDensityProfileIncreaseOnly() {
-		List<List<MDNumber>> densityProfile = MonatomicAxialBasedOnParticleDensityCalculator.calculate(positions,
+		List<List<MDNumber>> densityProfile = OLDMonatomicAxialBasedOnParticleDensityCalculator.calculate(positions,
 				systemBoundary);
 		List<MDNumber> yPositions = densityProfile.get(0);
 		for (int i=1; i<yPositions.size(); i++){
