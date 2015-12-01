@@ -1,6 +1,5 @@
 package edu.MD.statThermodynamic;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -11,7 +10,6 @@ import edu.MD.utility.IterableCounter;
 import edu.MD.utility.MDConstants;
 
 public class MonatomicAxialBasedOnParticleDensityCalculator {
-	private static int numParticles;
 
 	private static class YComparator implements Comparator<MDVector> {
 
@@ -34,8 +32,6 @@ public class MonatomicAxialBasedOnParticleDensityCalculator {
 	 *         local density value.
 	 */
 	public static List<List<MDNumber>> calculate(Iterable<MDVector> positions, MDVector systemBoundary) {
-		if (numParticles == 0)
-			throw new UnsupportedOperationException("Need set the number of bins first. call setNumParticles()");
 
 		int totalNumOfParticles = IterableCounter.count(positions);
 
@@ -53,82 +49,50 @@ public class MonatomicAxialBasedOnParticleDensityCalculator {
 		listOfPositions.sort(new YComparator());
 
 		List<List<MDNumber>> density = new ArrayList<>(2);
-		List<MDNumber> yPositions = new ArrayList<>(totalNumOfParticles - numParticles + 1);
-		List<MDNumber> localDensity = new ArrayList<>(totalNumOfParticles - numParticles + 1);
+		List<MDNumber> yPositions = new ArrayList<>();
+		List<MDNumber> localDensity = new ArrayList<>();
 		density.add(yPositions);
 		density.add(localDensity);
 
 		MDNumber crossSectionArea = systemBoundary.getCartesianComponent()[0]
 				.times(systemBoundary.getCartesianComponent()[2]);
-
-		ArrayDeque<MDNumber> yOfParticles = new ArrayDeque<>();
+		
+		
+		MDNumber yPrevious = systemBoundary.getCartesianComponent()[1].minus(listOfPositions.get(totalNumOfParticles-1).getCartesianComponent()[1]).times(-1);
 		MDNumber yCurrent = listOfPositions.get(0).getCartesianComponent()[1];
-		MDNumber ySum = yCurrent;
-		yOfParticles.addLast(yCurrent);
 		int idx = 1;
-
-		while (idx < totalNumOfParticles) {
-			yCurrent = listOfPositions.get(idx).getCartesianComponent()[1];
-			yOfParticles.addLast(yCurrent);
-			ySum = ySum.plus(yCurrent);
-			if (yOfParticles.size() >= numParticles && !yOfParticles.peekLast().equals(yOfParticles.peekFirst())) {
-				// calculate local density and add to the lists
-				MDNumber yMean = ySum.divide(yOfParticles.size());
-				yPositions.add(yMean);
-				MDNumber localVolume = yOfParticles.peekLast().minus(yOfParticles.peekFirst()).times(crossSectionArea);
+		int localCounter = 1;
+		
+		while (idx<totalNumOfParticles) {
+			MDNumber yNext = listOfPositions.get(idx).getCartesianComponent()[1];
+			if (yNext.equals(yCurrent)){
+				localCounter++;
+			}
+			else{
+				// calculate local density
+				MDNumber yMean = yNext.minus(yPrevious);
+				MDNumber localVolume = yMean.times(crossSectionArea);
 				MDNumber molarDensity = localVolume.pow(-1)
-						.times(((double) yOfParticles.size()) / MDConstants.AVOGADRO);
+						.times(((double) localCounter)/ MDConstants.AVOGADRO);
+				yPositions.add(yCurrent);
 				localDensity.add(molarDensity);
-				// reset counter
-				MDNumber yDiscard = yOfParticles.removeFirst();
-				ySum = ySum.minus(yDiscard);
-				while (yOfParticles.size() >= numParticles || yOfParticles.peekFirst().equals(yDiscard)) {
-					yDiscard = yOfParticles.removeFirst();
-					ySum = ySum.minus(yDiscard);
-				}
+				// reset
+				yPrevious = yCurrent;
+				yCurrent = yNext;
+				localCounter = 1;
 			}
 			idx++;
 		}
-		// handle the last local density if it is not handled
-		if (yOfParticles.peekLast().equals(yOfParticles.peekFirst())) {
-			// extend backward
-			int sizeLastGroup = yOfParticles.size();
-			int i = totalNumOfParticles - 1 - sizeLastGroup;
-			MDNumber yAdded = listOfPositions.get(i).getCartesianComponent()[1];
-			while (yAdded.equals(yCurrent)) {
-				ySum = ySum.plus(yAdded);
-				sizeLastGroup++;
-				i--;
-				yAdded = listOfPositions.get(i).getCartesianComponent()[1];
-			}
-			ySum = ySum.plus(yAdded);
-			sizeLastGroup++;
-			MDNumber yMean = ySum.divide(sizeLastGroup);
-			yPositions.add(yMean);
-			MDNumber localVolume = yCurrent.minus(yAdded).times(crossSectionArea);
-			MDNumber molarDensity = localVolume.pow(-1).times(((double) sizeLastGroup) / MDConstants.AVOGADRO);
-			localDensity.add(molarDensity);
-		} else if (yOfParticles.size() < numParticles) {
-			// just use the smaller group
-			MDNumber yMean = ySum.divide(yOfParticles.size());
-			yPositions.add(yMean);
-			MDNumber localVolume = yOfParticles.peekLast().minus(yOfParticles.peekFirst()).times(crossSectionArea);
-			MDNumber molarDensity = localVolume.pow(-1).times(((double) yOfParticles.size()) / MDConstants.AVOGADRO);
-			localDensity.add(molarDensity);
-		}
+		
+		MDNumber yNext = listOfPositions.get(0).getCartesianComponent()[1].plus(systemBoundary.getCartesianComponent()[1]);
+		MDNumber yMean = yNext.minus(yPrevious);
+		MDNumber localVolume = yMean.times(crossSectionArea);
+		MDNumber molarDensity = localVolume.pow(-1)
+				.times(((double) localCounter)/ MDConstants.AVOGADRO);
+		yPositions.add(yCurrent);
+		localDensity.add(molarDensity);
 
 		return density;
-
-	}
-
-	public static void setDensityCalculator(double molarVaporDensity, MDVector systemBoundary, int nBins) {
-		MDNumber crossSectionArea = systemBoundary.getCartesianComponent()[0]
-				.times(systemBoundary.getCartesianComponent()[2]);
-		MDNumber axialLength = systemBoundary.getCartesianComponent()[1];
-		MDNumber binLength = axialLength.divide(nBins);
-		MDNumber binVolume = binLength.times(crossSectionArea);
-		MonatomicAxialBasedOnParticleDensityCalculator.numParticles = binVolume
-				.times(molarVaporDensity * MDConstants.AVOGADRO).round();
 	}
 
 }
