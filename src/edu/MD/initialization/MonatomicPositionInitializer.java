@@ -52,7 +52,7 @@ public class MonatomicPositionInitializer {
 		systemSize = liquidLatticeLength.times(filmSize);
 		vaporFCCLattice();
 
-		if (vaporLatticeLength.minus(vaporLatticeSize).divide(vaporLatticeSize).abs().toDouble() > 0.2) {
+		if (vaporLatticeLength.minus(vaporLatticeSize).divide(vaporLatticeSize).abs().toDouble() >5) {
 			String exceptionStr = "The defined parameters can not generate well defined lattices."
 					+ System.lineSeparator();
 			exceptionStr = exceptionStr + String.format("The skewness ratio of vapor lattic is: %.3f%n",

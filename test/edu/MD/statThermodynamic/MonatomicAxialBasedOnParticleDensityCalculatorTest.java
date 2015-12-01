@@ -1,6 +1,8 @@
 package edu.MD.statThermodynamic;
 
 import static org.junit.Assert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.lessThan;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
@@ -10,11 +12,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import edu.MD.globalSetting.NumberFactorySetting;
+import edu.MD.globalSetting.PBCBoundarySetting;
 import edu.MD.initialization.MonatomicPositionInitializer;
 import edu.MD.number.MDNumber;
 import edu.MD.number.MDVector;
 import edu.MD.utility.MDConstants;
-import edu.MD.utility.PBCCalculator;
 
 public class MonatomicAxialBasedOnParticleDensityCalculatorTest {
 	private Iterable<MDVector> positions;
@@ -33,31 +35,35 @@ public class MonatomicAxialBasedOnParticleDensityCalculatorTest {
 	@Before
 	public void init() {
 		name = "ARGON";
-		filmThickness = 3;
-		filmSize = 3;
+		filmThickness = 5;
+		filmSize = 5;
 		vaporOneSideThickness = 2;
 		temperature = 110;
 		nBins = 20;
-		MonatomicPositionInitializer positionInitializer = new MonatomicPositionInitializer(name, filmThickness, filmSize, vaporOneSideThickness, temperature);
+		MonatomicPositionInitializer positionInitializer = new MonatomicPositionInitializer(name, filmThickness,
+				filmSize, vaporOneSideThickness, temperature);
 		systemBoundary = positionInitializer.getSystemBoundary();
 		positions = positionInitializer.getPositions();
 		double molarVaproDensity = MDConstants.getMolarDensity(name, temperature, "vapor");
-		
-		PBCCalculator.setPBCCalculator(systemBoundary);
+
+		PBCBoundarySetting.set(systemBoundary);
 		MonatomicAxialBasedOnParticleDensityCalculator.setDensityCalculator(molarVaproDensity, systemBoundary, nBins);
-		
+
 	}
 
 	@Test
-	public void averageDensityIsConsistent() {
-		List<List<MDNumber>> densityProfile = MonatomicAxialBasedOnParticleDensityCalculator.calculate(positions, systemBoundary);
-
-		MDNumber averageDensity = densityProfile.get(1).get(0);
-		MDNumber yLocation = densityProfile.get(0).get(0);
-		for (int i=0; i<densityProfile.get(1).size(); i++){
-			averageDensity = averageDensity.plus(densityProfile.get(1).get(i));
+	public void yOfDensityProfileIncreaseOnly() {
+		List<List<MDNumber>> densityProfile = MonatomicAxialBasedOnParticleDensityCalculator.calculate(positions,
+				systemBoundary);
+		List<MDNumber> yPositions = densityProfile.get(0);
+		for (int i=1; i<yPositions.size(); i++){
+			assertThat(yPositions.get(i-1), lessThan(yPositions.get(i)));
 		}
-		// TODO worked to here
+
 	}
+	
+	// TODO Adding more testing method to verify that it is correct
+
+
 
 }
