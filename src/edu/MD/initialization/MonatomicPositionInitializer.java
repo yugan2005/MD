@@ -127,16 +127,16 @@ public class MonatomicPositionInitializer {
 							liquidLatticeLength.times(z));
 					MDVector xzPlaneFCC = new Vector3DCartesian(liquidLatticeLength.times(x + 0.5),
 							liquidLatticeLength.times(y), liquidLatticeLength.times(z + 0.5));
-					positionList.add(vertex.add(liquidStartPoint));
-					positionList.add(xzPlaneFCC.add(liquidStartPoint));
+					positionList.add(vertex.plus(liquidStartPoint));
+					positionList.add(xzPlaneFCC.plus(liquidStartPoint));
 
 					if (y != filmThickness) {
 						MDVector yzPlaneFCC = new Vector3DCartesian(liquidLatticeLength.times(x),
 								liquidLatticeLength.times(y + 0.5), liquidLatticeLength.times(z + 0.5));
 						MDVector xyPlaneFCC = new Vector3DCartesian(liquidLatticeLength.times(x + 0.5),
 								liquidLatticeLength.times(y + 0.5), liquidLatticeLength.times(z));
-						positionList.add(yzPlaneFCC.add(liquidStartPoint));
-						positionList.add(xyPlaneFCC.add(liquidStartPoint));
+						positionList.add(yzPlaneFCC.plus(liquidStartPoint));
+						positionList.add(xyPlaneFCC.plus(liquidStartPoint));
 					}
 				}
 			}
@@ -154,16 +154,16 @@ public class MonatomicPositionInitializer {
 								vaporLatticeSize.times(z));
 						MDVector xzPlaneFCC = new Vector3DCartesian(vaporLatticeSize.times(x + 0.5),
 								vaporLatticeLength.times(y), vaporLatticeSize.times(z + 0.5));
-						positionList.add(vertex.add(highYVaporStartPoint));
-						positionList.add(xzPlaneFCC.add(highYVaporStartPoint));
+						positionList.add(vertex.plus(highYVaporStartPoint));
+						positionList.add(xzPlaneFCC.plus(highYVaporStartPoint));
 
 					}
 					MDVector yzPlaneFCC = new Vector3DCartesian(vaporLatticeSize.times(x),
 							vaporLatticeLength.times(y + 0.5), vaporLatticeSize.times(z + 0.5));
 					MDVector xyPlaneFCC = new Vector3DCartesian(vaporLatticeSize.times(x + 0.5),
 							vaporLatticeLength.times(y + 0.5), vaporLatticeSize.times(z));
-					positionList.add(yzPlaneFCC.add(highYVaporStartPoint));
-					positionList.add(xyPlaneFCC.add(highYVaporStartPoint));
+					positionList.add(yzPlaneFCC.plus(highYVaporStartPoint));
+					positionList.add(xyPlaneFCC.plus(highYVaporStartPoint));
 				}
 			}
 		}

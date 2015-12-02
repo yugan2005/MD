@@ -38,7 +38,7 @@ public class Vector3DCartesianTest {
 
 		MDVector vectorWithCorrectDeclaredClass = new Vector3DCartesian(NumberFactory.getInstance().valueOf(2),
 				NumberFactory.getInstance().valueOf(2), NumberFactory.getInstance().valueOf(2));
-		MDVector actualResult = vector3DCartesian.add(vectorWithCorrectDeclaredClass);
+		MDVector actualResult = vector3DCartesian.plus(vectorWithCorrectDeclaredClass);
 
 		MDVector expectedResult = new Vector3DCartesian(NumberFactory.getInstance().valueOf(3), NumberFactory.getInstance().valueOf(3),
 				NumberFactory.getInstance().valueOf(3));

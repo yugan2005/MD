@@ -52,7 +52,7 @@ public class VerletPositionUpdater {
 	 */
 	public MDVector calculate(MDVector oldPosition, MDVector oldVelocity, MDVector forceVector) {
 		PBCCalculator pbc = PBCCalculator.getInstance();
-		MDVector newPosition = oldPosition.add(oldVelocity.times(dt)).add(forceVector.times(dt * dt).divide(2 * mass));
+		MDVector newPosition = oldPosition.plus(oldVelocity.times(dt)).plus(forceVector.times(dt * dt).divide(2 * mass));
 		MDVector adjustedPosition = pbc.applyPBC(newPosition);
 		return adjustedPosition;
 	}

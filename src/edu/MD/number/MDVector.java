@@ -8,11 +8,11 @@ public interface MDVector {
 
 	public MDNumber getCartesianDistance(MDVector vector);
 
-	public MDVector add(MDVector vector);
+	public MDVector plus(MDVector vector);
 
-	public MDVector add(MDNumber c);
+	public MDVector plus(MDNumber c);
 
-	public MDVector add(double c);
+	public MDVector plus(double c);
 
 	public MDVector minus(MDVector vector);
 

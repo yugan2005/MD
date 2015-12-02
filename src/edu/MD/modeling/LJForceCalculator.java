@@ -10,13 +10,14 @@ public class LJForceCalculator {
 
 	private static Map<String, LJForceCalculator> instances = new HashMap<>();
 
-	private MDNumber sigma6, sigma12, epsilon, cutoffPotential;
+	private MDNumber sigma6, sigma12, epsilon, cutoffRadius, cutoffPotential;
 
-	private LJForceCalculator(MDNumber sigma6, MDNumber sigma12, MDNumber epsilon,
+	private LJForceCalculator(MDNumber sigma6, MDNumber sigma12, MDNumber epsilon, MDNumber cutoffRadius,
 			MDNumber cutoffPotential) {
 		this.sigma6 = sigma6;
 		this.sigma12 = sigma12;
 		this.epsilon = epsilon;
+		this.cutoffRadius = cutoffRadius;
 		this.cutoffPotential = cutoffPotential;
 	}
 
@@ -44,18 +45,17 @@ public class LJForceCalculator {
 				throw new IllegalArgumentException("The type name is not correct, should be like 'ARGON_ARGON_5.0");
 			}
 
-			MDNumber sigma = NumberFactory.getInstance().valueOf((p1Sigma+p2Sigma)/2.0);
-			MDNumber epsilon = NumberFactory.getInstance().valueOf((p1Epsilon+p2Epsilon)/2.0);
+			MDNumber sigma = NumberFactory.getInstance().valueOf((p1Sigma + p2Sigma) / 2.0);
+			MDNumber epsilon = NumberFactory.getInstance().valueOf((p1Epsilon + p2Epsilon) / 2.0);
 			MDNumber sigma6 = sigma.pow(6);
 			MDNumber sigma12 = sigma6.pow(2);
 			MDNumber cutoffRadius = sigma.times(cutoff);
-			MDNumber cutoffPotential = epsilon.times(4).times(
-					(sigma12.times(-12).divide(cutoffRadius.pow(13)).plus(sigma6.times(6).divide(cutoffRadius.pow(7)))));
-			instances.put(type, new LJForceCalculator(sigma6, sigma12, epsilon, cutoffPotential));
+			MDNumber cutoffPotential = epsilon.times(4).times((sigma12.times(-12).divide(cutoffRadius.pow(13))
+					.plus(sigma6.times(6).divide(cutoffRadius.pow(7)))));
+			instances.put(type, new LJForceCalculator(sigma6, sigma12, epsilon, cutoffRadius, cutoffPotential));
 		}
 		return instances.get(type);
 	}
-	
 
 	/**
 	 * The distance vector should be the output of the distanceFinder.</n>
@@ -70,6 +70,8 @@ public class LJForceCalculator {
 	 */
 	public MDVector calculate(MDVector p1_p2) {
 		MDNumber norm = p1_p2.norm();
+		if (norm.compareTo(cutoffRadius) > 0)
+			return new Vector3DCartesian(0, 0, 0);
 		MDNumber coefficient = epsilon.times(48).times(sigma12).divide(norm.pow(14))
 				.minus(epsilon.times(24).times(sigma6).divide(norm.pow(8))).plus(cutoffPotential.divide(norm));
 		return p1_p2.times(coefficient);

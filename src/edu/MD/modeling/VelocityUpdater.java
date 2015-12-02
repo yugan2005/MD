@@ -46,7 +46,7 @@ public class VelocityUpdater {
 	 * @return newVelocity
 	 */
 	public MDVector calculate(MDVector oldVelocity, MDVector forceVector){
-		return oldVelocity.add(forceVector.divide(mass).times(dt));
+		return oldVelocity.plus(forceVector.divide(mass).times(dt));
 	}
 
 }

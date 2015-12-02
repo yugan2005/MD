@@ -59,7 +59,7 @@ public class Vector3DCartesian implements MDVector {
 	}
 
 	@Override
-	public MDVector add(MDVector vector) {
+	public MDVector plus(MDVector vector) {
 		checkDimension(vector);
 		checkClass(vector);
 		Vector3DCartesian that = castToVector3DCartesian(vector);
@@ -180,7 +180,7 @@ public class Vector3DCartesian implements MDVector {
 	}
 
 	@Override
-	public MDVector add(MDNumber c) {
+	public MDVector plus(MDNumber c) {
 		MDNumber x = cartesianCoordinates[0].plus(c);
 		MDNumber y = cartesianCoordinates[1].plus(c);
 		MDNumber z = cartesianCoordinates[2].plus(c);
@@ -188,7 +188,7 @@ public class Vector3DCartesian implements MDVector {
 	}
 
 	@Override
-	public MDVector add(double c) {
+	public MDVector plus(double c) {
 		MDNumber x = cartesianCoordinates[0].plus(c);
 		MDNumber y = cartesianCoordinates[1].plus(c);
 		MDNumber z = cartesianCoordinates[2].plus(c);
