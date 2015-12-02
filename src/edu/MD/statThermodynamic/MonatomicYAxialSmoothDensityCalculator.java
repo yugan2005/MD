@@ -11,6 +11,7 @@ import edu.MD.utility.IterableCounter;
 import edu.MD.utility.MDConstants;
 
 public class MonatomicYAxialSmoothDensityCalculator {
+	// TODO need have a traditional density profile calculator to compare
 	private static int numParticles;
 
 	private static class YComparator implements Comparator<MDVector> {
