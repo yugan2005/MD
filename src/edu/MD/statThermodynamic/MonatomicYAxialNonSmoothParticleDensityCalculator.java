@@ -9,7 +9,7 @@ import edu.MD.number.MDVector;
 import edu.MD.utility.IterableCounter;
 import edu.MD.utility.MDConstants;
 
-public class MonatomicAxialBasedOnParticleDensityCalculator {
+public class MonatomicYAxialNonSmoothParticleDensityCalculator {
 
 	private static class YComparator implements Comparator<MDVector> {
 

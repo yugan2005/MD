@@ -10,7 +10,7 @@ import edu.MD.number.MDVector;
 import edu.MD.utility.IterableCounter;
 import edu.MD.utility.MDConstants;
 
-public class OLDMonatomicAxialBasedOnParticleDensityCalculator {
+public class MonatomicYAxialSmoothDensityCalculator {
 	private static int numParticles;
 
 	private static class YComparator implements Comparator<MDVector> {
@@ -127,7 +127,7 @@ public class OLDMonatomicAxialBasedOnParticleDensityCalculator {
 		MDNumber axialLength = systemBoundary.getCartesianComponent()[1];
 		MDNumber binLength = axialLength.divide(nBins);
 		MDNumber binVolume = binLength.times(crossSectionArea);
-		OLDMonatomicAxialBasedOnParticleDensityCalculator.numParticles = binVolume
+		MonatomicYAxialSmoothDensityCalculator.numParticles = binVolume
 				.times(molarVaporDensity * MDConstants.AVOGADRO).round();
 	}
 
