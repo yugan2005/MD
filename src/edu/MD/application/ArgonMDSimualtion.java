@@ -9,12 +9,11 @@ import edu.MD.globalSetting.PBCBoundarySetting;
 import edu.MD.initialization.MonatomicPositionInitializer;
 import edu.MD.initialization.MonatomicVelocityInitializer;
 import edu.MD.modeling.LJForceCalculator;
-import edu.MD.modeling.VelocityUpdater;
-import edu.MD.modeling.VerletPositionUpdater;
+import edu.MD.modeling.PBCDistanceCalculator;
+import edu.MD.modeling.VelocityCalculator;
+import edu.MD.modeling.VerletPositionCalculator;
 import edu.MD.number.MDVector;
-import edu.MD.number.NumberFactory;
 import edu.MD.number.Vector3DCartesian;
-import edu.MD.utility.PBCCalculator;
 
 public class ArgonMDSimualtion {
 	private static int filmSize, filmThickness, vaporOneSideThickness, totalNumParticles;
@@ -25,8 +24,8 @@ public class ArgonMDSimualtion {
 	private static MonatomicPositionInitializer positionInitializer;
 	private static MonatomicVelocityInitializer velocityInitializer;
 	private static LJForceCalculator forceCalculator;
-	private static VerletPositionUpdater positionUpdater;
-	private static VelocityUpdater velocityUpdater;
+	private static VerletPositionCalculator positionCalculator;
+	private static VelocityCalculator velocityCalculator;
 	
 	private static void initialization() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException{
 		NumberFactorySetting.set();
@@ -38,7 +37,7 @@ public class ArgonMDSimualtion {
 		timeStep = 1e-15;
 		cutoff = 3.0;
 		String forceCalculatorType = name+"_"+name+"_"+String.valueOf(cutoff);
-		String updaterType = name+"_"+String.valueOf(timeStep);
+		String CalculatorType = name+"_"+String.valueOf(timeStep);
 		positionInitializer = new MonatomicPositionInitializer(name, filmThickness, filmSize, vaporOneSideThickness, temperature);
 		totalNumParticles = positionInitializer.getTotalNumberOfParticles();
 		positions = positionInitializer.getPositions();
@@ -47,8 +46,8 @@ public class ArgonMDSimualtion {
 		velocityInitializer = new MonatomicVelocityInitializer(name, totalNumParticles, temperature);
 		velocities = velocityInitializer.getVelocities();
 		forceCalculator = LJForceCalculator.getInstance(forceCalculatorType);
-		positionUpdater = VerletPositionUpdater.getInstance(updaterType);
-		velocityUpdater = VelocityUpdater.getInstance(updaterType);
+		positionCalculator = VerletPositionCalculator.getInstance(CalculatorType);
+		velocityCalculator = VelocityCalculator.getInstance(CalculatorType);
 	}
 	
 	private static void stepMove(){
@@ -57,11 +56,13 @@ public class ArgonMDSimualtion {
 			MDVector force = new Vector3DCartesian(0, 0, 0);
 			for (int j=0; j<positions.size(); j++){
 				if (i==j) continue;
-				MDVector distance = PBCCalculator.getInstance().applyMinimumImageConvention(positions.get(i).minus(positions.get(j)));
+				MDVector distance = PBCDistanceCalculator.calculate(positions.get(i), positions.get(j));
 				force = force.plus(forceCalculator.calculate(distance));
 			}
 			forces.add(force);
 		}
+		
+		
 	}
 	
 	public static void main(String[] args) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException{

@@ -6,12 +6,12 @@ import java.util.Map;
 import edu.MD.number.MDVector;
 import edu.MD.utility.MDConstants;
 
-public class VelocityUpdater {
-	private static Map<String, VelocityUpdater> instances = new HashMap<>();
+public class VelocityCalculator {
+	private static Map<String, VelocityCalculator> instances = new HashMap<>();
 
 	private double mass, dt;
 
-	private VelocityUpdater(double mass, double dt) {
+	private VelocityCalculator(double mass, double dt) {
 		this.mass = mass;
 		this.dt = dt;
 	}
@@ -24,7 +24,7 @@ public class VelocityUpdater {
 	 *            is 1e-15 second.
 	 * @return VelocityUpdater instance (from the HashMap)
 	 */
-	public static VelocityUpdater getInstance(String type) {
+	public static VelocityCalculator getInstance(String type) {
 		if (instances.get(type) == null) {
 			String name = type.split("_")[0];
 			double dt = Double.parseDouble(type.split("_")[1]);
@@ -34,7 +34,7 @@ public class VelocityUpdater {
 			} catch (IllegalArgumentException ex) {
 				throw new IllegalArgumentException("The particle name is not correct, should be like 'ARGON_1e-15");
 			}
-			instances.put(type, new VelocityUpdater(mass, dt));
+			instances.put(type, new VelocityCalculator(mass, dt));
 		}
 		return instances.get(type);
 	}

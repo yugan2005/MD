@@ -14,7 +14,7 @@ import org.junit.Test;
 import edu.MD.globalSetting.NumberFactorySetting;
 import edu.MD.globalSetting.PBCBoundarySetting;
 import edu.MD.initialization.MonatomicPositionInitializer;
-import edu.MD.modeling.PBCDistanceFinder;
+import edu.MD.modeling.PBCDistanceCalculator;
 import edu.MD.number.MDNumber;
 import edu.MD.number.NumberFactory;
 import edu.MD.number.Vector3DCartesian;
@@ -75,7 +75,7 @@ public class MonatomicPositionInitializerTest {
 		MDNumber maxDistance = null;
 		for (int i = 0; i < initializer.getPositions().size(); i++) {
 			for (int j = i + 1; j < initializer.getPositions().size(); j++) {
-				MDNumber distance = PBCDistanceFinder.getDistance(initializer.getPositions().get(i), initializer.getPositions().get(j)).norm();
+				MDNumber distance = PBCDistanceCalculator.calculate(initializer.getPositions().get(i), initializer.getPositions().get(j)).norm();
 				if (minDistance == null || distance.compareTo(minDistance) < 0)
 					minDistance = distance;
 				if (maxDistance == null || distance.compareTo(minDistance) > 0)
