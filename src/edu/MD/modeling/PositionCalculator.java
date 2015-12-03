@@ -7,12 +7,12 @@ import edu.MD.number.MDVector;
 import edu.MD.utility.MDConstants;
 import edu.MD.utility.PBCCalculator;
 
-public class VerletPositionCalculator {
-	private static Map<String, VerletPositionCalculator> instances = new HashMap<>();
+public class PositionCalculator {
+	private static Map<String, PositionCalculator> instances = new HashMap<>();
 
 	private double mass, dt;
 
-	private VerletPositionCalculator(double mass, double dt) {
+	private PositionCalculator(double mass, double dt) {
 		this.mass = mass;
 		this.dt = dt;
 	}
@@ -25,7 +25,7 @@ public class VerletPositionCalculator {
 	 *            is 1e-15 second.
 	 * @return VerletPositionUpdater instance (from the HashMap)
 	 */
-	public static VerletPositionCalculator getInstance(String type) {
+	public static PositionCalculator getInstance(String type) {
 		if (instances.get(type) == null) {
 			String name = type.split("_")[0];
 			double dt = Double.parseDouble(type.split("_")[1]);
@@ -35,7 +35,7 @@ public class VerletPositionCalculator {
 			} catch (IllegalArgumentException ex) {
 				throw new IllegalArgumentException("The particle name is not correct, should be like 'ARGON_1e-15");
 			}
-			instances.put(type, new VerletPositionCalculator(mass, dt));
+			instances.put(type, new PositionCalculator(mass, dt));
 		}
 		return instances.get(type);
 	}

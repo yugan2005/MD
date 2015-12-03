@@ -10,14 +10,14 @@ import org.junit.Test;
 
 import edu.MD.globalSetting.NumberFactorySetting;
 import edu.MD.globalSetting.PBCBoundarySetting;
-import edu.MD.modeling.VerletPositionCalculator;
+import edu.MD.modeling.PositionCalculator;
 import edu.MD.number.MDVector;
 import edu.MD.number.Vector3DCartesian;
 import edu.MD.utility.MDConstants;
 import edu.MD.utility.MDPotentialConstants;
 
-public class VerletPositionCalculatorTest {
-	private VerletPositionCalculator positionCalculator;
+public class PositionCalculatorTest {
+	private PositionCalculator positionCalculator;
 
 	@BeforeClass
 	public static void globalInit() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException,
@@ -28,7 +28,7 @@ public class VerletPositionCalculatorTest {
 	@Before
 	public void init() {
 		setSystemBoundary(5, 5, 5);
-		positionCalculator = VerletPositionCalculator.getInstance("ARGON_1e-5");
+		positionCalculator = PositionCalculator.getInstance("ARGON_1e-5");
 	}
 
 	@Test
@@ -45,7 +45,7 @@ public class VerletPositionCalculatorTest {
 	public void calculateNewPositionOutOfBound() {
 		double sigma = MDPotentialConstants.getSigma("ARGON");
 		setSystemBoundary(sigma, 3 * sigma, 2 * sigma);
-		positionCalculator = VerletPositionCalculator.getInstance("ARGON_2");
+		positionCalculator = PositionCalculator.getInstance("ARGON_2");
 
 		MDVector oldPoistion = (new Vector3DCartesian(0.9, 2.9, 0.9)).times(MDPotentialConstants.getSigma("ARGON"));
 		MDVector oldVelocity = (new Vector3DCartesian(1, 0, 1)).times(MDPotentialConstants.getSigma("ARGON"));
