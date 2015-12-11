@@ -15,7 +15,7 @@ import edu.MD.modeling.PositionCalculator;
 import edu.MD.number.MDVector;
 import edu.MD.number.Vector3DCartesian;
 
-public class ArgonMDSimualtion {
+public class ArgonMDSimualtion implements MDSimulation {
 	private static int filmSize, filmThickness, vaporOneSideThickness, totalNumParticles;
 	private static double temperature, timeStep, cutoff;
 	private static String name;
