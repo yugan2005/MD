@@ -20,8 +20,10 @@ public class MDDataObject {
 	private ScheduledService<double[][]> worker;
 	private int particleNumber;
 	private double scalingFactor;
-	private double effectiveViewRatio = 1.25;
+	private double effectiveViewRatio = 1.3;
 	private MainApp controller;
+	private final int CONVERT_COORDINATE = 1;
+
 
 
 	public MDDataObject(MDSimulation model) throws IllegalAccessException, IllegalArgumentException,
@@ -56,7 +58,7 @@ public class MDDataObject {
 		MDNumber[] boundVector = simulation.getSystemBoundary().getCartesianComponent();
 		double[] bound = new double[boundVector.length];
 		for (int i = 0; i < bound.length; i++) {
-			bound[i] = boundVector[i].toDouble();
+			bound[i] = boundVector[(i+CONVERT_COORDINATE)%3].toDouble();
 		}
 		return bound;
 	}
@@ -68,7 +70,7 @@ public class MDDataObject {
 		for (int i = 0; i < particleNumber; i++) {
 			MDNumber[] currentPosition = positionVectors.get(i).getCartesianComponent();
 			for (int j = 0; j < currentPosition.length; j++) {
-				particlePositions[j][i] = currentPosition[j].toDouble();
+				particlePositions[j][i] = currentPosition[(j+CONVERT_COORDINATE)%3].toDouble();
 			}
 		}
 

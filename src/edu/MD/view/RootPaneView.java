@@ -29,14 +29,14 @@ public class RootPaneView {
 	private static final double SIMULATION_PANE_HEIGHT = 500;
 	private static final double BUTTON_BAR_HEIGHT = 40;
 
-	private static final double SPHERE_SIZE = 3.5;
+	private static final double SPHERE_SIZE = 4;
 	private static final int SPHERE_DIV = 64;
 
 	private static final double LINE_SIZE = 2;
 
 	private static final double AXIS_LENGTH = 20;
 
-	private static final Rotate CAMERA_DEFAULT_ROT = new Rotate(10, new Point3D(1, 1, 0));
+	private static final Rotate CAMERA_DEFAULT_ROT = new Rotate(5, new Point3D(1, 1, 0));
 
 	@FXML
 	private SplitPane rootPane;
