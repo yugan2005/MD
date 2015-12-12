@@ -1,12 +1,20 @@
 package edu.MD.application;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.List;
+
+import edu.MD.number.MDVector;
+
 public interface MDSimulation {
 	
-	public void initialization();
+	public void initialization() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException;
 	
 	public void stepMove();
 	
-	public void getPostions();
-	
+	public List<MDVector> getPostions();
 
+	public MDVector getSystemBoundary();
+
+	public int getParticleNumber();
+	
 }

@@ -23,7 +23,7 @@ public class MainApp extends Application {
 	}
 
 	public MainApp() {
-		model = MDDataObject.getInstance();
+		model = new MDDataObject();
 	}
 
 	@Override
