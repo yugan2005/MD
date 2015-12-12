@@ -1,7 +1,11 @@
 package edu.MD.DAO;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.List;
+
 import edu.MD.application.ArgonMDSimualtion;
 import edu.MD.application.MDSimulation;
+import edu.MD.control.MainApp;
 import edu.MD.globalSetting.NumberFactorySetting;
 import edu.MD.number.MDNumber;
 import edu.MD.number.MDVector;
@@ -11,60 +15,64 @@ import javafx.concurrent.Task;
 import javafx.util.Duration;
 
 public class MDDataObject {
-	
+
 	private MDSimulation simulation;
 	private ScheduledService<double[][]> worker;
-	private double[][] positions;
 	private int particleNumber;
-	private double[] systemBoundary;
+	private double scalingFactor;
+	private double effectiveViewRatio = 1.5;
+	private MainApp controller;
 
 
-	public MDDataObject(MDSimulation model) {
+	public MDDataObject(MDSimulation model) throws IllegalAccessException, IllegalArgumentException,
+			InvocationTargetException, NoSuchMethodException, SecurityException {
 		NumberFactorySetting.set();
-
 		this.simulation = model;
 		this.particleNumber = simulation.getParticleNumber();
-		this.positions = simulation.getPostions();
-		this.systemBoundary = simulation.getSystemBoundary();
-		worker = new ScheduledService<double[][]>(){
+		worker = new ScheduledService<double[][]>() {
 			@Override
 			protected Task<double[][]> createTask() {
 				return new Task<double[][]>() {
 
 					@Override
 					protected double[][] call() throws Exception {
-						double[][] newPosition = new double[3][particleNumber];
-						for (int i = 0; i < 3; i++) {
-							for (int j = 0; j < particleNumber; j++) {
-								newPosition[i][j] = positions[i][j] + 10*(Math.random()-0.5);
-							}
-						}
-						positions = newPosition;
-						return newPosition;
+						simulation.stepMove();
+						return getPositions();
 					}
 
 				};
 			}
-			
+
 		};
-		worker.setPeriod(Duration.millis(40));
+		worker.setPeriod(Duration.millis(0));
 	}
-	
-	public MDDataObject(){
+
+	public MDDataObject() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException,
+			NoSuchMethodException, SecurityException {
 		this(new ArgonMDSimualtion());
 	}
 
-	public double[] getSystemBoundary() {
+	private double[] getUnscaledSystemBoundary() {
 		MDNumber[] boundVector = simulation.getSystemBoundary().getCartesianComponent();
 		double[] bound = new double[boundVector.length];
-		for (int i=0; i<bound.length; i++){
-			bound[i]=boundVector[i].toDouble();
+		for (int i = 0; i < bound.length; i++) {
+			bound[i] = boundVector[i].toDouble();
 		}
 		return bound;
 	}
 
-	public double[][] getPositions() {
-		return positions;
+	private double[][] getUnscaledPositions() {
+		List<MDVector> positionVectors = simulation.getPostions();
+
+		double[][] particlePositions = new double[positionVectors.get(0).getDimension()][particleNumber];
+		for (int i = 0; i < particleNumber; i++) {
+			MDNumber[] currentPosition = positionVectors.get(i).getCartesianComponent();
+			for (int j = 0; j < currentPosition.length; j++) {
+				particlePositions[j][i] = currentPosition[j].toDouble();
+			}
+		}
+
+		return particlePositions;
 	}
 
 	public int getParticleNumber() {
@@ -73,6 +81,35 @@ public class MDDataObject {
 
 	public Service<double[][]> getWorker() {
 		return worker;
+	}
+	
+	
+	public double[] getSystemBoundary() {
+		double simulationViewHeight = controller.getView().getSimulationSceneHeight();
+		double simulationViewWidth = controller.getView().getSimulationSceneWidth();
+		double[] unScaledBoundary = getUnscaledSystemBoundary();
+		scalingFactor = Math.min(simulationViewWidth / unScaledBoundary[0],
+				simulationViewHeight / unScaledBoundary[1]) / effectiveViewRatio;
+		double[] scaledBoundary = new double[unScaledBoundary.length];
+		for (int i = 0; i < scaledBoundary.length; i++) {
+			scaledBoundary[i] = unScaledBoundary[i] * scalingFactor;
+		}
+		return scaledBoundary;
+	}
+	
+	public double[][] getPositions() {
+		double[][] unScaledPosition = getUnscaledPositions();
+		double[][] scaledPosition = new double[unScaledPosition.length][unScaledPosition[0].length];
+		for (int i = 0; i < unScaledPosition.length; i++) {
+			for (int j = 0; j < unScaledPosition[0].length; j++) {
+				scaledPosition[i][j] = unScaledPosition[i][j] * scalingFactor;
+			}
+		}
+		return scaledPosition;
+	}
+
+	public void setController(MainApp mainApp) {
+		this.controller = mainApp;
 	}
 
 }

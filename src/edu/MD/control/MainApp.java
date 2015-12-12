@@ -1,5 +1,6 @@
 package edu.MD.control;
 
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 
 import edu.MD.DAO.MDDataObject;
@@ -22,8 +23,10 @@ public class MainApp extends Application {
 		launch(args);
 	}
 
-	public MainApp() {
+	public MainApp() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException,
+			NoSuchMethodException, SecurityException {
 		model = new MDDataObject();
+
 	}
 
 	@Override
@@ -34,6 +37,10 @@ public class MainApp extends Application {
 
 		Parent root = loader.load();
 		view = loader.<RootPaneView> getController();
+		
+		model.setController(this);
+
+
 		view.setView(this);
 
 		Scene scene = new Scene(root);
@@ -43,6 +50,8 @@ public class MainApp extends Application {
 		primaryStage.show();
 
 	}
+
+
 
 	private void hookupEvents() {
 
@@ -90,6 +99,10 @@ public class MainApp extends Application {
 
 	public int getParticleNumber() {
 		return model.getParticleNumber();
+	}
+
+	public RootPaneView getView() {
+		return view;
 	}
 
 }
