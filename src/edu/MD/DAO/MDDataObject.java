@@ -20,7 +20,7 @@ public class MDDataObject {
 	private ScheduledService<double[][]> worker;
 	private int particleNumber;
 	private double scalingFactor;
-	private double effectiveViewRatio = 1.5;
+	private double effectiveViewRatio = 1.25;
 	private MainApp controller;
 
 

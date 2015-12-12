@@ -29,7 +29,7 @@ public class RootPaneView {
 	private static final double SIMULATION_PANE_HEIGHT = 500;
 	private static final double BUTTON_BAR_HEIGHT = 40;
 
-	private static final double SPHERE_SIZE = 5;
+	private static final double SPHERE_SIZE = 3.5;
 	private static final int SPHERE_DIV = 64;
 
 	private static final double LINE_SIZE = 2;
