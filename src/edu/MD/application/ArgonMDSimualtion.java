@@ -32,7 +32,7 @@ public class ArgonMDSimualtion implements MDSimulation {
 		filmThickness = 3;
 		vaporOneSideThickness = 3;
 		temperature = 100;
-		timeStep = 5.5e-14;
+		timeStep = 5e-14;
 		cutoff = 3.0;
 		initialization();
 	}
