@@ -17,6 +17,8 @@
                   <Button fx:id="startButton" mnemonicParsing="false" text="Start" />
                   <Button fx:id="defaulViewButton" mnemonicParsing="false" text="DefaultView" />
                   <Button fx:id="pauseButton" mnemonicParsing="false" text="Pause" />
+                  <Button fx:id="densityButton" mnemonicParsing="false" text="DensityProfile" />
+                  <Button fx:id="kineticEnergyButton" mnemonicParsing="false" text="KineticEnergy" />
                </buttons>
                <padding>
                   <Insets right="5.0" />
@@ -24,28 +26,6 @@
             </ButtonBar>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="chartPane">
-         <children>
-            <VBox fx:id="statBox" layoutY="15.0" prefHeight="250.0" prefWidth="800.0">
-               <children>
-                  <LineChart fx:id="densityChart" alternativeRowFillVisible="false" legendVisible="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="122.0" prefWidth="800.0" title="densityAlongLateral" titleSide="BOTTOM">
-                    <xAxis>
-                      <CategoryAxis side="BOTTOM" />
-                    </xAxis>
-                    <yAxis>
-                      <NumberAxis side="LEFT" />
-                    </yAxis>
-                  </LineChart>
-                  <LineChart fx:id="energyChart" alternativeRowFillVisible="false" legendVisible="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="123.0" prefWidth="800.0" title="totalEnergyFluctuation" titleSide="BOTTOM">
-                     <xAxis>
-                        <CategoryAxis side="BOTTOM" />
-                     </xAxis>
-                     <yAxis>
-                        <NumberAxis side="LEFT" />
-                     </yAxis>
-                  </LineChart>
-               </children>
-            </VBox>
-         </children></AnchorPane>
+      <AnchorPane fx:id="chartPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="800.0" />
    </items>
 </SplitPane>

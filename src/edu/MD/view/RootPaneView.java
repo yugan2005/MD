@@ -11,6 +11,8 @@ import javafx.scene.ParallelCamera;
 import javafx.scene.SceneAntialiasing;
 import javafx.scene.SubScene;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.SplitPane;
@@ -62,12 +64,13 @@ public class RootPaneView {
 	private Button defaulViewButton;
 
 	@FXML
-	private VBox statBox;
-
+	private Button densityButton;
+	
 	@FXML
+	private Button kineticEnergyButton;
+
 	private LineChart<Number, Number> densityChart;
 
-	@FXML
 	private LineChart<Number, Number> energyChart;
 
 	private SubScene simulationScene;
@@ -195,6 +198,19 @@ public class RootPaneView {
 		double[][] densityProfileAlongY = controller.getDensityProfile();
 		densityProfile = densityProfileAlongY[1];
 		densityProfileLocation = densityProfileAlongY[0];
+		
+		// build density profile chart
+		XYChart.Series<Number, Number> densitySeries = new XYChart.Series<>();
+		for (int i=0; i<densityProfile.length;i++){
+			densitySeries.getData().add(new XYChart.Data<>(densityProfileLocation[i], densityProfile[i]));
+		}
+		NumberAxis xAxis = new NumberAxis();
+		xAxis.setLabel("Axial Location");
+		xAxis.setAutoRanging(false);
+		xAxis.setUpperBound(systemBounday[0]);
+		// TODO this is not correct. This is scaled boundary. We need unscaled
+		xAxis.setLowerBound(0);
+		
 		// TODO work till here
 		
 
