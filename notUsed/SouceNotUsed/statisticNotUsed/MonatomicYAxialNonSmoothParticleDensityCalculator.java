@@ -2,26 +2,15 @@ package edu.MD.statThermodynamic;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.List;
 import edu.MD.number.MDNumber;
 import edu.MD.number.MDVector;
 import edu.MD.utility.IterableCounter;
 import edu.MD.utility.MDConstants;
+import edu.MD.utility.YComparator;
 
-public class MonatomicYAxialNonSmoothParticleDensityCalculator {
-
-	private static class YComparator implements Comparator<MDVector> {
-
-		@Override
-		public int compare(MDVector vector1, MDVector vector2) {
-			MDNumber y1 = vector1.getCartesianComponent()[1];
-			MDNumber y2 = vector2.getCartesianComponent()[1];
-
-			return y1.compareTo(y2);
-		}
-
-	}
+@Deprecated
+public class MonatomicYAxialNonSmoothParticleDensityCalculator implements IDensityCalculator {
 
 	/**
 	 * @param positions
@@ -31,7 +20,8 @@ public class MonatomicYAxialNonSmoothParticleDensityCalculator {
 	 *         1st list is the y location, the 2nd list is the corresponding
 	 *         local density value.
 	 */
-	public static List<List<MDNumber>> calculate(Iterable<MDVector> positions, MDVector systemBoundary) {
+	
+	public List<List<MDNumber>> calculate(Iterable<MDVector> positions, MDVector systemBoundary) {
 
 		int totalNumOfParticles = IterableCounter.count(positions);
 

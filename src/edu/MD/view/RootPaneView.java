@@ -10,11 +10,13 @@ import javafx.scene.Group;
 import javafx.scene.ParallelCamera;
 import javafx.scene.SceneAntialiasing;
 import javafx.scene.SubScene;
+import javafx.scene.chart.LineChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.SplitPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Cylinder;
@@ -59,6 +61,15 @@ public class RootPaneView {
 	@FXML
 	private Button defaulViewButton;
 
+	@FXML
+	private VBox statBox;
+
+	@FXML
+	private LineChart<Number, Number> densityChart;
+
+	@FXML
+	private LineChart<Number, Number> energyChart;
+
 	private SubScene simulationScene;
 
 	private Sphere[] particles;
@@ -82,6 +93,9 @@ public class RootPaneView {
 	private DoubleProperty cameraRotateAngleX = new SimpleDoubleProperty(0);
 	private DoubleProperty cameraRotateAngleY = new SimpleDoubleProperty(0);
 	private double anchorX, anchorY, anchorAngleX, anchorAngleY;
+	
+	private double[] densityProfile;
+	private double[] densityProfileLocation;
 
 	public RootPaneView() {
 	}
@@ -101,8 +115,12 @@ public class RootPaneView {
 	}
 
 	public void setView(MainApp mainApp) {
-		// obtain data from model
 		this.controller = mainApp;
+
+		// ***
+		// This part builds up the simulation animation pane (top pane)
+
+		// obtain data from model
 		systemBounday = controller.getSystemBoundary();
 		positions = controller.getPositions();
 		numOfParticles = controller.getParticleNumber();
@@ -169,6 +187,16 @@ public class RootPaneView {
 		AnchorPane.setTopAnchor(simulationScene, 0.0);
 		AnchorPane.setLeftAnchor(simulationScene, 0.0);
 		AnchorPane.setRightAnchor(simulationScene, 0.0);
+
+		// ***
+		// This part builds up the statisticl chart pane (bottom pane)
+
+		// obtain data from model
+		double[][] densityProfileAlongY = controller.getDensityProfile();
+		densityProfile = densityProfileAlongY[1];
+		densityProfileLocation = densityProfileAlongY[0];
+		// TODO work till here
+		
 
 		hookupViewEvents();
 

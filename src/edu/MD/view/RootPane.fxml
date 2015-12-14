@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.chart.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
@@ -23,6 +24,28 @@
             </ButtonBar>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="chartPane" />
+      <AnchorPane fx:id="chartPane">
+         <children>
+            <VBox fx:id="statBox" layoutY="15.0" prefHeight="250.0" prefWidth="800.0">
+               <children>
+                  <LineChart fx:id="densityChart" alternativeRowFillVisible="false" legendVisible="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="122.0" prefWidth="800.0" title="densityAlongLateral" titleSide="BOTTOM">
+                    <xAxis>
+                      <CategoryAxis side="BOTTOM" />
+                    </xAxis>
+                    <yAxis>
+                      <NumberAxis side="LEFT" />
+                    </yAxis>
+                  </LineChart>
+                  <LineChart fx:id="energyChart" alternativeRowFillVisible="false" legendVisible="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="123.0" prefWidth="800.0" title="totalEnergyFluctuation" titleSide="BOTTOM">
+                     <xAxis>
+                        <CategoryAxis side="BOTTOM" />
+                     </xAxis>
+                     <yAxis>
+                        <NumberAxis side="LEFT" />
+                     </yAxis>
+                  </LineChart>
+               </children>
+            </VBox>
+         </children></AnchorPane>
    </items>
 </SplitPane>

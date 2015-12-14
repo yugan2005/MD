@@ -3,26 +3,41 @@ package edu.MD.statThermodynamic;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.List;
+
 import edu.MD.number.MDNumber;
 import edu.MD.number.MDVector;
-import edu.MD.utility.IterableCounter;
 import edu.MD.utility.MDConstants;
+import edu.MD.utility.YComparator;
 
-public class MonatomicYAxialSmoothDensityCalculator {
+public class MonatomicYAxialSmoothDensityCalculator implements IDensityCalculator {
 	// TODO need have a traditional density profile calculator to compare
-	private static int numParticles;
+	private int numParticles;
+	private int totalNumOfParticles;
+	private MDVector systemBoundary;
 
-	private static class YComparator implements Comparator<MDVector> {
+	public static IDensityCalculator getInstance(int totalNumberOfParticles, MDVector systemBoundary) {
+		MonatomicYAxialSmoothDensityCalculator instance = new MonatomicYAxialSmoothDensityCalculator();
+		instance.numParticles = 1;
+		instance.totalNumOfParticles = totalNumberOfParticles;
+		instance.systemBoundary = systemBoundary;
+		return instance;
+	}
 
-		@Override
-		public int compare(MDVector vector1, MDVector vector2) {
-			MDNumber y1 = vector1.getCartesianComponent()[1];
-			MDNumber y2 = vector2.getCartesianComponent()[1];
+	public static IDensityCalculator getInstance(int totalNumberOfParticles, MDVector systemBoundary,
+			double molarVaporDensity, int nBins) {
+		MonatomicYAxialSmoothDensityCalculator instance = new MonatomicYAxialSmoothDensityCalculator();
 
-			return y1.compareTo(y2);
-		}
+		MDNumber crossSectionArea = systemBoundary.getCartesianComponent()[0]
+				.times(systemBoundary.getCartesianComponent()[2]);
+		MDNumber axialLength = systemBoundary.getCartesianComponent()[1];
+		MDNumber binLength = axialLength.divide(nBins);
+		MDNumber binVolume = binLength.times(crossSectionArea);
+		instance.numParticles = binVolume.times(molarVaporDensity * MDConstants.AVOGADRO).round();
+
+		instance.totalNumOfParticles = totalNumberOfParticles;
+		instance.systemBoundary = systemBoundary;
+		return instance;
 
 	}
 
@@ -34,11 +49,7 @@ public class MonatomicYAxialSmoothDensityCalculator {
 	 *         1st list is the y location, the 2nd list is the corresponding
 	 *         local density value.
 	 */
-	public static List<List<MDNumber>> calculate(Iterable<MDVector> positions, MDVector systemBoundary) {
-		if (numParticles == 0)
-			throw new UnsupportedOperationException("Need set the number of bins first. call setNumParticles()");
-
-		int totalNumOfParticles = IterableCounter.count(positions);
+	public List<List<MDNumber>> calculate(Iterable<MDVector> positions) {
 
 		List<MDVector> listOfPositions;
 		if (positions instanceof Collection<?>) {
@@ -121,15 +132,4 @@ public class MonatomicYAxialSmoothDensityCalculator {
 		return density;
 
 	}
-
-	public static void setDensityCalculator(double molarVaporDensity, MDVector systemBoundary, int nBins) {
-		MDNumber crossSectionArea = systemBoundary.getCartesianComponent()[0]
-				.times(systemBoundary.getCartesianComponent()[2]);
-		MDNumber axialLength = systemBoundary.getCartesianComponent()[1];
-		MDNumber binLength = axialLength.divide(nBins);
-		MDNumber binVolume = binLength.times(crossSectionArea);
-		MonatomicYAxialSmoothDensityCalculator.numParticles = binVolume
-				.times(molarVaporDensity * MDConstants.AVOGADRO).round();
-	}
-
 }

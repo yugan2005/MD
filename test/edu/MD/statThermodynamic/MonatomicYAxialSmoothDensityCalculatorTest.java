@@ -25,6 +25,7 @@ public class MonatomicYAxialSmoothDensityCalculatorTest {
 	private double temperature;
 	private int filmSize, filmThickness, vaporOneSideThickness;
 	private int nBins;
+	private IDensityCalculator densityCalculator;
 
 	@BeforeClass
 	public static void globalInit() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException,
@@ -45,16 +46,16 @@ public class MonatomicYAxialSmoothDensityCalculatorTest {
 		systemBoundary = positionInitializer.getSystemBoundary();
 		positions = positionInitializer.getPositions();
 		double molarVaproDensity = MDConstants.getMolarDensity(name, temperature, "vapor");
-
 		PBCBoundarySetting.set(systemBoundary);
-		MonatomicYAxialSmoothDensityCalculator.setDensityCalculator(molarVaproDensity, systemBoundary, nBins);
+		
+		int totalNumberOfParticles = positionInitializer.getTotalNumberOfParticles();
+		densityCalculator = MonatomicYAxialSmoothDensityCalculator.getInstance(totalNumberOfParticles, systemBoundary, molarVaproDensity, nBins);
 
 	}
 
 	@Test
 	public void yOfDensityProfileIncreaseOnly() {
-		List<List<MDNumber>> densityProfile = MonatomicYAxialSmoothDensityCalculator.calculate(positions,
-				systemBoundary);
+		List<List<MDNumber>> densityProfile = densityCalculator.calculate(positions);
 		List<MDNumber> yPositions = densityProfile.get(0);
 		for (int i=1; i<yPositions.size(); i++){
 			assertThat(yPositions.get(i-1), lessThan(yPositions.get(i)));

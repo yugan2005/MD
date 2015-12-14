@@ -105,4 +105,8 @@ public class MainApp extends Application {
 		return view;
 	}
 
+	public double[][] getDensityProfile() {
+		return model.getDensityProfile();
+	}
+
 }

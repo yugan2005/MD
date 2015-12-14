@@ -12,11 +12,15 @@ import edu.MD.modeling.LJForceCalculator;
 import edu.MD.modeling.PBCDistanceCalculator;
 import edu.MD.modeling.VelocityCalculator;
 import edu.MD.modeling.PositionCalculator;
+import edu.MD.number.MDNumber;
 import edu.MD.number.MDVector;
 import edu.MD.number.Vector3DCartesian;
+import edu.MD.statThermodynamic.IDensityCalculator;
+import edu.MD.statThermodynamic.MonatomicYAxialSmoothDensityCalculator;
+import edu.MD.utility.MDConstants;
 
 public class ArgonMDSimualtion implements MDSimulation {
-	private int filmSize, filmThickness, vaporOneSideThickness, totalNumParticles;
+	private int filmSize, filmThickness, vaporOneSideThickness, totalNumParticles, nDensityBin;
 	private double temperature, timeStep, cutoff;
 	private String name = "ARGON";
 	private List<MDVector> positions, velocities, forces;
@@ -26,6 +30,7 @@ public class ArgonMDSimualtion implements MDSimulation {
 	private LJForceCalculator forceCalculator;
 	private PositionCalculator positionCalculator;
 	private VelocityCalculator velocityCalculator;
+	private IDensityCalculator densityCalculator;
 
 	public ArgonMDSimualtion() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
 		filmSize = 5;
@@ -34,6 +39,7 @@ public class ArgonMDSimualtion implements MDSimulation {
 		temperature = 100;
 		timeStep = 5e-14;
 		cutoff = 3.0;
+		nDensityBin = 20;
 		initialization();
 	}
 
@@ -56,6 +62,9 @@ public class ArgonMDSimualtion implements MDSimulation {
 		forceCalculator = LJForceCalculator.getInstance(forceCalculatorType);
 		positionCalculator = PositionCalculator.getInstance(positionCalculatorType);
 		velocityCalculator = VelocityCalculator.getInstance(velocityCalculatorType);
+		double molarVaporDensity = MDConstants.getMolarDensity(name, temperature, "vapor");
+		densityCalculator = MonatomicYAxialSmoothDensityCalculator.getInstance(totalNumParticles, systemBoundary, molarVaporDensity, nDensityBin);
+		
 		forces = new ArrayList<>(totalNumParticles);
 		for (int i = 0; i < positions.size(); i++) {
 			MDVector force = new Vector3DCartesian(0, 0, 0);
@@ -115,6 +124,11 @@ public class ArgonMDSimualtion implements MDSimulation {
 	@Override
 	public int getParticleNumber() {
 		return totalNumParticles;
+	}
+
+	@Override
+	public List<List<MDNumber>> getDensityProfile() {
+		return densityCalculator.calculate(positions);
 	}
 
 }

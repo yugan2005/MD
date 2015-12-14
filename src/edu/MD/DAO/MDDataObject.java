@@ -24,8 +24,6 @@ public class MDDataObject {
 	private MainApp controller;
 	private final int CONVERT_COORDINATE = 1;
 
-
-
 	public MDDataObject(MDSimulation model) throws IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, NoSuchMethodException, SecurityException {
 		NumberFactorySetting.set();
@@ -58,7 +56,7 @@ public class MDDataObject {
 		MDNumber[] boundVector = simulation.getSystemBoundary().getCartesianComponent();
 		double[] bound = new double[boundVector.length];
 		for (int i = 0; i < bound.length; i++) {
-			bound[i] = boundVector[(i+CONVERT_COORDINATE)%3].toDouble();
+			bound[i] = boundVector[(i + CONVERT_COORDINATE) % 3].toDouble();
 		}
 		return bound;
 	}
@@ -70,7 +68,7 @@ public class MDDataObject {
 		for (int i = 0; i < particleNumber; i++) {
 			MDNumber[] currentPosition = positionVectors.get(i).getCartesianComponent();
 			for (int j = 0; j < currentPosition.length; j++) {
-				particlePositions[j][i] = currentPosition[(j+CONVERT_COORDINATE)%3].toDouble();
+				particlePositions[j][i] = currentPosition[(j + CONVERT_COORDINATE) % 3].toDouble();
 			}
 		}
 
@@ -84,21 +82,20 @@ public class MDDataObject {
 	public Service<double[][]> getWorker() {
 		return worker;
 	}
-	
-	
+
 	public double[] getSystemBoundary() {
 		double simulationViewHeight = controller.getView().getSimulationSceneHeight();
 		double simulationViewWidth = controller.getView().getSimulationSceneWidth();
 		double[] unScaledBoundary = getUnscaledSystemBoundary();
-		scalingFactor = Math.min(simulationViewWidth / unScaledBoundary[0],
-				simulationViewHeight / unScaledBoundary[1]) / effectiveViewRatio;
+		scalingFactor = Math.min(simulationViewWidth / unScaledBoundary[0], simulationViewHeight / unScaledBoundary[1])
+				/ effectiveViewRatio;
 		double[] scaledBoundary = new double[unScaledBoundary.length];
 		for (int i = 0; i < scaledBoundary.length; i++) {
 			scaledBoundary[i] = unScaledBoundary[i] * scalingFactor;
 		}
 		return scaledBoundary;
 	}
-	
+
 	public double[][] getPositions() {
 		double[][] unScaledPosition = getUnscaledPositions();
 		double[][] scaledPosition = new double[unScaledPosition.length][unScaledPosition[0].length];
@@ -112,6 +109,20 @@ public class MDDataObject {
 
 	public void setController(MainApp mainApp) {
 		this.controller = mainApp;
+	}
+
+	public double[][] getDensityProfile() {
+		List<List<MDNumber>> densityProfileFromSimulation = simulation.getDensityProfile();
+		double[][] densityProfile = new double[2][];
+		double[] yPositions = new double[densityProfileFromSimulation.get(0).size()];
+		double[] densities = new double[densityProfileFromSimulation.get(1).size()];
+		for (int i = 0; i < yPositions.length; i++) {
+			yPositions[i] = densityProfileFromSimulation.get(0).get(i).toDouble();
+			densities[i] = densityProfileFromSimulation.get(1).get(i).toDouble();
+		}
+		densityProfile[0] = yPositions;
+		densityProfile[1] = densities;
+		return densityProfile;
 	}
 
 }
