@@ -63,7 +63,7 @@ public class ArgonMDSimualtion implements MDSimulation {
 		positionCalculator = PositionCalculator.getInstance(positionCalculatorType);
 		velocityCalculator = VelocityCalculator.getInstance(velocityCalculatorType);
 		double molarVaporDensity = MDConstants.getMolarDensity(name, temperature, "vapor");
-		densityCalculator = MonatomicYAxialSmoothDensityCalculator.getInstance(totalNumParticles, systemBoundary, molarVaporDensity, nDensityBin);
+		densityCalculator = MonatomicYAxialSmoothDensityCalculator.getInstance(totalNumParticles, systemBoundary);
 		
 		forces = new ArrayList<>(totalNumParticles);
 		for (int i = 0; i < positions.size(); i++) {
@@ -129,6 +129,16 @@ public class ArgonMDSimualtion implements MDSimulation {
 	@Override
 	public List<List<MDNumber>> getDensityProfile() {
 		return densityCalculator.calculate(positions);
+	}
+
+	@Override
+	public double getVaporDensity() {
+		return MDConstants.getMolarDensity(name, temperature, "vapor");
+	}
+
+	@Override
+	public double getLiquidDensity() {
+		return MDConstants.getMolarDensity(name, temperature, "liquid");
 	}
 
 }

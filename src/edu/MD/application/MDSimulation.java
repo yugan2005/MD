@@ -19,5 +19,9 @@ public interface MDSimulation {
 	public int getParticleNumber();
 
 	public List<List<MDNumber>> getDensityProfile();
+
+	public double getVaporDensity();
+
+	public double getLiquidDensity();
 	
 }

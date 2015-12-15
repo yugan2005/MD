@@ -94,7 +94,7 @@ public class MonatomicYAxialSmoothDensityCalculator implements IDensityCalculato
 				// reset counter
 				MDNumber yDiscard = yOfParticles.removeFirst();
 				ySum = ySum.minus(yDiscard);
-				while (yOfParticles.size() >= numParticles || yOfParticles.peekFirst().equals(yDiscard)) {
+				while (yOfParticles.size() >= numParticles || (!yOfParticles.isEmpty() && yOfParticles.peekFirst().equals(yDiscard))) {
 					yDiscard = yOfParticles.removeFirst();
 					ySum = ySum.minus(yDiscard);
 				}

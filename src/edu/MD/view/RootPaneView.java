@@ -3,6 +3,8 @@ package edu.MD.view;
 import edu.MD.control.MainApp;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point3D;
@@ -207,9 +209,22 @@ public class RootPaneView {
 		NumberAxis xAxis = new NumberAxis();
 		xAxis.setLabel("Axial Location");
 		xAxis.setAutoRanging(false);
-		xAxis.setUpperBound(systemBounday[0]);
-		// TODO this is not correct. This is scaled boundary. We need unscaled
+		xAxis.setUpperBound(controller.getUnscaledSystemBoundary()[0]);
 		xAxis.setLowerBound(0);
+		NumberAxis yAxis = new NumberAxis();
+		yAxis.setLabel("Molar Density");
+		yAxis.setAutoRanging(false);
+		yAxis.setUpperBound(controller.getLiquidDensity()*1.25);
+		yAxis.setLowerBound(0);
+		
+		densityChart = new LineChart<>(xAxis, yAxis);
+		densityChart.setTitle("Density fluctuation along axial direction");
+		ObservableList<XYChart.Series<Number, Number>> densityData = FXCollections.<XYChart.Series<Number, Number>>observableArrayList();
+		densityData.add(densitySeries);
+		densityChart.setData(densityData);
+		
+		chartPane.getChildren().add(densityChart);
+		
 		
 		// TODO work till here
 		

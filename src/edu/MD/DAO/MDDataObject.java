@@ -52,7 +52,7 @@ public class MDDataObject {
 		this(new ArgonMDSimualtion());
 	}
 
-	private double[] getUnscaledSystemBoundary() {
+	public double[] getUnscaledSystemBoundary() {
 		MDNumber[] boundVector = simulation.getSystemBoundary().getCartesianComponent();
 		double[] bound = new double[boundVector.length];
 		for (int i = 0; i < bound.length; i++) {
@@ -124,5 +124,14 @@ public class MDDataObject {
 		densityProfile[1] = densities;
 		return densityProfile;
 	}
+
+	public double getVaporDensity() {
+		return simulation.getVaporDensity();
+	}
+
+	public double getLiquidDensity() {
+		return simulation.getLiquidDensity();
+	}
+
 
 }

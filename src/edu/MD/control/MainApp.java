@@ -109,4 +109,16 @@ public class MainApp extends Application {
 		return model.getDensityProfile();
 	}
 
+	public double[] getUnscaledSystemBoundary() {
+		return model.getUnscaledSystemBoundary();
+	}
+
+	public double getVaporDensity() {
+		return model.getVaporDensity();
+	}
+
+	public double getLiquidDensity() {
+		return model.getLiquidDensity();
+	}
+
 }
