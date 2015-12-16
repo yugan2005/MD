@@ -11,7 +11,6 @@ import edu.MD.utility.MDConstants;
 import edu.MD.utility.YComparator;
 
 public class MonatomicYAxialSmoothDensityCalculator implements IDensityCalculator {
-	// TODO need have a traditional density profile calculator to compare
 	private int numParticles;
 	private int totalNumOfParticles;
 	private MDVector systemBoundary;
@@ -94,7 +93,7 @@ public class MonatomicYAxialSmoothDensityCalculator implements IDensityCalculato
 				// reset counter
 				MDNumber yDiscard = yOfParticles.removeFirst();
 				ySum = ySum.minus(yDiscard);
-				while (yOfParticles.size() >= numParticles || (!yOfParticles.isEmpty() && yOfParticles.peekFirst().equals(yDiscard))) {
+				while (yOfParticles.size() >= numParticles && yOfParticles.peekFirst().equals(yDiscard)) {
 					yDiscard = yOfParticles.removeFirst();
 					ySum = ySum.minus(yDiscard);
 				}

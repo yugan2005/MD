@@ -82,6 +82,7 @@ public class MainApp extends Application {
 					}
 
 				}
+				view.updateDensityChart();
 
 			}
 

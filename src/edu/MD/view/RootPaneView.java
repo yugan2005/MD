@@ -1,5 +1,7 @@
 package edu.MD.view;
 
+import java.util.Arrays;
+import java.util.List;
 import edu.MD.control.MainApp;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -8,6 +10,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point3D;
+import javafx.geometry.Side;
 import javafx.scene.Group;
 import javafx.scene.ParallelCamera;
 import javafx.scene.SceneAntialiasing;
@@ -20,13 +23,13 @@ import javafx.scene.control.ButtonBar;
 import javafx.scene.control.SplitPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Cylinder;
 import javafx.scene.shape.Sphere;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
+import javafx.util.StringConverter;
 
 public class RootPaneView {
 
@@ -43,6 +46,7 @@ public class RootPaneView {
 	private static final double AXIS_LENGTH = 20;
 
 	private static final Rotate CAMERA_DEFAULT_ROT = new Rotate(5, new Point3D(1, 1, 0));
+	private static final double CHART_AXIS_MARGIN = 0.2;
 
 	@FXML
 	private SplitPane rootPane;
@@ -67,7 +71,7 @@ public class RootPaneView {
 
 	@FXML
 	private Button densityButton;
-	
+
 	@FXML
 	private Button kineticEnergyButton;
 
@@ -98,9 +102,10 @@ public class RootPaneView {
 	private DoubleProperty cameraRotateAngleX = new SimpleDoubleProperty(0);
 	private DoubleProperty cameraRotateAngleY = new SimpleDoubleProperty(0);
 	private double anchorX, anchorY, anchorAngleX, anchorAngleY;
-	
+
 	private double[] densityProfile;
 	private double[] densityProfileLocation;
+	private XYChart.Series<Number, Number> densitySeries;
 
 	public RootPaneView() {
 	}
@@ -196,38 +201,100 @@ public class RootPaneView {
 		// ***
 		// This part builds up the statisticl chart pane (bottom pane)
 
-		// obtain data from model
 		double[][] densityProfileAlongY = controller.getDensityProfile();
 		densityProfile = densityProfileAlongY[1];
 		densityProfileLocation = densityProfileAlongY[0];
-		
+
 		// build density profile chart
-		XYChart.Series<Number, Number> densitySeries = new XYChart.Series<>();
-		for (int i=0; i<densityProfile.length;i++){
+		densitySeries = new XYChart.Series<>();
+		for (int i = 0; i < densityProfile.length; i++) {
 			densitySeries.getData().add(new XYChart.Data<>(densityProfileLocation[i], densityProfile[i]));
 		}
 		NumberAxis xAxis = new NumberAxis();
-		xAxis.setLabel("Axial Location");
+		xAxis.setLabel("Axial Location (nm)");
 		xAxis.setAutoRanging(false);
-		xAxis.setUpperBound(controller.getUnscaledSystemBoundary()[0]);
-		xAxis.setLowerBound(0);
+		double xUpperBound = controller.getUnscaledSystemBoundary()[0] * (1 + 0.1 * CHART_AXIS_MARGIN);
+		double xLowerBound = controller.getUnscaledSystemBoundary()[0] * (-0.1 * CHART_AXIS_MARGIN);
+		double xTickUnit = xUpperBound / 10;
+		xAxis.setUpperBound(xUpperBound);
+		xAxis.setLowerBound(xLowerBound);
+		xAxis.setTickUnit(xTickUnit);
+		xAxis.setSide(Side.LEFT);
+		xAxis.setTickLabelFormatter(new StringConverter<Number>() {
+
+			@Override
+			public String toString(Number value) {
+				double v = (double) value;
+				double vInUnitNM = v * 1e9;
+				return String.format("%.2f", vInUnitNM);
+			}
+
+			@Override
+			public Number fromString(String string) {
+				double vInUnitNM = Double.parseDouble(string);
+				double v = vInUnitNM * 1e-9;
+				return v;
+			}
+		});
 		NumberAxis yAxis = new NumberAxis();
-		yAxis.setLabel("Molar Density");
+		yAxis.setLabel("Molar Density (1e4#/m3)");
 		yAxis.setAutoRanging(false);
-		yAxis.setUpperBound(controller.getLiquidDensity()*1.25);
-		yAxis.setLowerBound(0);
-		
+		double yUpperBound = controller.getLiquidDensity() * (1 + CHART_AXIS_MARGIN);
+		double yLowerBound = 0;
+		double yTickUnit = yUpperBound / 5;
+		yAxis.setUpperBound(yUpperBound);
+		yAxis.setLowerBound(yLowerBound);
+		yAxis.setTickUnit(yTickUnit);
+		yAxis.setSide(Side.BOTTOM);
+		yAxis.setTickLabelFormatter(new StringConverter<Number>() {
+
+			@Override
+			public String toString(Number value) {
+				double v = (double) value;
+				double vInUnit = v * 1e-4;
+				return String.format("%.2f", vInUnit);
+			}
+
+			@Override
+			public Number fromString(String string) {
+				double vInUnitNM = Double.parseDouble(string);
+				double v = vInUnitNM * 1e4;
+				return v;
+			}
+		});
+
 		densityChart = new LineChart<>(xAxis, yAxis);
 		densityChart.setTitle("Density fluctuation along axial direction");
-		ObservableList<XYChart.Series<Number, Number>> densityData = FXCollections.<XYChart.Series<Number, Number>>observableArrayList();
+		ObservableList<XYChart.Series<Number, Number>> densityData = FXCollections.<XYChart
+				.Series<Number, Number>> observableArrayList();
 		densityData.add(densitySeries);
 		densityChart.setData(densityData);
-		
+		densityChart.setCreateSymbols(false);
+		double chartHeight = chartPane.getPrefHeight();
+		double chartWidth = chartPane.getPrefWidth();
+		densityChart.setPrefHeight(chartHeight);
+		densityChart.setPrefWidth(chartWidth);
+		densityChart.setVerticalZeroLineVisible(false);
+		densityChart.setHorizontalGridLinesVisible(false);
+		densityChart.setLegendVisible(false);
+		densityChart.setHorizontalGridLinesVisible(false);
+		densityChart.setVerticalGridLinesVisible(false);
+		densityChart.setAnimated(false);
+
+		addMarkerSeries(densityChart, "horizontal", xLowerBound, xUpperBound, controller.getVaporDensity(),
+				"dashline-g");
+		addMarkerSeries(densityChart, "horizontal", xLowerBound, xUpperBound, controller.getLiquidDensity(),
+				"dashline-b");
+//		addMarkerSeries(densityChart, "vertical", yLowerBound, yUpperBound, 0, "dashline-k");
+//		addMarkerSeries(densityChart, "vertical", yLowerBound, yUpperBound, controller.getUnscaledSystemBoundary()[0],
+//				"dashLine-k");
+		addMarkerSeries(densityChart, "vertical", yLowerBound, yUpperBound,
+				controller.getUnscaledSystemBoundary()[0] / 2, "centerdashline-k");
+
+		chartPane.getChildren().clear();
 		chartPane.getChildren().add(densityChart);
-		
-		
+
 		// TODO work till here
-		
 
 		hookupViewEvents();
 
@@ -252,6 +319,54 @@ public class RootPaneView {
 			cameraRotateAngleX.set(0);
 			cameraRotateAngleY.set(0);
 		});
+	}
+
+	private void addMarkerSeries(LineChart<Number, Number> chart, String direction, double lowerBound,
+			double upperBound, double value, String lineType) {
+		XYChart.Data<Number, Number> lowPoint;
+		XYChart.Data<Number, Number> highPoint;
+		if (direction.equals("horizontal")) {
+			lowPoint = new XYChart.Data<>(lowerBound, value);
+			highPoint = new XYChart.Data<>(upperBound, value);
+		} else {
+			lowPoint = new XYChart.Data<>(value, lowerBound);
+			highPoint = new XYChart.Data<>(value, upperBound);
+		}
+		ObservableList<XYChart.Data<Number, Number>> marker = FXCollections.observableArrayList();
+		marker.add(lowPoint);
+		marker.add(highPoint);
+		XYChart.Series<Number, Number> markerSeries = new XYChart.Series<>();
+		markerSeries.setData(marker);
+		chart.getData().add(markerSeries);
+
+		List<String> specs = Arrays.<String> asList(lineType.trim().toLowerCase().split("-"));
+		StringBuilder styleSB = new StringBuilder();
+		if (specs.contains("centerdashline")) {
+			styleSB.append("-fx-stroke-dash-array: 25 20 5 20;");
+		}
+
+		if (specs.contains("dashline")) {
+			styleSB.append("-fx-stroke-dash-array: 25 10;");
+		}
+
+		if (specs.contains("b")) {
+			styleSB.append("-fx-stroke: blue;");
+		}
+
+		if (specs.contains("k")) {
+			styleSB.append("-fx-stroke: black;");
+		}
+
+		if (specs.contains("r")) {
+			styleSB.append("-fx-stroke: red;");
+		}
+
+		if (specs.contains("g")) {
+			styleSB.append("-fx-stroke: green;");
+		}
+		
+		markerSeries.getNode().setStyle(styleSB.toString());
+
 	}
 
 	private Cylinder[] getAxes(Point3D origin) {
@@ -344,6 +459,22 @@ public class RootPaneView {
 
 	public Sphere[] getParticles() {
 		return particles;
+	}
+
+	public void updateDensityChart() {
+		double[][] densityProfileAlongY = controller.getDensityProfile();
+		densityProfile = densityProfileAlongY[1];
+		densityProfileLocation = densityProfileAlongY[0];
+
+		// build density profile chart
+		XYChart.Series<Number, Number> newDensitySeries = new XYChart.Series<>();
+		for (int i = 0; i < densityProfile.length; i++) {
+			newDensitySeries.getData().add(new XYChart.Data<>(densityProfileLocation[i], densityProfile[i]));
+		}
+		densityChart.getData().remove(densitySeries);
+		densitySeries = newDensitySeries;
+		densityChart.getData().add(densitySeries);
+
 	}
 
 }

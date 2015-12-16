@@ -16,7 +16,7 @@ import edu.MD.number.MDNumber;
 import edu.MD.number.MDVector;
 import edu.MD.number.Vector3DCartesian;
 import edu.MD.statThermodynamic.IDensityCalculator;
-import edu.MD.statThermodynamic.MonatomicYAxialSmoothDensityCalculator;
+import edu.MD.statThermodynamic.MonatomicYAxialTraditionalDensityCalculator;
 import edu.MD.utility.MDConstants;
 
 public class ArgonMDSimualtion implements MDSimulation {
@@ -39,7 +39,7 @@ public class ArgonMDSimualtion implements MDSimulation {
 		temperature = 100;
 		timeStep = 5e-14;
 		cutoff = 3.0;
-		nDensityBin = 20;
+		nDensityBin = 150;
 		initialization();
 	}
 
@@ -62,8 +62,7 @@ public class ArgonMDSimualtion implements MDSimulation {
 		forceCalculator = LJForceCalculator.getInstance(forceCalculatorType);
 		positionCalculator = PositionCalculator.getInstance(positionCalculatorType);
 		velocityCalculator = VelocityCalculator.getInstance(velocityCalculatorType);
-		double molarVaporDensity = MDConstants.getMolarDensity(name, temperature, "vapor");
-		densityCalculator = MonatomicYAxialSmoothDensityCalculator.getInstance(totalNumParticles, systemBoundary);
+		densityCalculator = MonatomicYAxialTraditionalDensityCalculator.getInstance(nDensityBin, systemBoundary);
 		
 		forces = new ArrayList<>(totalNumParticles);
 		for (int i = 0; i < positions.size(); i++) {
