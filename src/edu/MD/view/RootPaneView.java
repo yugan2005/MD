@@ -143,10 +143,10 @@ public class RootPaneView {
 				systemBounday[2]);
 		simulationGroup.getChildren().addAll(simulationBoundayBox);
 
-		// Add the axes to identify x,y,z directions at the bottom of simulation
-		// boundary
-		Cylinder[] axes = getAxes(new Point3D(systemBounday[0] * 1.1, systemBounday[1] * 1.1, 0));
-		simulationGroup.getChildren().addAll(axes);
+//		// Add the axes to identify x,y,z directions at the bottom of simulation
+//		// boundary
+//		Cylinder[] axes = getAxes(new Point3D(systemBounday[0] * 1.1, systemBounday[1] * 1.1, 0));
+//		simulationGroup.getChildren().addAll(axes);
 
 		// Add the particles
 		particles = new Sphere[numOfParticles];
@@ -369,29 +369,29 @@ public class RootPaneView {
 
 	}
 
-	private Cylinder[] getAxes(Point3D origin) {
-
-		final PhongMaterial redMaterial = new PhongMaterial();
-		redMaterial.setDiffuseColor(Color.DARKRED);
-		redMaterial.setSpecularColor(Color.RED);
-
-		final PhongMaterial greenMaterial = new PhongMaterial();
-		greenMaterial.setDiffuseColor(Color.DARKGREEN);
-		greenMaterial.setSpecularColor(Color.GREEN);
-
-		final PhongMaterial blueMaterial = new PhongMaterial();
-		blueMaterial.setDiffuseColor(Color.DARKBLUE);
-		blueMaterial.setSpecularColor(Color.BLUE);
-
-		Cylinder[] axes = new Cylinder[3];
-		axes[0] = build3DLine(origin, new Point3D(origin.getX() + AXIS_LENGTH, origin.getY(), origin.getZ()));
-		axes[0].setMaterial(redMaterial);
-		axes[1] = build3DLine(origin, new Point3D(origin.getX(), origin.getY() + AXIS_LENGTH, origin.getZ()));
-		axes[1].setMaterial(greenMaterial);
-		axes[2] = build3DLine(origin, new Point3D(origin.getX(), origin.getY(), origin.getZ() + AXIS_LENGTH));
-		axes[2].setMaterial(blueMaterial);
-		return axes;
-	}
+//	private Cylinder[] getAxes(Point3D origin) {
+//
+//		final PhongMaterial redMaterial = new PhongMaterial();
+//		redMaterial.setDiffuseColor(Color.DARKRED);
+//		redMaterial.setSpecularColor(Color.RED);
+//
+//		final PhongMaterial greenMaterial = new PhongMaterial();
+//		greenMaterial.setDiffuseColor(Color.DARKGREEN);
+//		greenMaterial.setSpecularColor(Color.GREEN);
+//
+//		final PhongMaterial blueMaterial = new PhongMaterial();
+//		blueMaterial.setDiffuseColor(Color.DARKBLUE);
+//		blueMaterial.setSpecularColor(Color.BLUE);
+//
+//		Cylinder[] axes = new Cylinder[3];
+//		axes[0] = build3DLine(origin, new Point3D(origin.getX() + AXIS_LENGTH, origin.getY(), origin.getZ()));
+//		axes[0].setMaterial(redMaterial);
+//		axes[1] = build3DLine(origin, new Point3D(origin.getX(), origin.getY() + AXIS_LENGTH, origin.getZ()));
+//		axes[1].setMaterial(greenMaterial);
+//		axes[2] = build3DLine(origin, new Point3D(origin.getX(), origin.getY(), origin.getZ() + AXIS_LENGTH));
+//		axes[2].setMaterial(blueMaterial);
+//		return axes;
+//	}
 
 	private Cylinder build3DLine(Point3D origin, Point3D target) {
 		// took from http://netzwerg.ch/blog/2015/03/22/javafx-3d-line/
