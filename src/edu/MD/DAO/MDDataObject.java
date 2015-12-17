@@ -133,5 +133,17 @@ public class MDDataObject {
 		return simulation.getLiquidDensity();
 	}
 
+	public double getCalculatedTemperature() {
+		return simulation.getCalculatedTemperature().toDouble();
+	}
+
+	public int getCurrentStep() {
+		return simulation.getCurrentStep();
+	}
+
+	public double getSystemTemperature() {
+		return simulation.getSystemTemperature();
+	}
+
 
 }

@@ -4,7 +4,9 @@ import java.util.Arrays;
 import java.util.List;
 import edu.MD.control.MainApp;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -43,7 +45,9 @@ public class RootPaneView {
 
 	private static final double LINE_SIZE = 2;
 
-	private static final double AXIS_LENGTH = 20;
+	private static final int E_DISPLAY_STEP = 1000;
+
+	// private static final double AXIS_LENGTH = 20;
 
 	private static final Rotate CAMERA_DEFAULT_ROT = new Rotate(5, new Point3D(1, 1, 0));
 	private static final double CHART_AXIS_MARGIN = 0.2;
@@ -106,6 +110,11 @@ public class RootPaneView {
 	private double[] densityProfile;
 	private double[] densityProfileLocation;
 	private XYChart.Series<Number, Number> densitySeries;
+	
+	private IntegerProperty energyChartXUpperBoundProperty;
+	private IntegerProperty energyChartXLowerBoundProperty;
+	private ObservableList<XYChart.Data<Number, Number>> energySeriesData;
+	private DoubleProperty systemTemperature;
 
 	public RootPaneView() {
 	}
@@ -143,10 +152,12 @@ public class RootPaneView {
 				systemBounday[2]);
 		simulationGroup.getChildren().addAll(simulationBoundayBox);
 
-//		// Add the axes to identify x,y,z directions at the bottom of simulation
-//		// boundary
-//		Cylinder[] axes = getAxes(new Point3D(systemBounday[0] * 1.1, systemBounday[1] * 1.1, 0));
-//		simulationGroup.getChildren().addAll(axes);
+		// // Add the axes to identify x,y,z directions at the bottom of
+		// simulation
+		// // boundary
+		// Cylinder[] axes = getAxes(new Point3D(systemBounday[0] * 1.1,
+		// systemBounday[1] * 1.1, 0));
+		// simulationGroup.getChildren().addAll(axes);
 
 		// Add the particles
 		particles = new Sphere[numOfParticles];
@@ -200,7 +211,107 @@ public class RootPaneView {
 
 		// ***
 		// This part builds up the statisticl chart pane (bottom pane)
+		setupDensityChart();
+		setupEnergyChart();
+		chartPane.getChildren().add(densityChart);
 
+		hookupViewEvents();
+
+	}
+
+	private void setupEnergyChart() {
+
+		// x axis
+		NumberAxis xAxis = new NumberAxis();
+		xAxis.setLabel("Simulation Step");
+		xAxis.setAutoRanging(false);
+		int xTickUnit = E_DISPLAY_STEP / 10;
+
+		energyChartXUpperBoundProperty = new SimpleIntegerProperty(E_DISPLAY_STEP);
+		energyChartXLowerBoundProperty = new SimpleIntegerProperty(0);
+
+		xAxis.upperBoundProperty().bind(energyChartXUpperBoundProperty);
+		xAxis.lowerBoundProperty().bind(energyChartXLowerBoundProperty);
+		xAxis.setTickUnit(xTickUnit);
+		xAxis.setSide(Side.LEFT);
+
+		// y axis
+		NumberAxis yAxis = new NumberAxis();
+		yAxis.setLabel("Temperature (Total Kinetic Energy) variation (K)");
+		yAxis.setAutoRanging(false);
+		double yUpperBound = controller.getSystemTemperature() * (1 + CHART_AXIS_MARGIN);
+		double yLowerBound = 0;
+		double yTickUnit = yUpperBound / 5;
+		yAxis.setUpperBound(yUpperBound);
+		yAxis.setLowerBound(yLowerBound);
+		yAxis.setTickUnit(yTickUnit);
+		yAxis.setSide(Side.BOTTOM);
+		yAxis.setTickLabelFormatter(new StringConverter<Number>() {
+
+			@Override
+			public String toString(Number value) {
+				double v = (double) value;
+				return String.format("%.2f", v);
+			}
+
+			@Override
+			public Number fromString(String string) {
+				double v = Double.parseDouble(string);
+				return v;
+			}
+		});
+
+		// chart data
+		
+		energySeriesData = FXCollections.<XYChart.Data<Number, Number>> observableArrayList();
+		XYChart.Series<Number, Number> energySeries = new XYChart.Series<>();
+		energySeries.setData(energySeriesData);
+
+		systemTemperature = new SimpleDoubleProperty();
+		systemTemperature.set(controller.getSystemTemperature());
+		
+		XYChart.Data<Number, Number> leftMarker = new XYChart.Data<>();
+		leftMarker.XValueProperty().bind(energyChartXLowerBoundProperty);
+		leftMarker.YValueProperty().bind(systemTemperature);
+		
+		XYChart.Data<Number, Number> rightMarker = new XYChart.Data<>();
+		rightMarker.XValueProperty().bind(energyChartXUpperBoundProperty);
+		rightMarker.YValueProperty().bind(systemTemperature);
+		
+		ObservableList<XYChart.Data<Number, Number>>  energyMarkerSeriesData = FXCollections.<XYChart
+				.Data<Number, Number>> observableArrayList();
+		energyMarkerSeriesData.add(leftMarker);
+		energyMarkerSeriesData.add(rightMarker);
+		
+		XYChart.Series<Number, Number> energyMarkerSeries = new XYChart.Series<>();
+		energyMarkerSeries.setData(energyMarkerSeriesData);
+
+		ObservableList<XYChart.Series<Number, Number>> energyChartData = FXCollections.<XYChart
+				.Series<Number, Number>> observableArrayList();
+		energyChartData.add(energySeries);
+		energyChartData.add(energyMarkerSeries);
+		
+		// create chart
+		energyChart = new LineChart<>(xAxis, yAxis);
+		energyChart.setTitle("T (Kinetic Energy) fluctuation with simulation steps");
+		energyChart.setData(energyChartData);
+		
+		// chart display
+
+		energyChart.setCreateSymbols(false);
+		double chartHeight = chartPane.getPrefHeight();
+		double chartWidth = chartPane.getPrefWidth();
+		energyChart.setPrefHeight(chartHeight);
+		energyChart.setPrefWidth(chartWidth);
+		energyChart.setVerticalZeroLineVisible(false);
+		energyChart.setHorizontalGridLinesVisible(false);
+		energyChart.setLegendVisible(false);
+		energyChart.setHorizontalGridLinesVisible(false);
+		energyChart.setVerticalGridLinesVisible(false);
+		energyChart.setAnimated(false);
+	}
+
+	private void setupDensityChart() {
 		double[][] densityProfileAlongY = controller.getDensityProfile();
 		densityProfile = densityProfileAlongY[1];
 		densityProfileLocation = densityProfileAlongY[0];
@@ -285,19 +396,13 @@ public class RootPaneView {
 				"dashline-g");
 		addMarkerSeries(densityChart, "horizontal", xLowerBound, xUpperBound, controller.getLiquidDensity(),
 				"dashline-b");
-//		addMarkerSeries(densityChart, "vertical", yLowerBound, yUpperBound, 0, "dashline-k");
-//		addMarkerSeries(densityChart, "vertical", yLowerBound, yUpperBound, controller.getUnscaledSystemBoundary()[0],
-//				"dashLine-k");
+		// addMarkerSeries(densityChart, "vertical", yLowerBound, yUpperBound,
+		// 0, "dashline-k");
+		// addMarkerSeries(densityChart, "vertical", yLowerBound, yUpperBound,
+		// controller.getUnscaledSystemBoundary()[0],
+		// "dashLine-k");
 		addMarkerSeries(densityChart, "vertical", yLowerBound, yUpperBound,
 				controller.getUnscaledSystemBoundary()[0] / 2, "centerdashline-k");
-
-		chartPane.getChildren().clear();
-		chartPane.getChildren().add(densityChart);
-
-		// TODO work till here
-
-		hookupViewEvents();
-
 	}
 
 	private void hookupViewEvents() {
@@ -318,6 +423,16 @@ public class RootPaneView {
 		defaulViewButton.setOnAction(actionEvent -> {
 			cameraRotateAngleX.set(0);
 			cameraRotateAngleY.set(0);
+		});
+
+		densityButton.setOnAction(actionEvent -> {
+			chartPane.getChildren().clear();
+			chartPane.getChildren().add(densityChart);
+		});
+
+		kineticEnergyButton.setOnAction(actionEvent -> {
+			chartPane.getChildren().clear();
+			chartPane.getChildren().add(energyChart);
 		});
 	}
 
@@ -364,34 +479,37 @@ public class RootPaneView {
 		if (specs.contains("g")) {
 			styleSB.append("-fx-stroke: green;");
 		}
-		
+
 		markerSeries.getNode().setStyle(styleSB.toString());
 
 	}
 
-//	private Cylinder[] getAxes(Point3D origin) {
-//
-//		final PhongMaterial redMaterial = new PhongMaterial();
-//		redMaterial.setDiffuseColor(Color.DARKRED);
-//		redMaterial.setSpecularColor(Color.RED);
-//
-//		final PhongMaterial greenMaterial = new PhongMaterial();
-//		greenMaterial.setDiffuseColor(Color.DARKGREEN);
-//		greenMaterial.setSpecularColor(Color.GREEN);
-//
-//		final PhongMaterial blueMaterial = new PhongMaterial();
-//		blueMaterial.setDiffuseColor(Color.DARKBLUE);
-//		blueMaterial.setSpecularColor(Color.BLUE);
-//
-//		Cylinder[] axes = new Cylinder[3];
-//		axes[0] = build3DLine(origin, new Point3D(origin.getX() + AXIS_LENGTH, origin.getY(), origin.getZ()));
-//		axes[0].setMaterial(redMaterial);
-//		axes[1] = build3DLine(origin, new Point3D(origin.getX(), origin.getY() + AXIS_LENGTH, origin.getZ()));
-//		axes[1].setMaterial(greenMaterial);
-//		axes[2] = build3DLine(origin, new Point3D(origin.getX(), origin.getY(), origin.getZ() + AXIS_LENGTH));
-//		axes[2].setMaterial(blueMaterial);
-//		return axes;
-//	}
+	// private Cylinder[] getAxes(Point3D origin) {
+	//
+	// final PhongMaterial redMaterial = new PhongMaterial();
+	// redMaterial.setDiffuseColor(Color.DARKRED);
+	// redMaterial.setSpecularColor(Color.RED);
+	//
+	// final PhongMaterial greenMaterial = new PhongMaterial();
+	// greenMaterial.setDiffuseColor(Color.DARKGREEN);
+	// greenMaterial.setSpecularColor(Color.GREEN);
+	//
+	// final PhongMaterial blueMaterial = new PhongMaterial();
+	// blueMaterial.setDiffuseColor(Color.DARKBLUE);
+	// blueMaterial.setSpecularColor(Color.BLUE);
+	//
+	// Cylinder[] axes = new Cylinder[3];
+	// axes[0] = build3DLine(origin, new Point3D(origin.getX() + AXIS_LENGTH,
+	// origin.getY(), origin.getZ()));
+	// axes[0].setMaterial(redMaterial);
+	// axes[1] = build3DLine(origin, new Point3D(origin.getX(), origin.getY() +
+	// AXIS_LENGTH, origin.getZ()));
+	// axes[1].setMaterial(greenMaterial);
+	// axes[2] = build3DLine(origin, new Point3D(origin.getX(), origin.getY(),
+	// origin.getZ() + AXIS_LENGTH));
+	// axes[2].setMaterial(blueMaterial);
+	// return axes;
+	// }
 
 	private Cylinder build3DLine(Point3D origin, Point3D target) {
 		// took from http://netzwerg.ch/blog/2015/03/22/javafx-3d-line/
@@ -475,6 +593,20 @@ public class RootPaneView {
 		densitySeries = newDensitySeries;
 		densityChart.getData().add(densitySeries);
 
+	}
+
+	public void updateEnergyChart() {
+		double calculatedTemperature = controller.getCalculatedTemperature();
+		int currentStep = controller.getCurrentStep();
+		
+		if (currentStep>=E_DISPLAY_STEP*4/5) {
+			energyChartXLowerBoundProperty.set(energyChartXLowerBoundProperty.get()+1);
+			energyChartXUpperBoundProperty.set(energyChartXUpperBoundProperty.get()+1);
+			energySeriesData.remove(0);
+		}
+		
+		XYChart.Data<Number, Number> currentTemperatureData = new XYChart.Data<>(currentStep, calculatedTemperature);
+		energySeriesData.add(currentTemperatureData);
 	}
 
 }

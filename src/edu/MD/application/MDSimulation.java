@@ -23,5 +23,11 @@ public interface MDSimulation {
 	public double getVaporDensity();
 
 	public double getLiquidDensity();
+
+	public MDNumber getCalculatedTemperature();
+
+	public int getCurrentStep();
+
+	public double getSystemTemperature();
 	
 }

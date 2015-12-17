@@ -37,9 +37,8 @@ public class MainApp extends Application {
 
 		Parent root = loader.load();
 		view = loader.<RootPaneView> getController();
-		
-		model.setController(this);
 
+		model.setController(this);
 
 		view.setView(this);
 
@@ -50,8 +49,6 @@ public class MainApp extends Application {
 		primaryStage.show();
 
 	}
-
-
 
 	private void hookupEvents() {
 
@@ -83,6 +80,7 @@ public class MainApp extends Application {
 
 				}
 				view.updateDensityChart();
+				view.updateEnergyChart();
 
 			}
 
@@ -120,6 +118,18 @@ public class MainApp extends Application {
 
 	public double getLiquidDensity() {
 		return model.getLiquidDensity();
+	}
+
+	public double getCalculatedTemperature() {
+		return model.getCalculatedTemperature();
+	}
+
+	public int getCurrentStep() {
+		return model.getCurrentStep();
+	}
+
+	public double getSystemTemperature() {
+		return model.getSystemTemperature();
 	}
 
 }

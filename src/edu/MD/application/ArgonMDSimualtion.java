@@ -16,6 +16,7 @@ import edu.MD.number.MDNumber;
 import edu.MD.number.MDVector;
 import edu.MD.number.Vector3DCartesian;
 import edu.MD.statThermodynamic.IDensityCalculator;
+import edu.MD.statThermodynamic.MonatomicSysTemperatureCalculator;
 import edu.MD.statThermodynamic.MonatomicYAxialTraditionalDensityCalculator;
 import edu.MD.utility.MDConstants;
 
@@ -31,6 +32,7 @@ public class ArgonMDSimualtion implements MDSimulation {
 	private PositionCalculator positionCalculator;
 	private VelocityCalculator velocityCalculator;
 	private IDensityCalculator densityCalculator;
+	private int step;
 
 	public ArgonMDSimualtion() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
 		filmSize = 5;
@@ -75,10 +77,12 @@ public class ArgonMDSimualtion implements MDSimulation {
 			}
 			forces.add(force);
 		}
+		step = 0;
 	}
 
 	@Override
 	public void stepMove() {
+		step++;
 		// This is the Verlet algorithm
 		List<MDVector> newPositions = new ArrayList<>(positions.size());
 		for (int i = 0; i < positions.size(); i++) {
@@ -138,6 +142,21 @@ public class ArgonMDSimualtion implements MDSimulation {
 	@Override
 	public double getLiquidDensity() {
 		return MDConstants.getMolarDensity(name, temperature, "liquid");
+	}
+
+	@Override
+	public MDNumber getCalculatedTemperature() {
+		return MonatomicSysTemperatureCalculator.calculate(velocities, name);
+	}
+
+	@Override
+	public int getCurrentStep() {
+		return step;
+	}
+
+	@Override
+	public double getSystemTemperature() {
+		return temperature;
 	}
 
 }
