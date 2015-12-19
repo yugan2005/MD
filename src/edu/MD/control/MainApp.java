@@ -42,7 +42,7 @@ public class MainApp extends Application {
 
 		view.setView(this);
 
-		Scene scene = new Scene(root);
+		Scene scene = new Scene(root, 1000, 750);
 		primaryStage.setScene(scene);
 		hookupEvents();
 

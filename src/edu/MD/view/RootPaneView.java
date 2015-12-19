@@ -22,9 +22,11 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
+import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Cylinder;
@@ -75,9 +77,36 @@ public class RootPaneView {
 
 	@FXML
 	private Button densityButton;
+	
+	@FXML
+	private Button settingButton;
 
 	@FXML
 	private Button kineticEnergyButton;
+	
+	@FXML
+	private HBox statusBox;
+	
+	@FXML
+	private Label totalNumberLabel;
+	
+	@FXML
+	private Label liquidNumberLabel;
+	
+	@FXML
+	private Label vaporNumberLabel;
+	
+	@FXML
+	private Label currentStepLabel;
+	
+	@FXML
+	private Label initialTempLabel;
+
+	@FXML
+	private Label currentTempLabel;
+
+	@FXML
+	private Label TimeStepSizeLabel;
 
 	private LineChart<Number, Number> densityChart;
 
@@ -214,6 +243,10 @@ public class RootPaneView {
 		setupDensityChart();
 		setupEnergyChart();
 		chartPane.getChildren().add(densityChart);
+		
+		// ***
+		// This part builds up the status labels (bottom pane)
+
 
 		hookupViewEvents();
 
@@ -299,7 +332,7 @@ public class RootPaneView {
 		// chart display
 
 		energyChart.setCreateSymbols(false);
-		double chartHeight = chartPane.getPrefHeight();
+		double chartHeight = chartPane.getPrefHeight()-30;
 		double chartWidth = chartPane.getPrefWidth();
 		energyChart.setPrefHeight(chartHeight);
 		energyChart.setPrefWidth(chartWidth);
@@ -381,7 +414,7 @@ public class RootPaneView {
 		densityData.add(densitySeries);
 		densityChart.setData(densityData);
 		densityChart.setCreateSymbols(false);
-		double chartHeight = chartPane.getPrefHeight();
+		double chartHeight = chartPane.getPrefHeight()-30;
 		double chartWidth = chartPane.getPrefWidth();
 		densityChart.setPrefHeight(chartHeight);
 		densityChart.setPrefWidth(chartWidth);
