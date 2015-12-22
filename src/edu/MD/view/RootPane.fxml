@@ -29,14 +29,12 @@
       </AnchorPane>
       <AnchorPane fx:id="chartPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="800.0">
          <children>
-            <HBox fx:id="statusBox" alignment="CENTER_LEFT" layoutY="225.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="800.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="225.0">
+            <HBox fx:id="statusBox" alignment="CENTER" layoutY="225.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="800.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="225.0">
                <children>
                   <Label fx:id="totalNumberLabel" text="Total#" />
-                  <Label fx:id="liquidNumberLabel" text="Liquid#" />
-                  <Label fx:id="vaporNumberLabel" text="Vapor#" />
-                  <Label fx:id="currentStepLabel" text="CurrentStep#" />
                   <Label fx:id="TimeStepSizeLabel" text="TimeStepSize" />
                   <Label fx:id="initialTempLabel" text="InitialTemp" />
+                  <Label fx:id="currentStepLabel" text="CurrentStep#" />
                   <Label fx:id="currentTempLabel" text="CurrentTemp" />
                </children></HBox>
          </children></AnchorPane>

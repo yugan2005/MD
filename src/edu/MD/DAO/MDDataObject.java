@@ -145,5 +145,9 @@ public class MDDataObject {
 		return simulation.getSystemTemperature();
 	}
 
+	public double getTimeStepSize() {
+		return simulation.getTimeStepSize();
+	}
+
 
 }

@@ -29,5 +29,7 @@ public interface MDSimulation {
 	public int getCurrentStep();
 
 	public double getSystemTemperature();
+
+	public double getTimeStepSize();
 	
 }

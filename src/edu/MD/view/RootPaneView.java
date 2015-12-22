@@ -3,6 +3,7 @@ package edu.MD.view;
 import java.util.Arrays;
 import java.util.List;
 import edu.MD.control.MainApp;
+import javafx.beans.binding.StringBinding;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -77,28 +78,22 @@ public class RootPaneView {
 
 	@FXML
 	private Button densityButton;
-	
+
 	@FXML
 	private Button settingButton;
 
 	@FXML
 	private Button kineticEnergyButton;
-	
+
 	@FXML
 	private HBox statusBox;
-	
+
 	@FXML
 	private Label totalNumberLabel;
-	
-	@FXML
-	private Label liquidNumberLabel;
-	
-	@FXML
-	private Label vaporNumberLabel;
-	
+
 	@FXML
 	private Label currentStepLabel;
-	
+
 	@FXML
 	private Label initialTempLabel;
 
@@ -139,11 +134,14 @@ public class RootPaneView {
 	private double[] densityProfile;
 	private double[] densityProfileLocation;
 	private XYChart.Series<Number, Number> densitySeries;
-	
+
 	private IntegerProperty energyChartXUpperBoundProperty;
 	private IntegerProperty energyChartXLowerBoundProperty;
 	private ObservableList<XYChart.Data<Number, Number>> energySeriesData;
 	private DoubleProperty systemTemperature;
+
+	private IntegerProperty currentStep;
+	private DoubleProperty calculatedTemperature;
 
 	public RootPaneView() {
 	}
@@ -172,6 +170,8 @@ public class RootPaneView {
 		systemBounday = controller.getSystemBoundary();
 		positions = controller.getPositions();
 		numOfParticles = controller.getParticleNumber();
+		currentStep = new SimpleIntegerProperty(controller.getCurrentStep());
+		calculatedTemperature =new SimpleDoubleProperty(controller.getCalculatedTemperature());
 
 		// building the Group as the root of subscene
 		simulationGroup = new Group();
@@ -243,12 +243,47 @@ public class RootPaneView {
 		setupDensityChart();
 		setupEnergyChart();
 		chartPane.getChildren().add(densityChart);
-		
+
 		// ***
 		// This part builds up the status labels (bottom pane)
-
+		setupStatusLabel();
+		AnchorPane.setLeftAnchor(statusBox, 0.0);
+		AnchorPane.setRightAnchor(statusBox, 0.0);
+		AnchorPane.setBottomAnchor(statusBox, 0.0);
 
 		hookupViewEvents();
+
+	}
+
+	private void setupStatusLabel() {
+		totalNumberLabel.setText("TotalNum Particles: " + numOfParticles + ";");
+		TimeStepSizeLabel.setText(
+				String.format("Time Step Size: %d e-15 sec;", Math.round(controller.getTimeStepSize() * 1e15)));
+		StringBinding currentStepBinding = new StringBinding() {
+
+			{
+				super.bind(currentStep);
+			}
+
+			@Override
+			protected String computeValue() {
+				return "Current Step#: " + currentStep.get() + ";";
+			}
+		};
+		currentStepLabel.textProperty().bind(currentStepBinding);
+
+		StringBinding calculatedTemperatureBinding = new StringBinding() {
+
+			{
+				super.bind(calculatedTemperature);
+			}
+
+			@Override
+			protected String computeValue() {
+				return String.format("Current Temperature: %.2f K;", calculatedTemperature.get());
+			}
+		};
+		currentTempLabel.textProperty().bind(calculatedTemperatureBinding);
 
 	}
 
@@ -295,27 +330,27 @@ public class RootPaneView {
 		});
 
 		// chart data
-		
+
 		energySeriesData = FXCollections.<XYChart.Data<Number, Number>> observableArrayList();
 		XYChart.Series<Number, Number> energySeries = new XYChart.Series<>();
 		energySeries.setData(energySeriesData);
 
 		systemTemperature = new SimpleDoubleProperty();
 		systemTemperature.set(controller.getSystemTemperature());
-		
+
 		XYChart.Data<Number, Number> leftMarker = new XYChart.Data<>();
 		leftMarker.XValueProperty().bind(energyChartXLowerBoundProperty);
 		leftMarker.YValueProperty().bind(systemTemperature);
-		
+
 		XYChart.Data<Number, Number> rightMarker = new XYChart.Data<>();
 		rightMarker.XValueProperty().bind(energyChartXUpperBoundProperty);
 		rightMarker.YValueProperty().bind(systemTemperature);
-		
-		ObservableList<XYChart.Data<Number, Number>>  energyMarkerSeriesData = FXCollections.<XYChart
+
+		ObservableList<XYChart.Data<Number, Number>> energyMarkerSeriesData = FXCollections.<XYChart
 				.Data<Number, Number>> observableArrayList();
 		energyMarkerSeriesData.add(leftMarker);
 		energyMarkerSeriesData.add(rightMarker);
-		
+
 		XYChart.Series<Number, Number> energyMarkerSeries = new XYChart.Series<>();
 		energyMarkerSeries.setData(energyMarkerSeriesData);
 
@@ -323,16 +358,16 @@ public class RootPaneView {
 				.Series<Number, Number>> observableArrayList();
 		energyChartData.add(energySeries);
 		energyChartData.add(energyMarkerSeries);
-		
+
 		// create chart
 		energyChart = new LineChart<>(xAxis, yAxis);
 		energyChart.setTitle("T (Kinetic Energy) fluctuation with simulation steps");
 		energyChart.setData(energyChartData);
-		
+
 		// chart display
 
 		energyChart.setCreateSymbols(false);
-		double chartHeight = chartPane.getPrefHeight()-30;
+		double chartHeight = chartPane.getPrefHeight() - 30;
 		double chartWidth = chartPane.getPrefWidth();
 		energyChart.setPrefHeight(chartHeight);
 		energyChart.setPrefWidth(chartWidth);
@@ -414,7 +449,7 @@ public class RootPaneView {
 		densityData.add(densitySeries);
 		densityChart.setData(densityData);
 		densityChart.setCreateSymbols(false);
-		double chartHeight = chartPane.getPrefHeight()-30;
+		double chartHeight = chartPane.getPrefHeight() - 30;
 		double chartWidth = chartPane.getPrefWidth();
 		densityChart.setPrefHeight(chartHeight);
 		densityChart.setPrefWidth(chartWidth);
@@ -461,11 +496,13 @@ public class RootPaneView {
 		densityButton.setOnAction(actionEvent -> {
 			chartPane.getChildren().clear();
 			chartPane.getChildren().add(densityChart);
+			chartPane.getChildren().add(statusBox);
 		});
 
 		kineticEnergyButton.setOnAction(actionEvent -> {
 			chartPane.getChildren().clear();
 			chartPane.getChildren().add(energyChart);
+			chartPane.getChildren().add(statusBox);
 		});
 	}
 
@@ -629,17 +666,24 @@ public class RootPaneView {
 	}
 
 	public void updateEnergyChart() {
-		double calculatedTemperature = controller.getCalculatedTemperature();
-		int currentStep = controller.getCurrentStep();
-		
-		if (currentStep>=E_DISPLAY_STEP*4/5) {
-			energyChartXLowerBoundProperty.set(energyChartXLowerBoundProperty.get()+1);
-			energyChartXUpperBoundProperty.set(energyChartXUpperBoundProperty.get()+1);
+		double calculatedTemp = calculatedTemperature.get();
+		int currStep = currentStep.get();
+		if (currStep >= E_DISPLAY_STEP * 4 / 5) {
+			energyChartXLowerBoundProperty.set(energyChartXLowerBoundProperty.get() + 1);
+			energyChartXUpperBoundProperty.set(energyChartXUpperBoundProperty.get() + 1);
 			energySeriesData.remove(0);
 		}
-		
-		XYChart.Data<Number, Number> currentTemperatureData = new XYChart.Data<>(currentStep, calculatedTemperature);
+
+		XYChart.Data<Number, Number> currentTemperatureData = new XYChart.Data<>(currStep, calculatedTemp);
 		energySeriesData.add(currentTemperatureData);
+	}
+
+	public void setCurrentStep(int step) {
+		currentStep.set(step);
+	}
+
+	public void setCalculatedTemperature(double temp) {
+		calculatedTemperature.set(temp);
 	}
 
 }

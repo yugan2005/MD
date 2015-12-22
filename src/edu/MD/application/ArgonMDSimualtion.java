@@ -159,4 +159,9 @@ public class ArgonMDSimualtion implements MDSimulation {
 		return temperature;
 	}
 
+	@Override
+	public double getTimeStepSize() {
+		return timeStep;
+	}
+
 }

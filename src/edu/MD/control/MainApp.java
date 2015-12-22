@@ -79,6 +79,8 @@ public class MainApp extends Application {
 					}
 
 				}
+				view.setCurrentStep(model.getCurrentStep());
+				view.setCalculatedTemperature(model.getCalculatedTemperature());
 				view.updateDensityChart();
 				view.updateEnergyChart();
 
@@ -130,6 +132,10 @@ public class MainApp extends Application {
 
 	public double getSystemTemperature() {
 		return model.getSystemTemperature();
+	}
+
+	public double getTimeStepSize() {
+		return model.getTimeStepSize();
 	}
 
 }
