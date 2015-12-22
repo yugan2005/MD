@@ -1,8 +1,13 @@
 package edu.MD.view;
 
+import edu.MD.control.MDConfiguration;
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
+import javafx.util.converter.DoubleStringConverter;
+import javafx.util.converter.IntegerStringConverter;
 
 public class MDSettingDialogView {
 	@FXML
@@ -18,7 +23,7 @@ public class MDSettingDialogView {
 
 
     private Stage dialogStage;
-    private Person person;
+    private MDConfiguration configuration;
     private boolean okClicked = false;
 
     /**
@@ -27,7 +32,55 @@ public class MDSettingDialogView {
      */
     @FXML
     private void initialize() {
+    	if (configuration==null) configuration = new MDConfiguration();
+    	
+    	StringConverter<Number> intConverter =new StringConverter<Number>() {
+    		@Override
+    		public String toString(Number number){
+    			return number.toString();
+    		}
+    		
+    		@Override
+    		public Number fromString(String string){
+    			return Integer.parseInt(string);
+    		}
+		};
+		
+		StringConverter<Number> doubleConverterNormal =new StringConverter<Number>() {
+    		@Override
+    		public String toString(Number number){
+    			Double doubleNumber = (Double) number;
+    			return String.format("%.2f", doubleNumber);
+    		}
+    		
+    		@Override
+    		public Number fromString(String string){
+    			return Double.parseDouble(string);
+    		}
+		};
+		
+		StringConverter<Number> doubleConverterSmall =new StringConverter<Number>() {
+    		@Override
+    		public String toString(Number number){
+    			Double doubleNumber = (Double) number;
+    			return String.format("%.2e", doubleNumber);
+    		}
+    		
+    		@Override
+    		public Number fromString(String string){
+    			return Double.parseDouble(string);
+    		}
+		};
+		
+    	Bindings.bindBidirectional(liquidFilmThicknessField.textProperty(), configuration.filmThickness(), intConverter);
+    	Bindings.bindBidirectional(liquidFilmSizeField.textProperty(), configuration.filmSize(), intConverter);
+    	Bindings.bindBidirectional(initialTemperatureField.textProperty(), configuration.temperature(), doubleConverterNormal);
+    	Bindings.bindBidirectional(timeStepSizeField.textProperty(), configuration.timeStep(), doubleConverterSmall);
+    	Bindings.bindBidirectional(fluidField.textProperty(), configuration.fluid());
+    	
     }
+    
+   
 
     /**
      * Sets the stage of this dialog.
@@ -38,22 +91,7 @@ public class MDSettingDialogView {
         this.dialogStage = dialogStage;
     }
 
-    /**
-     * Sets the person to be edited in the dialog.
-     * 
-     * @param person
-     */
-    public void setPerson(Person person) {
-        this.person = person;
 
-        firstNameField.setText(person.getFirstName());
-        lastNameField.setText(person.getLastName());
-        streetField.setText(person.getStreet());
-        postalCodeField.setText(Integer.toString(person.getPostalCode()));
-        cityField.setText(person.getCity());
-        birthdayField.setText(DateUtil.format(person.getBirthday()));
-        birthdayField.setPromptText("dd.mm.yyyy");
-    }
 
     /**
      * Returns true if the user clicked OK, false otherwise.
@@ -70,13 +108,6 @@ public class MDSettingDialogView {
     @FXML
     private void handleOk() {
         if (isInputValid()) {
-            person.setFirstName(firstNameField.getText());
-            person.setLastName(lastNameField.getText());
-            person.setStreet(streetField.getText());
-            person.setPostalCode(Integer.parseInt(postalCodeField.getText()));
-            person.setCity(cityField.getText());
-            person.setBirthday(DateUtil.parse(birthdayField.getText()));
-
             okClicked = true;
             dialogStage.close();
         }
