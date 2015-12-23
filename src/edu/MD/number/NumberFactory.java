@@ -57,10 +57,6 @@ public abstract class NumberFactory {
 			throw new IllegalArgumentException(
 					"The type of number specified by numType has not been defined or added to the registry yet");
 		switch (numType) {
-		case "JavaBigDecimalFactory":
-			precision = setPrecision;
-			numberFactory = JavaBigDecimalFactory.getInstance();
-			break;
 		case "JavaDefaultNumberFactory":
 			throw new IllegalArgumentException("JavaDefaultNumberFactory should be set without precision");
 		}

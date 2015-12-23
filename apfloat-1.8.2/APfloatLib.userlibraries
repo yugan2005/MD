@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<eclipse-userlibraries version="2">
-    <library name="APfloat" systemlibrary="false">
-        <archive javadoc="jar:platform:/resource/MD/apfloat-1.8.2/docs.zip!/docs" path="/MD/apfloat-1.8.2/lib/apfloat.jar" source="/MD/apfloat-1.8.2/source"/>
-        <archive javadoc="jar:platform:/resource/MD/apfloat-1.8.2/docs.zip!/docs" path="/MD/apfloat-1.8.2/lib/apfloat-jscience.jar" source="/MD/apfloat-1.8.2/lib/apfloat-jscience.jar"/>
-    </library>
-</eclipse-userlibraries>

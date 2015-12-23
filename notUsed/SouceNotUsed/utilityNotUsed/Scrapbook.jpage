@@ -1,3 +1,0 @@
-edu.MD.utility.NumberFactory.setPrecision(32);
-jScienceRealFactory = new edu.MD.utility.JScienceRealFactory();
-jScienceRealFactory.getClass().getName();
