@@ -2,9 +2,9 @@ package edu.MD.utility;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.net.URL;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
@@ -12,12 +12,12 @@ import java.util.TreeMap;
 
 public class NISTSaturationPropertiesReader {
 	private String filename;
-	private final String fileNamePreFix = "/rsc/";
-	private final String fileNameSurffix = "_saturation_properties.txt";
+	private final String fileNamePrefix = "rsc/";
+	private final String fileNameSurfix = "_saturation_properties.txt";
 	private Map<String, TreeMap<Double, Double>> saturationDensityVSTemperature = new HashMap<>();
 
 	public NISTSaturationPropertiesReader(String name) throws FileNotFoundException, IOException {
-		filename = fileNamePreFix + name + fileNameSurffix;
+		filename =fileNamePrefix + name + fileNameSurfix;
 		TreeMap<Double, Double> vaporDensity = new TreeMap<>();
 		TreeMap<Double, Double> liquidDensity = new TreeMap<>();
 		saturationDensityVSTemperature.put("vapor", vaporDensity);
@@ -26,8 +26,10 @@ public class NISTSaturationPropertiesReader {
 	}
 
 	private void readFile() throws FileNotFoundException, IOException {
-		URL url = this.getClass().getResource(filename);
-		try (BufferedReader reader = new BufferedReader(new FileReader(url.getFile()))) {
+		// TODO VERY IMPORTANT! THIS DOES THE TRICK OF GETTING THE JAR RUNNING!
+		InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream(filename);
+		try (BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
+
 			String line = reader.readLine();
 			while ((line = reader.readLine()) != null) {
 				String[] dataInStr = line.split("\\s+");
