@@ -84,6 +84,9 @@ public class RootPaneView {
 
 	@FXML
 	private Button kineticEnergyButton;
+	
+	@FXML
+	private Button velocityRescaleButton;
 
 	@FXML
 	private HBox statusBox;
@@ -690,6 +693,10 @@ public class RootPaneView {
 
 	public Button getSettingButton() {
 		return settingButton;
+	}
+
+	public Button getVelocityRescaleButton() {
+		return velocityRescaleButton;
 	}
 
 }

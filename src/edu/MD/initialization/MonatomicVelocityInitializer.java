@@ -3,11 +3,11 @@ package edu.MD.initialization;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.MD.modeling.VelocityStandardizor;
 import edu.MD.number.MDNumber;
 import edu.MD.number.MDVector;
 import edu.MD.number.NumberFactory;
 import edu.MD.number.Vector3DCartesian;
-import edu.MD.statThermodynamic.MonatomicSysTemperatureCalculator;
 import edu.MD.utility.MDConstants;
 
 public class MonatomicVelocityInitializer {
@@ -33,14 +33,8 @@ public class MonatomicVelocityInitializer {
 		}
 		
 		// due to the statistical distribution, this need be rescaled to really match the temperature specified.
-		MDNumber calculatedTemperature = MonatomicSysTemperatureCalculator.calculate(velocities, name);
-		MDNumber rescaleFactor = calculatedTemperature.pow(-1).times(temperature).sqrt();
-		List<MDVector> newVelocities = new ArrayList<>(totalNumParticles);
-
-		for (MDVector velocity:velocities){
-			newVelocities.add(velocity.times(rescaleFactor));
-		}
-		velocities = newVelocities;
+		// Also need zero the bulk movement
+		velocities = VelocityStandardizor.calculate(velocities, name, temperature);
 	}
 	
 	public List<MDVector> getVelocities(){

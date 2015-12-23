@@ -12,6 +12,7 @@ import edu.MD.initialization.MonatomicVelocityInitializer;
 import edu.MD.modeling.LJForceCalculator;
 import edu.MD.modeling.PBCDistanceCalculator;
 import edu.MD.modeling.VelocityCalculator;
+import edu.MD.modeling.VelocityStandardizor;
 import edu.MD.modeling.PositionCalculator;
 import edu.MD.number.MDNumber;
 import edu.MD.number.MDVector;
@@ -98,13 +99,13 @@ public class ArgonMDSimualtion implements MDSimulation {
 		// This is the Verlet algorithm
 		List<MDVector> newPositions = new ArrayList<>(positions.size());
 		for (int i = 0; i < positions.size(); i++) {
-			newPositions.add(i, positionCalculator.calculate(positions.get(i), velocities.get(i), forces.get(i)));
+			newPositions.add(positionCalculator.calculate(positions.get(i), velocities.get(i), forces.get(i)));
 		}
 		positions = newPositions;
 		
 		List<MDVector> newVelocities = new ArrayList<>(velocities.size());
 		for (int i = 0; i < velocities.size(); i++) {
-			newVelocities.add(i, velocityCalculator.calculate(velocities.get(i), forces.get(i)));
+			newVelocities.add(velocityCalculator.calculate(velocities.get(i), forces.get(i)));
 		}
 		
 		List<MDVector> newForces = new ArrayList<>(forces.size());
@@ -116,13 +117,13 @@ public class ArgonMDSimualtion implements MDSimulation {
 				MDVector distance = PBCDistanceCalculator.calculate(positions.get(i), positions.get(j));
 				force = force.plus(forceCalculator.calculate(distance));
 			}
-			newForces.add(i, force);
+			newForces.add(force);
 		}
 		forces = newForces;
 		
 		velocities =  new ArrayList<>(newVelocities.size());
 		for (int i = 0; i < newVelocities.size(); i++) {
-			velocities.add(i, velocityCalculator.calculate(newVelocities.get(i), forces.get(i)));
+			velocities.add(velocityCalculator.calculate(newVelocities.get(i), forces.get(i)));
 		}
 	}
 
@@ -184,6 +185,11 @@ public class ArgonMDSimualtion implements MDSimulation {
 	@Override
 	public double getMinTemperature() {
 		return MDConstants.getMinTemperature(name);
+	}
+
+	@Override
+	public void velocityControl() {
+		velocities = VelocityStandardizor.calculate(velocities, name, temperature);
 	}
 
 }

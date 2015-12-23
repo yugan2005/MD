@@ -12,6 +12,8 @@ public interface MDSimulation {
 	
 	public void stepMove();
 	
+	public void velocityControl();
+	
 	public List<MDVector> getPostions();
 
 	public MDVector getSystemBoundary();

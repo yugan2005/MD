@@ -84,7 +84,7 @@ public class MonatomicYAxialTraditionalDensityCalculator implements IDensityCalc
 			for (int i = 0; i < nBIns; i++) {
 				MDNumber averageLocalDensity = averageDensityProfile.get(i).times(currentSize)
 						.plus(densityProfile.get(i)).divide(currentSize + 1);
-				averageDensityProfile.add(i, averageLocalDensity);
+				averageDensityProfile.set(i, averageLocalDensity);
 			}
 			densityQueue.addLast(densityProfile);
 		} else {
@@ -92,7 +92,7 @@ public class MonatomicYAxialTraditionalDensityCalculator implements IDensityCalc
 			for (int i = 0; i < nBIns; i++) {
 				MDNumber averageLocalDensity = averageDensityProfile.get(i).times(averageStep)
 						.plus(densityProfile.get(i)).minus(removedDensityProfile.get(i)).divide(averageStep);
-				averageDensityProfile.add(i, averageLocalDensity);
+				averageDensityProfile.set(i, averageLocalDensity);
 			}
 			densityQueue.addLast(densityProfile);
 		}

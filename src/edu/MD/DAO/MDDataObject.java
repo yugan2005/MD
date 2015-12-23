@@ -163,5 +163,9 @@ public class MDDataObject {
 		return simulation.getMinTemperature();
 	}
 
+	public void velocityControl() {
+		simulation.velocityControl();
+	}
+
 
 }

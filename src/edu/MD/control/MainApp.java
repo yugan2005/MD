@@ -66,6 +66,7 @@ public class MainApp extends Application {
 			view.getStartButton().setDisable(true);
 			view.getPauseButton().setDisable(false);
 			view.getSettingButton().setDisable(true);
+			view.getVelocityRescaleButton().setDisable(true);
 
 		});
 
@@ -74,7 +75,16 @@ public class MainApp extends Application {
 			view.getPauseButton().setDisable(true);
 			view.getStartButton().setDisable(false);
 			view.getSettingButton().setDisable(false);
+			view.getVelocityRescaleButton().setDisable(false);
 
+		});
+		
+		view.getVelocityRescaleButton().setOnAction(actionEvent -> {
+			model.velocityControl();
+			view.getPauseButton().setDisable(true);
+			view.getStartButton().setDisable(false);
+			view.getSettingButton().setDisable(false);
+			view.getVelocityRescaleButton().setDisable(true);
 		});
 		
 		view.getSettingButton().setOnAction(actionEvent -> {
@@ -104,6 +114,7 @@ public class MainApp extends Application {
 				view.getStartButton().setText("Start");
 			}
 			view.getStartButton().setDisable(false);
+			view.getVelocityRescaleButton().setDisable(true);
 		});
 
 		model.getWorker().setOnSucceeded(new EventHandler<WorkerStateEvent>() {
