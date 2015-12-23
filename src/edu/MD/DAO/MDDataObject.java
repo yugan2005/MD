@@ -5,6 +5,7 @@ import java.util.List;
 
 import edu.MD.application.ArgonMDSimualtion;
 import edu.MD.application.MDSimulation;
+import edu.MD.control.MDConfiguration;
 import edu.MD.control.MainApp;
 import edu.MD.globalSetting.NumberFactorySetting;
 import edu.MD.number.MDNumber;
@@ -50,6 +51,11 @@ public class MDDataObject {
 	public MDDataObject() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException,
 			NoSuchMethodException, SecurityException {
 		this(new ArgonMDSimualtion());
+	}
+
+	public MDDataObject(MDConfiguration conf) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+		this(new ArgonMDSimualtion(conf));
+
 	}
 
 	public double[] getUnscaledSystemBoundary() {
@@ -147,6 +153,14 @@ public class MDDataObject {
 
 	public double getTimeStepSize() {
 		return simulation.getTimeStepSize();
+	}
+
+	public double getMaxTemperature() {
+		return simulation.getMaxTemperature();
+	}
+
+	public double getMinTemperature() {
+		return simulation.getMinTemperature();
 	}
 
 

@@ -31,5 +31,9 @@ public interface MDSimulation {
 	public double getSystemTemperature();
 
 	public double getTimeStepSize();
+
+	public double getMaxTemperature();
+
+	public double getMinTemperature();
 	
 }

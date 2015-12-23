@@ -237,6 +237,7 @@ public class RootPaneView {
 		AnchorPane.setTopAnchor(simulationScene, 0.0);
 		AnchorPane.setLeftAnchor(simulationScene, 0.0);
 		AnchorPane.setRightAnchor(simulationScene, 0.0);
+		pauseButton.setDisable(true);
 
 		// ***
 		// This part builds up the statisticl chart pane (bottom pane)
@@ -257,6 +258,7 @@ public class RootPaneView {
 
 	private void setupStatusLabel() {
 		totalNumberLabel.setText("TotalNum Particles: " + numOfParticles + ";");
+		initialTempLabel.setText(String.format("Inital Temperature: %.2f K", controller.getConfiguration().getTemperature()));
 		TimeStepSizeLabel.setText(
 				String.format("Time Step Size: %d e-15 sec;", Math.round(controller.getTimeStepSize() * 1e15)));
 		StringBinding currentStepBinding = new StringBinding() {
@@ -684,6 +686,10 @@ public class RootPaneView {
 
 	public void setCalculatedTemperature(double temp) {
 		calculatedTemperature.set(temp);
+	}
+
+	public Button getSettingButton() {
+		return settingButton;
 	}
 
 }

@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.MD.control.MDConfiguration;
 import edu.MD.globalSetting.NumberFactorySetting;
 import edu.MD.globalSetting.PBCBoundarySetting;
 import edu.MD.initialization.MonatomicPositionInitializer;
@@ -42,6 +43,17 @@ public class ArgonMDSimualtion implements MDSimulation {
 		timeStep = 5e-14;
 		cutoff = 3.0;
 		nDensityBin = 150;
+		initialization();
+	}
+
+	public ArgonMDSimualtion(MDConfiguration conf) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+		filmSize = conf.getFilmSize();
+		filmThickness = conf.getFilmThickness();
+		vaporOneSideThickness = conf.getVaporOneSideThickness();
+		temperature = conf.getTemperature();
+		timeStep = conf.getTimeStep();
+		cutoff = conf.getCutoff();
+		nDensityBin = conf.getnDensityBin();
 		initialization();
 	}
 
@@ -162,6 +174,16 @@ public class ArgonMDSimualtion implements MDSimulation {
 	@Override
 	public double getTimeStepSize() {
 		return timeStep;
+	}
+
+	@Override
+	public double getMaxTemperature() {
+		return MDConstants.getMaxTemperature(name);
+	}
+
+	@Override
+	public double getMinTemperature() {
+		return MDConstants.getMinTemperature(name);
 	}
 
 }

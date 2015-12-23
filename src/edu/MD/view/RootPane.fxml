@@ -34,8 +34,8 @@
                   <Label fx:id="totalNumberLabel" text="Total#" />
                   <Label fx:id="TimeStepSizeLabel" text="TimeStepSize" />
                   <Label fx:id="initialTempLabel" text="InitialTemp" />
-                  <Label fx:id="currentStepLabel" text="CurrentStep#" />
                   <Label fx:id="currentTempLabel" text="CurrentTemp" />
+                  <Label fx:id="currentStepLabel" text="CurrentStep#" />
                </children></HBox>
          </children></AnchorPane>
    </items>

@@ -87,6 +87,14 @@ public class MDConstants {
 		return (ceil.getValue() - floor.getValue()) / (ceil.getKey() - floor.getKey()) * (temperature - floor.getKey())
 				+ (floor.getValue());
 	}
+	
+	public static Double getMaxTemperature(String name) {
+		return liquidDensity.get(name).lastKey();
+	}
+	
+	public static Double getMinTemperature(String name) {
+		return liquidDensity.get(name).firstKey();
+	}
 
 	static {
 		String argon = "ARGON";
