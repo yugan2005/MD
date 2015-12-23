@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
@@ -11,11 +12,12 @@ import java.util.TreeMap;
 
 public class NISTSaturationPropertiesReader {
 	private String filename;
+	private final String fileNamePreFix = "/rsc/";
 	private final String fileNameSurffix = "_saturation_properties.txt";
 	private Map<String, TreeMap<Double, Double>> saturationDensityVSTemperature = new HashMap<>();
 
 	public NISTSaturationPropertiesReader(String name) throws FileNotFoundException, IOException {
-		filename = name + fileNameSurffix;
+		filename = fileNamePreFix + name + fileNameSurffix;
 		TreeMap<Double, Double> vaporDensity = new TreeMap<>();
 		TreeMap<Double, Double> liquidDensity = new TreeMap<>();
 		saturationDensityVSTemperature.put("vapor", vaporDensity);
@@ -24,7 +26,8 @@ public class NISTSaturationPropertiesReader {
 	}
 
 	private void readFile() throws FileNotFoundException, IOException {
-		try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+		URL url = this.getClass().getResource(filename);
+		try (BufferedReader reader = new BufferedReader(new FileReader(url.getFile()))) {
 			String line = reader.readLine();
 			while ((line = reader.readLine()) != null) {
 				String[] dataInStr = line.split("\\s+");
